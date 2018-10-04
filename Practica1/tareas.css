@@ -1,0 +1,99 @@
+/*HEADER SECTION STARTS*/
+header{
+    background-color: blue;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.page_title{
+    display: inline-block;
+}
+.user_container{
+    float: right;
+    display: inline-block;
+}
+.user_avatar{
+    float: left;
+    display: block;
+}
+.user_info{
+    float: right;
+}
+#logout{
+    color: white;
+    display: block;
+}
+/*HEADER SECTION ENDS*/
+.page_container{
+    background-image: url("img/background.jpg");
+    opacity: 0.8;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 130px;
+}
+.task{
+    list-style-type: none;
+    background-color: aquamarine;
+    border: 5px solid aqua;
+    width: 80%;
+    padding: 10px;
+    margin: 0 auto 1%;
+}
+.task.done{
+    background-color: lightgrey;
+    border: 5px solid grey;
+}
+.task_title{
+    font-family: sans-serif;
+    font-style: italic;
+    color: black;
+}
+.task_title.done{
+    text-decoration: line-through;
+}
+.task_tag{
+    font-family: monospace;
+    font-weight: bold;
+    border: 2px solid blue;
+    border-radius: 5px;
+    background-color: lightblue;
+    padding: 2px;
+}
+.btn_finish_task{
+    float: right;
+    color: darkslategrey;
+    background-color: greenyellow;
+}
+.task_add{
+    margin: 0 auto;
+    width: 80%;
+    background-color: blueviolet;
+    padding: 12px;
+    border: 5px solid violet;
+}
+.task_delete{
+    margin: 0 auto;
+    width: 80%;
+    padding: 12px;
+}
+#task_input{
+    width: 80%;
+    padding: 5px;
+}
+#btn_add{
+    float: right;
+    background-color: purple;
+    color: white;
+    padding: 5px 15px;
+    vertical-align: middle;
+}
+#btn_delete{
+    background-color: red;
+    color: white;
+    padding: 15px 40px;
+    text-align: center;
+    margin: 0 auto;
+    width: 80%;
+    padding: 12px;
+}
