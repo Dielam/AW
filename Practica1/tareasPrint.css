@@ -1,0 +1,26 @@
+/* NOT DISPLAYED ELEMENTS STARTS */
+.header, .task_add, .task_delete, .btn_finish_task{
+	display: none;
+}
+/* NOT DISPLAYED ELEMENTS ENDS */
+
+/* TASK LIST STARTS */
+.task_list::before{
+	content: "Lista de tareas";
+}
+.task_title{
+	font-weight: bold;
+}
+.task_tag::before{
+	content:"(";
+}
+.task_tag::after{
+	content:")";
+}
+.task_tag{
+	font-size: 10px;
+}
+.task.done{
+	text-decoration: line-through;
+	margin-left: 5%
+}

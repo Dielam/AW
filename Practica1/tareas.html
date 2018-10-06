@@ -3,59 +3,51 @@
     <head>
         <title>Gestor de tareas</title>
         <link rel="icon" type="image/ico" href="img/tick.ico">
-        <link rel="stylesheet" type="text/css" href="tareas.css">
+        <link rel="stylesheet" type="text/css" href="tareas.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="tareasPrint.css" media="print">
     </head>
     <body>
-        <header>
+        <div class="header">
             <div class="page_title">
-                <img src="img/tareas.jpg" height="100"/>
+                <img src="img/title.png" height="100"/>
             </div>
             <div class="user_container">
                 <div class="avatar">
                     <img src="img/avatar.jpg" height="75"/>
                 </div>
                 <div class="user_info">
-                    <span class="user_info--mail">
-                        usuario@gmail.com
-                    </span>
+                    <span class="user_info--mail">usuario@gmail.com</span>
                     <a id="logout" href="javascript:void(0)"> DESCONECTAR</a>
                 </div>
             </div>
-        </header>
+        </div>
         <div class="page_container">
             <div class="task_list">
                 <ul>
                     <li class="task">
-                        <span class="task_title">PREPARAR PRÁCTICA AW
-                        </span>
+                        <span class="task_title">PREPARAR PRÁCTICA AW</span>
                         <span class="task_tag">AW</span>
                         <span class="task_tag">PRÁCTICA</span>
-                        <button class="btn_finish_task">
-                        MARCAR FINALIZADA</button>
+                        <button class="btn_finish_task">MARCAR FINALIZADA</button>
                     </li>
                     <li class="task done">
                         <span class="task_title done">MIRAR FECHAS CONGRESO</span>
                     </li>
                     <li class="task">
-                        <span class="task_title">HACER LA COMPRA
-                        </span>
+                        <span class="task_title">HACER LA COMPRA</span>
                         <span class="task_tag">PERSONAL</span>
-                        <button class="btn_finish_task">
-                        MARCAR FINALIZADA</button>
+                        <button class="btn_finish_task">MARCAR FINALIZADA</button>
                     </li>
                      <li class="task">
-                        <span class="task_title">MUDANZA
-                        </span>
+                        <span class="task_title">MUDANZA</span>
                         <span class="task_tag">PERSONAL</span>
-                        <button class="btn_finish_task">
-                        MARCAR FINALIZADA</button>
+                        <button class="btn_finish_task">MARCAR FINALIZADA</button>
                     </li>
                 </ul>
             </div>
             <div class="task_add">
                 <input id="task_input" type="text" placeholder="Nueva tarea"/>
-                <button id="btn_add">
-                Añadir</button>
+                <button id="btn_add">Añadir</button>
             </div>
             <div class="task_delete">
                 <button id="btn_delete">ELIMINAR TAREAS COMPLETADAS</button>
