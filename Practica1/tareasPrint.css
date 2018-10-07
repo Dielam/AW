@@ -1,5 +1,5 @@
 /* NOT DISPLAYED ELEMENTS STARTS */
-.header, .task_add, .task_delete, .btn_finish_task{
+.header, .task_add, .task_delete, .btn_primary{
 	display: none;
 }
 /* NOT DISPLAYED ELEMENTS ENDS */

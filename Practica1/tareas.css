@@ -1,46 +1,54 @@
 /* HEADER SECTION STARTS */
 .header{
-    background-color: blue;
+    background-color: #036564;
     position: fixed;
     top: 0;
     width: 100%;
     margin-left: -8px;
+    padding-right: 15px;
 }
 .page_title{
     display: inline-block;
+    margin-left: 1rem;
 }
 .user_container{
     float: right;
     display: flex;
     margin-top: 1%;
-    margin-right: 1%;
+    margin-right: 2rem;
 }
 .avatar{
-    margin-right:5%;
+    margin-right:10%;
+}
+.avatar img{
+    border-radius: 50%;
 }
 .user_info{
-    text-align: center;
+    text-align: left;
     flex-direction: column;
     justify-content: space-evenly;
     display: flex;
-    align-items: center;
     color:white;
 }
 #logout{
     color: white;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.8rem;
 }
 /* HEADER SECTION ENDS */
 
 /* GENERAL TAGS STARTS */
 html{
-    background-image: url("img/background2.jpg");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    background-color: #FFFDF9;
 }
 ul{
     padding-inline-start: 0;
+}
+
+body{
+    font-family: 'Helvetica', Arial, sans-serif;
+    color: #121212;
 }
 /* GENERAL TAGS ENDS */
 
@@ -51,20 +59,27 @@ ul{
 
 /* TASK LIST STARTS */
 .task{
+    color: #121212;
     list-style-type: none;
-    background-color: aquamarine;
-    border: 5px solid aqua;
+    background-color: white;
+    border: 2px solid #036564;
+    border-radius: 0.4rem;
     width: 80%;
     padding: 10px;
     margin: 0 auto 1%;
+    display: flex;
+    align-items: center;
+}
+.task span{
+    margin-left: 0.8rem;
 }
 .task.done{
     background-color: lightgrey;
-    border: 5px solid grey;
+    border: 0px solid transparent;
+    opacity: 0.7;
 }
 .task_title{
     font-family: sans-serif;
-    font-style: italic;
     color: black;
 }
 .task_title.done{
@@ -73,19 +88,23 @@ ul{
 .task_tag{
     font-family: monospace;
     font-weight: bold;
-    border: 2px solid blue;
     border-radius: 5px;
-    background-color: lightblue;
-    padding: 2px;
+    background-color: #036564;
+    padding: 5px 15px;
+    color: white;
 }
-.btn_finish_task{
+.btn_primary{
     float: right;
-    color: darkslategrey;
-    background-color: greenyellow;
+    color: white;
+    background-color: #033649;
+    border: 0px solid transparent;
+    padding: 5px 15px;
+    margin-left: auto;
+    border-radius: 5px;
+    cursor: pointer;
 }
-.btn_finish_task:hover{
-    background-color: darkgreen;
-    color:white;
+.btn_primary:hover{
+    background-color: #036564;
 }
 /* TASK LIST ENDS */
 
@@ -93,38 +112,35 @@ ul{
 .task_add{
     margin: 0 auto 12px;
     width: 80%;
-    background-color: blueviolet;
+    background-color: #036564;
     padding: 12px;
-    border: 5px solid violet;
+    border-radius: 0.4rem;
+    border: 2px solid #036564;
+    margin-top: 5rem;
+}
+.task_add button:hover{
+    background-color: white;
+    color: #036564;
 }
 .task_delete{
     margin: 0 auto;
-    width: 60%;
+    overflow: hidden;
+    display: flex;
 }
 #task_input{
     width: 80%;
     padding: 5px;
 }
-#btn_add{
-    float: right;
-    background-color: purple;
-    color: white;
-    padding: 5px 15px;
-    vertical-align: middle;
-}
-#btn_add:hover{
-    background-color: coral;
-}
 #btn_delete{
-    background-color: red;
-    color: white;
-    padding: 15px 40px;
-    text-align: center;
-    width: 100%;
+    padding: 1rem 3rem;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #720F59;
+    margin: auto;
+    margin-top: 0.65rem;
 }
 #btn_delete:hover{
-    background-color: yellow;
-    color:black;
+    background-color: #AB4A92;
 }
 /* TASK ACTIONS ENDS */
 
