@@ -6,6 +6,7 @@
     width: 100%;
     margin-left: -8px;
     padding-right: 15px;
+    z-index: 99999;
 }
 .page_title{
     display: inline-block;
