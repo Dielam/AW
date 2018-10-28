@@ -8,14 +8,14 @@ let listaTareas = [
 ];
 
 let a = getToDoTasks(listaTareas);
-let b= findByTag(listaTareas, "personal");
+let b = findByTag(listaTareas, "personal");
 let c = findByTags(listaTareas, ["personal", "AW"]);
 let d = countDone(listaTareas);
 let z = createTask("Ir al @personal medico @salud");
-console.log(a, b, c, d, z);
+console.log("getToDoTasks",a,"findByTag",b,"findByTags",c,"countDone",d,"createTask",z);
 
 function getToDoTasks(tasks){
-    let toDoTasks = tasks.filter(n => n.done == null || n.done == false);
+    let toDoTasks = tasks.filter(n => n.done == null || n.done == false).map(n => n.text);
     return toDoTasks;
 }
 
@@ -25,9 +25,8 @@ function findByTag(tasks, tag){
 }
 
 function findByTags(tasks, tags){
-    let tasksWithTag = tasks.filter(function (n){ tags.some(m => n.tags.includes(m)); 
-    	if(tags.length > 0) return true;
-    	else return false;
+    let tasksWithTag = tasks.filter(function (n){ 
+        return tags.some(m => n.tags.includes(m)); 
     	});
     return tasksWithTag;
 }
@@ -41,6 +40,6 @@ function createTask(texto){
     let task = {};
     let array = texto.split(" ");
     task.text = array.filter(n => n.indexOf("@") == -1).join(" ");
-    task.tags = array.filter(n => n.indexOf("@") >= 0);
+    task.tags = array.filter(n => n.indexOf("@") >= 0).map(n => n.slice(1));
     return task;
 }
