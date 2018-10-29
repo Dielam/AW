@@ -5,13 +5,6 @@
 
 "use strict"; //Se usa para que se tengan que declarar las variables
 
-let listaTareas = [
-{ text: "Preparar práctica AW", tags: ["AW", "practica"] },
-{ text: "Mirar fechas congreso", done: true, tags: [] },
-{ text: "Ir al supermercado", tags: ["personal"] },
-{ text: "Mudanza", done: false, tags: ["personal"] },
-];
-
 function getToDoTasks(tasks){
     let toDoTasks = tasks.filter(n => n.done == null || n.done == false).map(n => n.text);
     return toDoTasks;
