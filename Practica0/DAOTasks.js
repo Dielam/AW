@@ -1,19 +1,20 @@
 "use strict";
 
 class DAOTasks {
-	constructor(pool) { 
+	constructor(pool){ 
 	}
-	getAllTasks(email, callback) {
+	getAllTasks(email, callback){
 
 	}
-	insertTask(email, task, callback) {
+	insertTask(email, task, callback){
 
 	}
-	markTaskDone(idTask, callback) {
+	markTaskDone(idTask, callback){
 
 	}
-	deleteCompleted(email, callback) {
+	deleteCompleted(email, callback){
 
 	}
 }
+
 module.exports = DAOTasks;
