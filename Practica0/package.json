@@ -4,11 +4,12 @@
   "description": "Gestor de tareas",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "main.js"
   },
   "repository": {
-    "type"  : "git",
-    "url"   : "https://github.com/Dielam/AW.git"
+    "type": "git",
+    "url": "https://github.com/Dielam/AW.git"
   },
   "keywords": [
     "node",
