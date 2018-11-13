@@ -5,8 +5,8 @@ let pool;
 class DAOTasks {
 	constructor(pool){ 
             this.pool = pool;
-			
-	}
+    }
+    
 	getAllTasks(email, callback){
             var arrayTasks = [];
             this.pool.getConnection(function(err, connection){
@@ -40,13 +40,47 @@ class DAOTasks {
                 }	
             })
 
-	}
+    }
+    
 	insertTask(email, task, callback){
+        this.pool.getConnection(function(err, connection){
+            if (err) {
+                console.log(`Error al obtener la conexión: ${err.message}`);
+                callback(err, arrayTasks);
+            } else {
+                connection.query(
+                    "INSERT INTO task(user, text, done) VALUES ('" + email +"', '"+ task.text +"', '"+ task.done +"')",
+                    function(error, result) {
 
-	}
+                        if (error) {
+                                console.log('Error en la consulta a la base de datos 1 I');
+                        }
+                        else {
+                            let values = "";
+                            task.tags.forEach((element, index) => {
+                                values += "(" + result.insertId +"," + element +")";
+                                if(index != task.tags.length - 1) values += ",";
+                            })
+                            console.log(values);
+                            connection.query(
+                                "INSERT INTO tag VALUES " + values + "",
+                                function(error, result) {
+                                    connection.release();
+            
+                                    if (error) {
+                                            console.log('Error en la consulta a la base de datos 2 I');
+                                    }
+                                });
+                        }
+                });
+            }
+        });
+    }
+    
 	markTaskDone(idTask, callback){
 
-	}
+    }
+    
 	deleteCompleted(email, callback){
 
 	}

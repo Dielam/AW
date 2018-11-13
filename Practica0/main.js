@@ -20,7 +20,16 @@ let daoTask = new DAOTasks(pool);
 let allTasks = function(error, arrayTasks){
     console.log("error", error, "arrayTasks", arrayTasks);
 };
+let newTasks = function(error){
+    console.log("error", error);
+};
 
 // Uso de los métodos de las clases DAOUsers y DAOTasks
 let daoTasks = new DAOTasks(pool);
+let newTask = {
+    text: "comprar",
+    tags: ["personal", "super"],
+    done: 0
+}
 daoTasks.getAllTasks("test@mail.com", allTasks);
+daoTasks.insertTask("test@mail.com", newTask, newTasks);
