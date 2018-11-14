@@ -78,11 +78,65 @@ class DAOTasks {
     }
     
 	markTaskDone(idTask, callback){
+        this.pool.getConnection(function(err, connection){
+            if (err) {
+                console.log(`Error al obtener la conexión: ${err.message}`);
+                callback(err);
+            } else {
+                connection.query(
+                    "UPDATE task SET done = 1 WHERE id = '" + idTask +"'",
+                function(error, result) {
 
+                    if (error) {
+                        console.log('Error en la consulta a la base de datos 1 I');
+                        callback(error);
+                    }
+                });
+            }
+        });
     }
     
 	deleteCompleted(email, callback){
+        this.pool.getConnection(function(err, connection){
+            if (err) {
+                console.log(`Error al obtener la conexión: ${err.message}`);
+                callback(err);
+            } else {
+                connection.query(
+                    "SELECT id FROM task WHERE user = '" + email + "' AND done = 1",
+                function(error, filas) {
 
+                    if (error) {
+                        console.log('Error en la consulta a la base de datos 1 I');
+                        callback(error);
+                    }
+                    else {
+                        filas.forEach(element => {
+                            connection.query(
+                                "DELETE FROM task WHERE id = '" + element.id + "'",
+                            function(errorTask, resultTask) {
+
+                                if (errorTask) {
+                                    console.log('Error en la consulta a la base de datos 1 I');
+                                    callback(errorTask);
+                                }
+                                else {
+                                    connection.query(
+                                        "DELETE FROM tag WHERE idTask = '" + element.id + "'",
+                                    function(errorTag, resultTag) {
+
+                                        if (errorTag) {
+                                            console.log('Error en la consulta a la base de datos 1 I');
+                                            callback(errorTag);
+                                        }
+                                    });
+                                }
+                            });
+                        });  
+                    }
+                });
+            }
+        });
 	}
 }
 
