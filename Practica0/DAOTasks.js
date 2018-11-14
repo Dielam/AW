@@ -122,7 +122,7 @@ class DAOTasks {
                                 }
                                 else {
                                     connection.query(
-                                        "DELETE FROM tag WHERE idTask = '" + element.id + "'",
+                                        "DELETE FROM tag WHERE taskId = '" + element.id + "'",
                                     function(errorTag, resultTag) {
 
                                         if (errorTag) {

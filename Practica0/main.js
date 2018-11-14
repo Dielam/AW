@@ -23,6 +23,12 @@ let allTasks = function(error, arrayTasks){
 let newTasks = function(error){
     console.log("insertTask: error", error);
 };
+let markTaskDone = function(error){
+    console.log("markTaskDone: error", error)
+};
+let deleteCompleted = function(error){
+    console.log("deleteCompleted: error", error);
+};
 let userCorrect = function(error, correct){
     console.log("userCorrect: error", error, "correct", correct);
 };
@@ -38,7 +44,12 @@ let newTask = {
     tags: ["personal", "super"],
     done: 0
 }
+
+//Test DAOTasks
 daoTasks.getAllTasks("test@mail.com", allTasks);
 daoTasks.insertTask("test@mail.com", newTask, newTasks);
+daoTasks.markTaskDone(3, markTaskDone);
+daoTasks.deleteCompleted("test@mail.com", deleteCompleted);
+//Test DAOUsers
 daoUsers.isUserCorrect("test@mail.com", "123456", userCorrect);
 daoUsers.getUserImageName("test@mail.com", imageName);
