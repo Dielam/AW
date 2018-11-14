@@ -23,9 +23,16 @@ let allTasks = function(error, arrayTasks){
 let newTasks = function(error){
     console.log("insertTask: error", error);
 };
+let userCorrect = function(error, correct){
+    console.log("userCorrect: error", error, "correct", correct);
+};
+let imageName = function(error, name){
+    console.log("getUserImageName: error", error, "User image name: ", name);
+};
 
 // Uso de los métodos de las clases DAOUsers y DAOTasks
 let daoTasks = new DAOTasks(pool);
+let daoUsers = new DAOUsers(pool);
 let newTask = {
     text: "comprar",
     tags: ["personal", "super"],
@@ -33,3 +40,5 @@ let newTask = {
 }
 daoTasks.getAllTasks("test@mail.com", allTasks);
 daoTasks.insertTask("test@mail.com", newTask, newTasks);
+daoUsers.isUserCorrect("test@mail.com", "123456", userCorrect);
+daoUsers.getUserImageName("test@mail.com", imageName);
