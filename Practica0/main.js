@@ -48,7 +48,7 @@ let newTask = {
 //Test DAOTasks
 daoTasks.getAllTasks("test@mail.com", allTasks);
 daoTasks.insertTask("test@mail.com", newTask, newTasks);
-daoTasks.markTaskDone(3, markTaskDone);
+daoTasks.markTaskDone(1, markTaskDone);
 daoTasks.deleteCompleted("test@mail.com", deleteCompleted);
 //Test DAOUsers
 daoUsers.isUserCorrect("test@mail.com", "123456", userCorrect);

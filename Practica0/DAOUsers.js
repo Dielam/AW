@@ -10,16 +10,15 @@ class DAOUsers{
 	isUserCorrect(email, password, callback){
 		this.pool.getConnection(function(err, connection){
 			if(err){
-				console.log(`Error al obtener la conexión: ${err.message}`);
-                    callback(err, false);
+				callback("Error de conexión a la base de datos", false);
 			}
 			else{
 				connection.query(
-					"SELECT * FROM user WHERE email ='"+ email +"' AND password ='"+ password +"'",
+					"SELECT * FROM user WHERE email =? AND password =?",
+					[email, password],
 					function(err, result){
 						if(err){
-							console.log(`Error en la consulta: ${err.message}`);
-							callback(err, false);
+							callback("Error de acceso a la base de datos", false);
 						}
 						else{
 							if(result != null){
@@ -39,20 +38,19 @@ class DAOUsers{
 	getUserImageName(email, callback){
 		this.pool.getConnection(function(err, connection){
 			if(err){
-				console.log(`Error al obtener la conexión: ${err.message}`);
-				callback(err, "");
+				callback("Error de conexión a la base de datos");
 			}
 			else{
 				connection.query(
-					"SELECT img FROM user WHERE email = '"+ email +"'",
+					"SELECT img FROM user WHERE email = ?",
+					[email],
 					function(err, result){
 						if(err){
-							console.log(`Error en la consulta: ${err.message}`);
-                    		callback(err, " ");
+							callback("Error de acceso a la base de datos");
 						}
 						else{
-							if(result != null) callback(err, result);
-							else callback(err, "No existe el usuario")
+							if(result != null) callback(err, result[0].img);
+							else callback("No existe el usuario");
 						}
 					}
 				)
