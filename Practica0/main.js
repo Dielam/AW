@@ -18,10 +18,10 @@ let daoTask = new DAOTasks(pool);
 
 // Definición de las funciones callback
 let allTasks = function(error, arrayTasks){
-    console.log("error", error, "arrayTasks", arrayTasks);
+    console.log("getAllTasks: error", error, "arrayTasks", arrayTasks);
 };
 let newTasks = function(error){
-    console.log("error", error);
+    console.log("insertTask: error", error);
 };
 
 // Uso de los métodos de las clases DAOUsers y DAOTasks

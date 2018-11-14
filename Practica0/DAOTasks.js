@@ -23,13 +23,13 @@ class DAOTasks {
                                     console.log('Error en la consulta a la base de datos');
                             }
                             else {
-                                console.log(filas)
+                                /*console.log(filas);*/
                                 filas.forEach(element => {
                                     arrayTasks.push({
                                             "id"	: `${element.id}`,
                                             "text"	: `${element.text}`,
                                             "done"	: `${element.done}`
-                                    })
+                                    });
                                     
                                 });
                             }
@@ -38,7 +38,7 @@ class DAOTasks {
                     );
 
                 }	
-            })
+            });
 
     }
     
@@ -46,32 +46,32 @@ class DAOTasks {
         this.pool.getConnection(function(err, connection){
             if (err) {
                 console.log(`Error al obtener la conexión: ${err.message}`);
-                callback(err, arrayTasks);
+                callback(err);
             } else {
                 connection.query(
                     "INSERT INTO task(user, text, done) VALUES ('" + email +"', '"+ task.text +"', '"+ task.done +"')",
-                    function(error, result) {
+                function(error, result) {
 
-                        if (error) {
-                                console.log('Error en la consulta a la base de datos 1 I');
-                        }
-                        else {
-                            let values = "";
-                            task.tags.forEach((element, index) => {
-                                values += "(" + result.insertId +"," + element +")";
-                                if(index != task.tags.length - 1) values += ",";
-                            })
-                            console.log(values);
-                            connection.query(
-                                "INSERT INTO tag VALUES " + values + "",
-                                function(error, result) {
-                                    connection.release();
-            
-                                    if (error) {
-                                            console.log('Error en la consulta a la base de datos 2 I');
-                                    }
-                                });
-                        }
+                    if (error) {
+                            console.log('Error en la consulta a la base de datos 1 I');
+                    }
+                    else {
+                        let values = "";
+                        task.tags.forEach((element, index) => {
+                            values += "(" + result.insertId +",'" + element +"')";
+                            if(index !== task.tags.length - 1) values += ",";
+                        });
+                        connection.query(
+                            "INSERT INTO tag(taskId,tag) VALUES " + values + "",
+                        function(error, result) {
+                            connection.release();
+                            if (error) {
+                                console.log('Error en la consulta a la base de datos 2 I');
+                                callback(error);
+                            }
+                            
+                        });
+                    }
                 });
             }
         });
