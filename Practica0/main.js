@@ -13,9 +13,6 @@ const pool = mysql.createPool({
    database: config.database
 });
 
-let daoUser = new DAOUsers(pool);
-let daoTask = new DAOTasks(pool);
-
 // Definición de las funciones callback
 let allTasks = function(error, arrayTasks){
     console.log("getAllTasks: error", error, "arrayTasks", arrayTasks);
