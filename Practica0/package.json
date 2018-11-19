@@ -18,5 +18,8 @@
     "tareas"
   ],
   "author": "Carlos Jiménez & Diego Laguna",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3"
+  }
 }

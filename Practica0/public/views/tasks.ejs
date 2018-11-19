@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gestor de tareas</title>
+        <link rel="icon" type="image/ico" href="public/img/tick.ico">
+        <link rel="stylesheet" type="text/css" href="public/css/tareas.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="public/css/tareasPrint.css" media="print">
+        <script type="text/javascript" src="test.js"></script> 
+    </head>
+    <body>
+        <div class="header">
+            <div class="page_title">
+                <img src="public/img/title.png" height="100"/>
+            </div>
+            <div class="user_container">
+                <div class="avatar">
+                    <img src="public/img/avatar.jpg" height="75"/>
+                </div>
+                <div class="user_info">
+                    <span class="user_info--mail">usuario@gmail.com</span>
+                    <a id="logout" href="javascript:void(0)"> Desconectar</a>
+                </div>
+            </div>
+        </div>
+        <div class="page_container">
+            <div class="task_list">
+                <ul>
+                    <li class="task">
+                        <span class="task_title">Preparar práctica AW</span>
+                        <span class="task_tag">AW</span>
+                        <span class="task_tag">Práctica</span>
+                        <button class="btn_primary">Marcar finalizada</button>
+                    </li>
+                    <li class="task done">
+                        <span class="task_title done">Mirar fechas congreso</span>
+                    </li>
+                    <li class="task">
+                        <span class="task_title">Hacer la compra</span>
+                        <span class="task_tag">Personal</span>
+                        <button class="btn_primary">Marcar finalizada</button>
+                    </li>
+                     <li class="task">
+                        <span class="task_title">Mudanza</span>
+                        <span class="task_tag">Personal</span>
+                        <button class="btn_primary">Marcar finalizada</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="task_add">
+                <input id="task_input" type="text" placeholder="Nueva tarea"/>
+                <button id="btn_add" class="btn_primary">Añadir</button>
+            </div>
+            <div class="task_delete">
+                <button id="btn_delete" class="btn_primary ">ELIMINAR TAREAS COMPLETADAS</button>
+            </div>
+        </div>
+    </body>
+</html>
