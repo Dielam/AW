@@ -45,7 +45,6 @@ app.get("/tasks", function(request, response){
 app.post("/addTask", function(request, response){
     response.status(200); 
     daoT.insertTask("usuario@ucm.es", tareas.createTask(request.body.new_task), function(err){
-        console.log(err);
         //if(err)
         response.redirect("/tasks");
     });
