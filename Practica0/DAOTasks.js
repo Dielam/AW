@@ -103,6 +103,7 @@ class DAOTasks {
                     if (error) {
                         callback("Error de acceso a la base de datos");
                     }
+                    else callback(null);
                 });
             }
         });
@@ -136,10 +137,9 @@ class DAOTasks {
                                         "DELETE FROM tag WHERE taskId = ?",
                                         [element.id],
                                     function(errorTag) {
-
-                                        if (errorTag) {
+                                        if (errorTag) 
                                             callback("Error de acceso a la base de datos");
-                                        }
+                                        else callback(null);
                                     });
                                 }
                             });

@@ -50,6 +50,25 @@ app.post("/addTask", function(request, response){
     });
 });
 
+// GET de marcar las tareas como finalizadas
+app.get("/finish/:taskId", function(request, response){
+    response.status(200);
+    daoT.markTaskDone(request.params.taskId, function(err){
+        if(err) console.log(err);
+        else response.redirect("/tasks");
+    });
+});
+
+// GET de borrar todas las tareas completadas
+app.get("/deleteCompleted", function(request, response){
+    response.status(200); 
+    daoT.deleteCompleted("usuario@ucm.es", function(err){
+        if(err) console.log(err);
+        else response.redirect("/tasks");
+    });
+});
+
+
 // Arrancar servidor
 app.listen(config.port, function(err){
     if(err) console.log("ERROR al iniciar el servidor");

@@ -35,7 +35,7 @@
                                 <% if(task.tags != null) task.tags.forEach(tag => { %>
                                     <span class="task_tag"> <%= tag %> </span>
                                 <% }) %>
-                                <button class="btn_primary">Marcar finalizada</button>
+                                <a href="/finish/<%= task.id %> " class="btn_primary">Marcar finalizada</a>
                             </li>
                         <% } %>
                     <% }) %>
@@ -48,7 +48,7 @@
                 </form>
             </div>
             <div class="task_delete">
-                <button id="btn_delete" class="btn_primary ">ELIMINAR TAREAS COMPLETADAS</button>
+                <a id="btn_delete" class="btn_primary" href="/deleteCompleted">ELIMINAR TAREAS COMPLETADAS</a>    
             </div>
         </div>
     </body>
