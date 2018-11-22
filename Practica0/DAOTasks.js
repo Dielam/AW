@@ -11,7 +11,7 @@ class DAOTasks {
         var arrayTasks = [];
         this.pool.getConnection(function(err, connection){
             if (err) {
-                callback("Error de conexión a la base de datos", arrayTasks);
+                return callback("Error de conexión a la base de datos", arrayTasks);
             } else {
                 connection.query(
                     "SELECT id, text, tag, done FROM task LEFT JOIN tag ON task.id = tag.taskId WHERE user = ?",
@@ -20,7 +20,7 @@ class DAOTasks {
                         connection.release();
 
                         if (error) {
-                                callback("Error de acceso a la base de datos");
+                                return callback("Error de acceso a la base de datos");
                         }
                         else {
 
@@ -55,7 +55,7 @@ class DAOTasks {
     insertTask(email, task, callback){
         this.pool.getConnection(function(err, connection){
             if (err) {
-                callback("Error de conexión a la base de datos");
+                return callback("Error de conexión a la base de datos");
             } else {
                 connection.query(
                     "INSERT INTO task(user, text, done) VALUES (?, ?, ?)",
@@ -63,27 +63,33 @@ class DAOTasks {
                 function(error, result) {
 
                     if (error) {
-                        callback("Error de acceso a la base de datos");
+                        return callback("Error de acceso a la base de datos");
                     }
                     else {
-                        let parameters = "";
-                        let values = [];
-                        task.tags.forEach((element, index) => {
-                            parameters += "(?,?)";
-                            values.push(result.insertId);
-                            values.push(element);
-                            if(index !== task.tags.length - 1) parameters += ",";
-                        });
-                        connection.query(
-                            "INSERT INTO tag(taskId,tag) VALUES " + parameters + "",
-                            values,
-                        function(error) {
-                            connection.release();
-                            if (error) {
-                                callback("Error de acceso a la base de datos");
-                            }
-                            
-                        });
+                        if(task.tags != null && task.tags.length > 0){
+                            let parameters = "";
+                            let values = [];
+                            task.tags.forEach((element, index) => {
+                                parameters += "(?,?)";
+                                values.push(result.insertId);
+                                values.push(element);
+                                if(index !== task.tags.length - 1) parameters += ",";
+                            });
+                            connection.query(
+                                "INSERT INTO tag(taskId,tag) VALUES " + parameters + "",
+                                values,
+                            function(error) {
+                                connection.release();
+                                if (error) {
+                                    return callback("Error de acceso a la base de datos");
+                                }
+                                else callback(null);
+
+                            });
+                        }
+                        else{
+                            callback(null);
+                        }
                     }
                 });
             }
@@ -93,7 +99,7 @@ class DAOTasks {
     markTaskDone(idTask, callback){
         this.pool.getConnection(function(err, connection){
             if (err) {
-                callback("Error de conexión a la base de datos");
+                return callback("Error de conexión a la base de datos");
             } else {
                 connection.query(
                     "UPDATE task SET done = 1 WHERE id = ?",
@@ -101,7 +107,7 @@ class DAOTasks {
                 function(error) {
 
                     if (error) {
-                        callback("Error de acceso a la base de datos");
+                        return callback("Error de acceso a la base de datos");
                     }
                     else callback(null);
                 });
@@ -112,38 +118,18 @@ class DAOTasks {
     deleteCompleted(email, callback){
         this.pool.getConnection(function(err, connection){
             if (err) { 
-                callback("Error de conexión a la base de datos");
+                return callback("Error de conexión a la base de datos");
             } else {
                 connection.query(
-                    "SELECT id FROM task WHERE user = ? AND done = 1",
+                    "DELETE FROM task WHERE user = ? AND done = 1",
                     [email],
-                function(error, filas) {
+                function(error) {
 
                     if (error) {
-                        callback("Error de acceso a la base de datos");
+                        return callback("Error de acceso a la base de datos");
                     }
                     else {
-                        filas.forEach(element => {
-                            connection.query(
-                                "DELETE FROM task WHERE id = ?",
-                                [element.id],
-                            function(errorTask) {
-
-                                if (errorTask) {
-                                    callback("Error de acceso a la base de datos");
-                                }
-                                else {
-                                    connection.query(
-                                        "DELETE FROM tag WHERE taskId = ?",
-                                        [element.id],
-                                    function(errorTag) {
-                                        if (errorTag) 
-                                            callback("Error de acceso a la base de datos");
-                                        else callback(null);
-                                    });
-                                }
-                            });
-                        });  
+                        callback(null)
                     }
                 });
             }

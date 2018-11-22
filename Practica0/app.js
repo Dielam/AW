@@ -36,7 +36,7 @@ const daoT = new DAOTasks(pool);
 app.get("/tasks", function(request, response){
     response.status(200);
     daoT.getAllTasks("usuario@ucm.es", function(err, tasksList){
-        //if(err)
+        if(err) next(new Error(err));
         response.render("tasks", {"tasksList": tasksList}); 
     });
 });
@@ -45,7 +45,7 @@ app.get("/tasks", function(request, response){
 app.post("/addTask", function(request, response){
     response.status(200); 
     daoT.insertTask("usuario@ucm.es", tareas.createTask(request.body.new_task), function(err){
-        //if(err)
+        if(err) next(new Error(err));
         response.redirect("/tasks");
     });
 });
@@ -54,8 +54,8 @@ app.post("/addTask", function(request, response){
 app.get("/finish/:taskId", function(request, response){
     response.status(200);
     daoT.markTaskDone(request.params.taskId, function(err){
-        if(err) console.log(err);
-        else response.redirect("/tasks");
+        if(err) next(new Error(err));
+        response.redirect("/tasks");
     });
 });
 
@@ -63,11 +63,27 @@ app.get("/finish/:taskId", function(request, response){
 app.get("/deleteCompleted", function(request, response){
     response.status(200); 
     daoT.deleteCompleted("usuario@ucm.es", function(err){
-        if(err) console.log(err);
-        else response.redirect("/tasks");
+        if(err) next(new Error(err));
+        response.redirect("/tasks");
     });
 });
 
+// Manejador del error
+app.use(function(error, request, response, next) {
+    // Código 500: Internal server error
+    response.status(500);
+    response.render("error", {
+        mensaje: error.message,
+        pila: error.stack
+    });
+});
+
+
+// Gestión de error 404
+app.use(function(request, response, next) {
+    response.status(404);
+    response.render("not_found", { url: request.url });
+});
 
 // Arrancar servidor
 app.listen(config.port, function(err){
