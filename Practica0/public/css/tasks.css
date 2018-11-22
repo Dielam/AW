@@ -58,6 +58,42 @@ body{
     margin-top: 140px;
 }
 
+/* LOGIN STARTS */
+.login{
+    width: 70%;
+    padding: 5px;
+    background-color: #036564;
+    border: 2px solid transparent;
+    border-radius: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+}
+#email_input{
+    width: 60%;
+    padding: 5px;
+    background-color: white;
+    border: 2px solid #036564;
+    border-radius: 0.4rem;
+}
+#password_input{
+    width: 60%;
+    padding: 5px;
+    background-color: white;
+    border: 2px solid #036564;
+    border-radius: 0.4rem;
+}
+#btn_ok{
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #033649;
+    margin: auto;
+}
+
+/* LOGIN ENDS*/
+
 /* TASK LIST STARTS */
 .task{
     color: #121212;

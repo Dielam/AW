@@ -1,11 +1,14 @@
 
 const config = require("./config");
 const DAOTasks = require("./DAOTasks");
+const DAOUsers = require("./DAOUsers");
 const tareas = require("./tareas.js");
 const path = require("path");
 const mysql = require("mysql");
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require("express-session");
+const mySqlSession = require("express-mysql-session");
 const fs = require("fs");
 
 // Crear servidor Express.js
@@ -16,6 +19,23 @@ app.set("view engine", "ejs");
 
 // Definir el directorio de plantillas
 app.set("views", path.join(__dirname, "public", "views"));
+
+// Crear la sesion
+const mySqlStore = mySqlSession(session);
+
+// Crear el almacen de la sesion
+const sessionStore = new MySQLStore(config.mysqlConfig);
+
+//Crear middleware middlewareSession
+const middlewareSession = session({
+    saveUninitialized: false,
+    secret: "Pr05Y54DM1N",
+    resave: false,
+    store: sessionStore
+});
+
+// Arrancar middleware middlewareSession
+app.use(middlewareSession);
 
 // Crear middleware static
 const staticFiles = path.join(__dirname, "public");
@@ -29,13 +49,32 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Crear el pool de conexiones
 const pool = mysql.createPool(config.mysqlConfig);
 
-// Crear instancia DAOTask
+// Crear instancia DAOTasks
 const daoT = new DAOTasks(pool);
+
+// Crear instancia DAOUsers
+const daoU = new DAOUsers(pool);
+
+//GET de login
+app.get("/login", function(request, response){
+    response.status(200);
+    daoU.isUserCorrect(request.body.email, request.body.password, function(err, ok){
+        if(err) next(new Error(err));
+        if(ok){
+            request.session.currentUser = request.body.email;
+            response.redirect("/tasks");
+        }  
+        else{
+            // Notificar error
+            response.redirect("/login");
+        }
+    });
+});
 
 // GET de la vista tasks.ejs
 app.get("/tasks", function(request, response){
     response.status(200);
-    daoT.getAllTasks("usuario@ucm.es", function(err, tasksList){
+    daoT.getAllTasks(request.session.currentUser, function(err, tasksList){
         if(err) next(new Error(err));
         response.render("tasks", {"tasksList": tasksList}); 
     });
@@ -44,7 +83,7 @@ app.get("/tasks", function(request, response){
 // POST del formulario de añadir tareas de la vista tasks.ejs
 app.post("/addTask", function(request, response){
     response.status(200); 
-    daoT.insertTask("usuario@ucm.es", tareas.createTask(request.body.new_task), function(err){
+    daoT.insertTask(request.session.currentUser, tareas.createTask(request.body.new_task), function(err){
         if(err) next(new Error(err));
         response.redirect("/tasks");
     });
@@ -62,7 +101,7 @@ app.get("/finish/:taskId", function(request, response){
 // GET de borrar todas las tareas completadas
 app.get("/deleteCompleted", function(request, response){
     response.status(200); 
-    daoT.deleteCompleted("usuario@ucm.es", function(err){
+    daoT.deleteCompleted(request.session.currentUser, function(err){
         if(err) next(new Error(err));
         response.redirect("/tasks");
     });

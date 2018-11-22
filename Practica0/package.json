@@ -20,6 +20,8 @@
   "author": "Carlos Jiménez & Diego Laguna",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.3"
+    "body-parser": "^1.18.3",
+    "express-mysql-session": "^2.0.1",
+    "express-session": "^1.15.6"
   }
 }
