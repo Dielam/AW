@@ -24,7 +24,7 @@ app.set("views", path.join(__dirname, "public", "views"));
 const mySqlStore = mySqlSession(session);
 
 // Crear el almacen de la sesion
-const sessionStore = new MySQLStore(config.mysqlConfig);
+const sessionStore = new mySqlStore(config.mysqlConfig);
 
 //Crear middleware middlewareSession
 const middlewareSession = session({
