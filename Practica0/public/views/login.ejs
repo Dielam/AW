@@ -15,9 +15,12 @@
             <div class="page_container">
                 <div class="login">
                     <form method="POST" action="/login">
-                        <input id="email_input" type="text" placeholder="Dirección de Correo" name="email"/>
-                        <input id="password_input" type="text" placeholder="Contraseña" name="pasword"/>
+                        <input id="email_input" type="email" placeholder="Dirección de Correo" name="email"/>
+                        <input id="password_input" type="password" placeholder="Contraseña" name="password"/>
                         <input id="btn_ok" type="submit" class="btn_ok" value="Aceptar"/>
+                        <% if(errorMsg == null) { %>
+                            <p class="error_Msg">Dirección de correo y/o contraseña incorrectos</p>>
+                        <% } %>
                     </form>
                 </div>
             </div>

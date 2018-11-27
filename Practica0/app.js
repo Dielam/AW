@@ -55,18 +55,27 @@ const daoT = new DAOTasks(pool);
 // Crear instancia DAOUsers
 const daoU = new DAOUsers(pool);
 
-//GET de login
+// GET de login
 app.get("/login", function(request, response){
     response.status(200);
+    if(request.session.currentUser != null) response.redirect("/task");
+    else{
+        response.render("login", {"errorMsg": true});
+    }
+});
+
+// POST de login
+app.post("/login", function(request, response){
+    response.status(200);
     daoU.isUserCorrect(request.body.email, request.body.password, function(err, ok){
+        console.log(request.body.email, request.body.password);
         if(err) next(new Error(err));
         if(ok){
             request.session.currentUser = request.body.email;
             response.redirect("/tasks");
         }  
         else{
-            // Notificar error
-            response.redirect("/login");
+            response.render("login", {"errorMsg": null});
         }
     });
 });
