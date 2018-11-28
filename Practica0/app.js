@@ -59,6 +59,7 @@ const daoU = new DAOUsers(pool);
 app.get("/login", function(request, response){
     response.status(200);
     if(request.session.currentUser != null){
+        response.locals.userEmail = request.session.currentUser;
         response.redirect("/tasks");
     } 
     else{
@@ -73,6 +74,7 @@ app.post("/login", function(request, response){
         if(err) next(new Error(err));
         if(ok){
             request.session.currentUser = request.body.email;
+            response.locals.userEmail = request.body.email;
             response.redirect("/tasks");
         }  
         else{
@@ -86,6 +88,19 @@ app.get("/logout", function(request, response){
     response.status(200);
     request.session.destroy();
     response.redirect("/login");
+});
+
+// GET de userImage
+app.get("/userImage", function(request, response){
+    response.status(200);
+    daoU.getUserImageName(request.session.currentUser, function(err, img){
+        if(img != null){
+            response.sendFile(path.join(__dirname, "profile_imgs", img));
+        }
+        else{
+            response.sendFile(path.join(__dirname, "profile_imgs", "Noprofile.jpg"));
+        }    
+    });
 });
 
 // GET de la vista tasks.ejs

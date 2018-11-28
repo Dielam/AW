@@ -50,7 +50,8 @@ class DAOUsers{
                                 callback("Error de acceso a la base de datos");
                             }
                             else{
-                                if(result != null) callback(err, result[0].img);
+                                let size = result.length;
+                                if(size != 0) callback(err, result[0].img);
                                 else callback("No existe el usuario");
                             }
                         }
