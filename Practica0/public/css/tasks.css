@@ -72,6 +72,7 @@ body{
 }
 .error_Msg{
     color:red;
+    margin: 5px auto;
 }
 #email_input{
     width: 100%;

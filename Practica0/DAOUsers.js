@@ -21,7 +21,8 @@ class DAOUsers{
                                 callback("Error de acceso a la base de datos", false);
                             }
                             else{
-                                if(result != null){
+                                let size = result.length;
+                                if(size != 0){
                                     callback(err, true);
                                 }
                                 else{

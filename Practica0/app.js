@@ -58,7 +58,9 @@ const daoU = new DAOUsers(pool);
 // GET de login
 app.get("/login", function(request, response){
     response.status(200);
-    if(request.session.currentUser != null) response.redirect("/task");
+    if(request.session.currentUser != null){
+        response.redirect("/tasks");
+    } 
     else{
         response.render("login", {"errorMsg": true});
     }
@@ -68,7 +70,6 @@ app.get("/login", function(request, response){
 app.post("/login", function(request, response){
     response.status(200);
     daoU.isUserCorrect(request.body.email, request.body.password, function(err, ok){
-        console.log(request.body.email, request.body.password);
         if(err) next(new Error(err));
         if(ok){
             request.session.currentUser = request.body.email;
@@ -78,6 +79,13 @@ app.post("/login", function(request, response){
             response.render("login", {"errorMsg": null});
         }
     });
+});
+
+// GET de logout
+app.get("/logout", function(request, response){
+    response.status(200);
+    request.session.destroy();
+    response.redirect("/login");
 });
 
 // GET de la vista tasks.ejs
