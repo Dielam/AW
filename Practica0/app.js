@@ -59,7 +59,7 @@ const daoU = new DAOUsers(pool);
 app.get("/login", function(request, response){
     response.status(200);
     if(request.session.currentUser != null){
-        response.locals.userEmail = request.session.currentUser;
+        app.locals.userEmail = request.session.currentUser;
         response.redirect("/tasks");
     } 
     else{
@@ -74,7 +74,7 @@ app.post("/login", function(request, response){
         if(err) next(new Error(err));
         if(ok){
             request.session.currentUser = request.body.email;
-            response.locals.userEmail = request.body.email;
+            app.locals.userEmail = request.body.email;
             response.redirect("/tasks");
         }  
         else{
@@ -96,6 +96,8 @@ app.get("/userImage", function(request, response){
     daoU.getUserImageName(request.session.currentUser, function(err, img){
         if(img != null){
             response.sendFile(path.join(__dirname, "profile_imgs", img));
+            console.log("vaya mierdon");
+            console.log(img);
         }
         else{
             response.sendFile(path.join(__dirname, "profile_imgs", "Noprofile.jpg"));
