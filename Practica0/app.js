@@ -96,7 +96,6 @@ app.get("/userImage", function(request, response){
     daoU.getUserImageName(request.session.currentUser, function(err, img){
         if(img != null){
             response.sendFile(path.join(__dirname, "profile_imgs", img));
-            console.log("vaya mierdon");
             console.log(img);
         }
         else{
@@ -108,6 +107,7 @@ app.get("/userImage", function(request, response){
 // GET de la vista tasks.ejs
 app.get("/tasks", function(request, response){
     response.status(200);
+    userEmail = request.session.currentUser;
     daoT.getAllTasks(request.session.currentUser, function(err, tasksList){
         if(err) next(new Error(err));
         response.render("tasks", {"tasksList": tasksList}); 

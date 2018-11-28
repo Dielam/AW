@@ -1,3 +1,4 @@
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -16,6 +17,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `expires` int(11) UNSIGNED NOT NULL,
+  `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tag`
 --
 
@@ -23,6 +36,15 @@ CREATE TABLE `tag` (
   `taskId` int(11) NOT NULL,
   `tag` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `tag`
+--
+
+INSERT INTO `tag` (`taskId`, `tag`) VALUES
+(76, 'importante'),
+(76, 'muerte'),
+(78, 'vital');
 
 -- --------------------------------------------------------
 
@@ -37,6 +59,17 @@ CREATE TABLE `task` (
   `done` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `task`
+--
+
+INSERT INTO `task` (`id`, `user`, `text`, `done`) VALUES
+(67, 'usuario@ucm.es', 'compra', 0),
+(68, 'usuario@ucm.es', 'mudanza', 0),
+(76, 'usuario@ucm.es', 'asesinar goblins', 0),
+(77, 'email@gmail.com', 'estudiar', 0),
+(78, 'email@gmail.com', 'dormir', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -50,8 +83,22 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Volcado de datos para la tabla `user`
+--
+
+INSERT INTO `user` (`email`, `password`, `img`) VALUES
+('email@gmail.com', '123456', NULL),
+('usuario@ucm.es', '123456', 'OnePieceWallpaper.jpg');
+
+--
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`session_id`);
 
 --
 -- Indices de la tabla `tag`
@@ -80,7 +127,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `task`
 --
 ALTER TABLE `task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- Restricciones para tablas volcadas
