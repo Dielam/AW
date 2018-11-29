@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gestor de tareas</title>
+        <link rel="icon" type="image/ico" href="/img/tick.ico">
+        <link rel="stylesheet" type="text/css" href="/css/tasks.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/tasksPrint.css" media="print">
+    </head>
+    <body>
+            <div class="header">
+                    <div class="page_title">
+                        <img src="/img/title.png" height="100"/>
+                    </div>
+            </div>
+            <div class="page_container">
+                <div class="login">
+                    <form method="POST" action="/login">
+                        <input id="email_input" type="email" placeholder="Dirección de Correo" name="email"/>
+                        <input id="password_input" type="password" placeholder="Contraseña" name="password"/>
+                        <input id="btn_ok" type="submit" class="btn_ok" value="Aceptar"/>
+                        <% if(errorMsg == null) { %>
+                            <p class="error_Msg">Dirección de correo y/o contraseña incorrectos</p>
+                        <% } %>
+                    </form>
+                </div>
+            </div>
+    </body>
+</html>

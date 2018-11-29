@@ -1,0 +1,27 @@
+{
+  "name": "tareas",
+  "version": "1.0.0",
+  "description": "Gestor de tareas",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dielam/AW.git"
+  },
+  "keywords": [
+    "node",
+    "proyecto",
+    "aw",
+    "tareas"
+  ],
+  "author": "Carlos Jiménez & Diego Laguna",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express-mysql-session": "^2.0.1",
+    "express-session": "^1.15.6"
+  }
+}
