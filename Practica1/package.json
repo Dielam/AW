@@ -1,11 +1,11 @@
 {
-  "name": "tareas",
+  "name": "facebuk",
   "version": "1.0.0",
-  "description": "Gestor de tareas",
-  "main": "main.js",
+  "description": "Red social Facebuk",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "main.js"
+    "test": "test.js",
+    "start": "app.js"
   },
   "repository": {
     "type": "git",
@@ -14,8 +14,9 @@
   "keywords": [
     "node",
     "proyecto",
-    "aw",
-    "tareas"
+    "red", 
+    "social",
+    "facebuk"
   ],
   "author": "Carlos Jiménez & Diego Laguna",
   "license": "MIT",
