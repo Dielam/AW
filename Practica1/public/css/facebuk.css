@@ -5,12 +5,26 @@
     top: 0;
     width: 100%;
     margin-left: -8px;
-    /* padding-right: 15px;
-    z-index: 99999; */
+    padding-right: 15px;
+    z-index: 99999; 
 }
 .page_title{
     display: flex;
     margin-left: 1rem;
+}
+.pushbutton_panel{
+    margin-inline-start: 300px;
+    font-size: 20px;
+}
+#btn_sign_in{
+    color: white;
+    text-decoration-line: none;
+    padding: 10px;
+}
+#btn_sign_up{
+    color: white;
+    text-decoration-line: none;
+    padding: 10px;
 }
 /* HEADER SECTION ENDS */
 
@@ -93,20 +107,6 @@ body{
 }
 .btn_primary:hover{
     background-color: #ff0101;
-}
-#btn_sign_in{
-    color: white;
-    font-size: 20px;
-    text-decoration-line: none;
-    margin-inline-start: 300px;
-    padding: 10px;
-}
-#btn_sign_up{
-    color: white;
-    font-size: 20px;
-    text-decoration-line: none;
-    margin: 50px;
-    padding: 10px;
 }
 /* FACEBUK ENDS */
 
