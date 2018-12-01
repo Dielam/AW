@@ -1,4 +1,4 @@
-/* LOGIN STARTS */
+/* LOGIN AND REGISTER STARTS */
 .login{
     width: 35%;
     padding: 5px;
@@ -32,6 +32,22 @@
     border-radius: 0.4rem;
     margin: 5px auto;
 }
+#name_input{
+    width: 100%;
+    padding: 10px 0;
+    background-color: white;
+    border: 2px solid #FE2E2E;
+    border-radius: 0.4rem;
+    margin: 5px auto;
+}
+#date_input{
+    width: 100%;
+    padding: 10px 0;
+    background-color: white;
+    border: 2px solid #FE2E2E;
+    border-radius: 0.4rem;
+    margin: 5px auto;
+}
 #btn_ok{
     padding: 5px;
     font-size: 18px;
@@ -46,4 +62,4 @@
 #btn_ok:hover{
     background-color: #ff0101;
 }
-/* LOGIN ENDS*/
+/* LOGIN AND REGISTER ENDS*/
