@@ -1,0 +1,29 @@
+/* HEADER SECTION STARTS */
+.header{
+    background-color: #FE2E2E;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin-left: -8px;
+    padding-right: 15px;
+    z-index: 99999; 
+}
+.page_title{
+    display: flex;
+    margin-left: 1rem;
+}
+.pushbutton_panel{
+    margin-inline-start: 300px;
+    font-size: 20px;
+}
+#btn_sign_in{
+    color: white;
+    text-decoration-line: none;
+    padding: 10px;
+}
+#btn_sign_up{
+    color: white;
+    text-decoration-line: none;
+    padding: 10px;
+}
+/* HEADER SECTION ENDS */

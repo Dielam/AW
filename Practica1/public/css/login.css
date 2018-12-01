@@ -1,0 +1,49 @@
+/* LOGIN STARTS */
+.login{
+    width: 35%;
+    padding: 5px;
+    background-color: #FE2E2E;
+    border: 2px solid transparent;
+    border-radius: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+}
+.error_Msg{
+    color: #ff010e;
+    margin: 10px 0;
+    display:flex;
+    align-items: center;
+}
+#email_input{
+    width: 100%;
+    padding: 10px 0;
+    background-color: white;
+    border: 2px solid #FE2E2E;
+    border-radius: 0.4rem;
+    margin: 5px auto;
+}
+#password_input{
+    width: 100%;
+    padding: 10px 0;
+    background-color: white;
+    border: 2px solid #FE2E2E;
+    border-radius: 0.4rem;
+    margin: 5px auto;
+}
+#btn_ok{
+    padding: 5px;
+    font-size: 18px;
+    color: white;
+    background-color: #9e0303;
+    border: 2px solid transparent;
+    border-radius: 0.4rem;
+    display: flex;
+    margin: 0 auto;
+    cursor: pointer;
+}
+#btn_ok:hover{
+    background-color: #ff0101;
+}
+/* LOGIN ENDS*/
