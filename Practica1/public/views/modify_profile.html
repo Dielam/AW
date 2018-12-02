@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Facebuk</title>
+        <link rel="icon" type="image/ico" href="/img/u.ico">
+        <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/login_register.css" media="screen">
+    </head>
+    <body>
+        <div class="page_container">
+            <div class="login">
+                <form method="POST" action="/modifyProfile">
+                    <label for="email_input">Dirección de correo</label>
+                    <input id="email_input" type="email" placeholder="Dirección de Correo" name="email"/>
+                    <label for="password_input">Contraseña</label>
+                    <input id="password_input" type="password" placeholder="Contraseña" name="password"/>
+                    <label for="name_input">Nombre completo</label>
+                    <input id="name_input" type="text" placeholder="Nombre completo" name="name"/>
+                    <span>Sexo</span>
+                    <input id="gender_input--male" type="radio" name="gender" value="Masculino"/><label for="gender_input--male">Masculino</label>
+                    <input id="gender_input--female" type="radio" name="gender" value="Femenino"/><label for="gender_input--female">Femenino</label>
+                    <input id="gender_input--other" type="radio" name="gender" value="Otro"/><label for="gender_input--other">Otro</label>
+                    <label for="date_input">Fecha nacimiento</label>
+                    <input id="date_input" type="date" placeholder="Fecha de nacimiento" name="date"/>
+                    <label for="user_image_input">Imagen de perfil</label>
+                    <input id="user_image_input" type="file" name="file"/>
+                    <input id="btn_ok" type="submit" class="btn_ok" value="Crear usuario"/>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
