@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Facebuk</title>
+        <link rel="icon" type="image/ico" href="/img/u.ico">
+        <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/login_register.css" media="screen">
+    </head>
+    <body>
+        <div class="header">
+            <div class="page_title">
+                <img src="/img/title.jpg" height="100"/>
+            </div>
+            <% if(userEmail == null){ %>
+            <div class="pushbutton_panel">
+                <a id="btn_sign_in" href="/login"> Entrar</a>
+                <a id="btn_sign_up" href="/signUp"> Nuevo Usuario</a>
+            </div>
+            <% }else{ %>
+                <a id="profile" class="link" href="/profile"> Perfil</a>
+                <a id="friends" class="link" href="/friends"> Amigos</a>
+                <a id="question" class="link" href="/question"> Preguntas</a>
+                <a id="logout" class="link" href="/logout"> Desconectar</a>
+            <% } %>
+        </div>
+</body>
+</html>
