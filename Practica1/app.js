@@ -82,6 +82,15 @@ app.post("/login", function(request, response){
     });
 });
 
+// GET del registro de usuario
+app.get("/signUp", function(request, response){
+    response.status(200);
+    if(request.session.currentUser == null) response.render("sign_up");
+    //En caso de que ya haya un usuario.
+});
+
+// POST del registro de usuario
+
 // GET de logout
 app.get("/logout", function(request, response){
     response.status(200);

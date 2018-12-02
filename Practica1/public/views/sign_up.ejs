@@ -16,15 +16,17 @@
                 <a id="btn_sign_in" href="/login"> Entrar</a>
                 <a id="btn_sign_up" href="/signUp"> Nuevo Usuario</a>
             </div>
-            <div class="page_container">
+        </div>
+        <div class="page_container">
+            <div class="login">
                 <form method="POST" action="/insertUser">
                     Dirección de correo<input id="email_input" type="email" placeholder="Dirección de Correo" name="email"/>
                     Contraseña<input id="password_input" type="password" placeholder="Contraseña" name="password"/>
                     Nombre completo<input id="name_input" type="text" placeholder="Nombre completo" name="name"/>
                     Sexo<input id="gender_input" type="radio" name="gender" value="Masculino"/>Masculino
                     <input id="gender_input" type="radio" name="gender" value="Femenino"/>Femenino
-                    <input id="gender_input" type="radio" name="gender" value="Otro"/>Otro
-                    Fecha nacimiento<input id="date_input" type="date" placeholder="Fecha de nacimiento" name="date"/>
+                    <input id="gender_input" type="radio" name="gender" value="Otro"/>Otro<br>
+                    Fecha de nacimiento<input id="date_input" type="date" placeholder="Fecha de nacimiento" name="date"/>
                     Imagen de perfil<input id="user_image_input" type="file" name="file"/>
                     <input id="btn_ok" type="submit" class="btn_ok" value="Crear usuario"/>
                 </form>
