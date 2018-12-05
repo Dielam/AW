@@ -59,9 +59,10 @@ app.get("/login", function(request, response){
     response.status(200);
     if(request.session.currentUser != null){
         app.locals.userEmail = request.session.currentUser;
-        response.redirect("/tasks");
+        response.redirect("/profile");
     } 
     else{
+        app.locals.userEmail = null;
         response.render("login", {"errorMsg": true});
     }
 });
@@ -113,12 +114,12 @@ app.get("/userImage", function(request, response){
 });
 
 // GET de la vista tasks.ejs
-app.get("/tasks", function(request, response){
+app.get("/questions", function(request, response){
     response.status(200);
     userEmail = request.session.currentUser;
-    daoT.getAllTasks(request.session.currentUser, function(err, tasksList){
+    daoT.getAllTasks(request.session.currentUser, function(err, questionsList){
         if(err) next(new Error(err));
-        response.render("tasks", {"tasksList": tasksList}); 
+        response.render("questions", {"questionsList": questionsList}); 
     });
 });
 

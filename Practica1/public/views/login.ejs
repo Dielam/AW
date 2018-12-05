@@ -1,22 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Facebuk</title>
         <link rel="icon" type="image/ico" href="/img/u.ico">
         <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
         <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
         <link rel="stylesheet" type="text/css" href="/css/login_register.css" media="screen">
     </head>
     <body>
-            <div class="header">
-                    <div class="page_title">
-                        <img src="/img/title.jpg" height="100"/>
-                    </div>
-                    <div class="pushbutton_panel">
-                        <a id="btn_sign_in" class="link" href="/login"> Entrar</a>
-                        <a id="btn_sign_up" class="link" href="/signUp"> Nuevo Usuario</a>
-                    </div>
-            </div>
+            <section><%- include header %></section>
             <div class="page_container">
                 <div class="login">
                     <form method="POST" action="/login">
