@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 06-12-2018 a las 20:32:27
--- Versión del servidor: 10.1.29-MariaDB
--- Versión de PHP: 7.1.12
+-- Host: 127.0.0.1
+-- Generation Time: Dec 07, 2018 at 10:58 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `facebuk`
+-- Database: `facebuk`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `amigos`
+-- Table structure for table `amigos`
 --
 
 CREATE TABLE `amigos` (
@@ -34,7 +34,7 @@ CREATE TABLE `amigos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `amigos`
+-- Dumping data for table `amigos`
 --
 
 INSERT INTO `amigos` (`usuario1`, `usuario2`) VALUES
@@ -43,55 +43,43 @@ INSERT INTO `amigos` (`usuario1`, `usuario2`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `preguntas`
+-- Table structure for table `preguntas`
 --
 
 CREATE TABLE `preguntas` (
   `id` int(11) NOT NULL,
-  `usuario` int(11) NOT NULL,
-  `pregunta` varchar(500) NOT NULL,
-  `respuesta` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `preguntas`
---
-
-INSERT INTO `preguntas` (`id`, `usuario`, `pregunta`, `respuesta`) VALUES
-(1, 1, '¿Como se llama el primer barco de la Banda del Sombrero de Paja(Mugiwara no Ichimi)?', 'Going Merry'),
-(2, 1, '¿Que fruta del diablo se come Luffy?', 'Gomu Gomu no Mi'),
-(3, 2, '¿Cual es el animal favorito de Boa Hancock?', 'Boa'),
-(4, 2, '¿De quien esta enamorada Boa Hancock?', 'Luffy');
+  `pregunta` varchar(500) COLLATE latin1_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `respuestas`
+-- Table structure for table `respuestas`
 --
 
 CREATE TABLE `respuestas` (
-  `pregunta` int(11) NOT NULL,
-  `usuario` int(11) NOT NULL,
-  `respuesta` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `respuestas`
---
-
-INSERT INTO `respuestas` (`pregunta`, `usuario`, `respuesta`) VALUES
-(1, 2, 'Thousand Sunny'),
-(1, 4, 'Going Merry'),
-(1, 5, 'Going Merry'),
-(2, 2, 'Gomu Gomu no Mi'),
-(2, 4, 'Gomu Gomu no Mi'),
-(3, 5, 'Reno'),
-(4, 5, 'Sanji');
+  `idPregunta` int(11) NOT NULL,
+  `idRespuesta` int(11) NOT NULL,
+  `respuesta` varchar(500) COLLATE latin1_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `respuestas_usuarios`
+--
+
+CREATE TABLE `respuestas_usuarios` (
+  `idPregunta` int(11) NOT NULL,
+  `idRespuesta` int(11) NOT NULL,
+  `idUsuarioPregunta` int(11) NOT NULL,
+  `idUsuarioResponde` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -105,7 +93,7 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `email`, `contraseña`, `nombre`, `sexo`, `fecha`, `imagen`) VALUES
@@ -116,11 +104,11 @@ INSERT INTO `usuarios` (`id`, `email`, `contraseña`, `nombre`, `sexo`, `fecha`,
 (5, 'vivaeldulce@gmail.com', '123456', 'Chopper', 'Otro', '1999-12-01', 'OnePieceWallpaper.jpg');
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `amigos`
+-- Indexes for table `amigos`
 --
 ALTER TABLE `amigos`
   ADD PRIMARY KEY (`usuario1`,`usuario2`) USING BTREE,
@@ -128,65 +116,68 @@ ALTER TABLE `amigos`
   ADD UNIQUE KEY `usuario2` (`usuario2`) USING BTREE;
 
 --
--- Indices de la tabla `preguntas`
+-- Indexes for table `preguntas`
 --
 ALTER TABLE `preguntas`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `usuario_pregunta` (`usuario`,`pregunta`) USING BTREE;
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `respuestas`
+-- Indexes for table `respuestas`
 --
 ALTER TABLE `respuestas`
-  ADD PRIMARY KEY (`pregunta`,`usuario`,`respuesta`),
-  ADD UNIQUE KEY `pregunta_usuario` (`pregunta`,`usuario`),
-  ADD KEY `usuario` (`usuario`) USING BTREE;
+  ADD PRIMARY KEY (`idRespuesta`),
+  ADD KEY `idPregunta` (`idPregunta`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `respuestas_usuarios`
+--
+ALTER TABLE `respuestas_usuarios`
+  ADD KEY `idPregunta` (`idPregunta`,`idRespuesta`,`idUsuarioPregunta`,`idUsuarioResponde`),
+  ADD KEY `idUsuarioPregunta` (`idUsuarioPregunta`),
+  ADD KEY `idUsuarioResponde` (`idUsuarioResponde`),
+  ADD KEY `idRespuesta` (`idRespuesta`);
+
+--
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `preguntas`
---
-ALTER TABLE `preguntas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `amigos`
+-- Constraints for table `amigos`
 --
 ALTER TABLE `amigos`
   ADD CONSTRAINT `amigos_ibfk_1` FOREIGN KEY (`usuario1`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `amigos_ibfk_2` FOREIGN KEY (`usuario2`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `preguntas`
---
-ALTER TABLE `preguntas`
-  ADD CONSTRAINT `preguntas_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`id`);
-
---
--- Filtros para la tabla `respuestas`
+-- Constraints for table `respuestas`
 --
 ALTER TABLE `respuestas`
-  ADD CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`pregunta`) REFERENCES `preguntas` (`id`),
-  ADD CONSTRAINT `respuestas_ibfk_2` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`id`);
+  ADD CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`idPregunta`) REFERENCES `preguntas` (`id`);
+
+--
+-- Constraints for table `respuestas_usuarios`
+--
+ALTER TABLE `respuestas_usuarios`
+  ADD CONSTRAINT `respuestas_usuarios_ibfk_1` FOREIGN KEY (`idUsuarioPregunta`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `respuestas_usuarios_ibfk_2` FOREIGN KEY (`idUsuarioResponde`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `respuestas_usuarios_ibfk_3` FOREIGN KEY (`idPregunta`) REFERENCES `preguntas` (`id`),
+  ADD CONSTRAINT `respuestas_usuarios_ibfk_4` FOREIGN KEY (`idRespuesta`) REFERENCES `respuestas` (`idRespuesta`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
