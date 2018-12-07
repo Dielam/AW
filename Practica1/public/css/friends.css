@@ -1,0 +1,11 @@
+form{
+    display: flex;
+    align-items: center;
+}
+.friend_avatar{
+	margin-right: 10px;
+}
+
+.btn_secondary{
+	margin-left: 10px;
+}

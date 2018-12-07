@@ -9,38 +9,45 @@
 	</head>
 	<body>
 		<div class="page_container">
+			<h1 class="centered">Amigos</h1>
 			<h2 class="centered">Solicitudes de amistad</h2>
 
-			<div class="login">
+			<div class="content_wrapper">
 				<ul>
 					<li>
 						<img src="" class="friend_avatar" height="50" width="50">
 						<span class="friend_name">Amigo Uno</span>
-						<a class="btn_primary">Aceptar</a>
-						<a class="btn_secondary">Rechazar</a>
+						<div class="button_container btn_right">
+							<a class="btn btn_primary">Aceptar</a>
+							<a class="btn btn_secondary">Rechazar</a>
+						</div>
 					</li>
 					<li>
 						<img src="" class="friend_avatar" height="50" width="50">
 						<span class="friend_name">Amigo Dos</span>
-						<a class="btn_primary">Aceptar</a>
-						<a class="btn_secondary">Rechazar</a>
+						<div class="button_container btn_right">
+							<a class="btn btn_primary">Aceptar</a>
+							<a class="btn btn_secondary">Rechazar</a>
+						</div>
 					</li>
 				</ul>
 			</div>
 
 			<h2 class="centered">Búsqueda de amigos</h2>
 
-			<div class="login">
+			<div class="content_wrapper">
 				<form method="/search_users">
 					<label for="user_searcher">Buscar por nombre: </label>
 					<input type="text" name="searcher" id="user_searcher" class="input_primary">
-					<input type="submit" value="Buscar">
+					<div class="right">
+						<input type="submit" class="btn btn_primary" value="Buscar">
+					</div>
 				</form>
 			</div>
 
 			<h2 class="centered">Mis amigos</h2>
 
-			<div class="login">
+			<div class="content_wrapper">
 				<ul>
 					<li>
 						<img src="" class="friend_avatar" height="50" width="50">

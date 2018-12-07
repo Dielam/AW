@@ -4,11 +4,14 @@ html{
 }
 ul{
     padding-inline-start: 0;
+    list-style-type: none; 
 }
-
+li{
+    display: flex;
+    align-items: center;
+}
 body{
     font-family: 'Helvetica', Arial, sans-serif;
-    color: white;
 }
 /* GENERAL TAGS ENDS */
 
@@ -26,8 +29,38 @@ body{
     margin: auto;
     align-items: center;
 }
+.centered{
+    display: flex;
+    justify-content: center;
+}
+.right{
+    display: flex;
+    margin-left: auto;
+}
+
+.content_wrapper{
+    width: 50%;
+    padding: 5px;
+    background-color: #FE2E2E;
+    border: 2px solid transparent;
+    border-radius: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+.input_primary{
+    width: 70%;
+    padding: 5px 0;
+    background-color: white;
+    border: 2px solid #FE2E2E;
+    border-radius: 0.4rem;
+    margin: 5px auto; 
+}
 
 /* BUTTONS STARTS */
+.button_container{
+    display: flex;
+}
 .btn_primary{
     color: white;
     background-color: #9e0303;
@@ -36,8 +69,22 @@ body{
     cursor: pointer;
     padding: 5px 15px;
 }
-.btn_primary:hover{
+.btn:hover{
     background-color: #ff0101;
+}
+.btn_secondary{
+    color: white;
+    background-color: black;
+    border: 0px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 15px;
+}
+.btn_centered{
+    margin: 0 auto;
+}
+.btn_right{
+    margin-left: auto;
 }
 /* BUTTONS ENDS */
 
