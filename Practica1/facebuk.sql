@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2018 at 10:58 AM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.2.12
+-- Generation Time: Dec 10, 2018 at 11:06 PM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,15 +30,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `amigos` (
   `usuario1` int(11) NOT NULL,
-  `usuario2` int(11) NOT NULL
+  `usuario2` int(11) NOT NULL,
+  `confirmación` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `amigos`
 --
 
-INSERT INTO `amigos` (`usuario1`, `usuario2`) VALUES
-(1, 2);
+INSERT INTO `amigos` (`usuario1`, `usuario2`, `confirmación`) VALUES
+(1, 2, NULL);
 
 -- --------------------------------------------------------
 
