@@ -70,14 +70,35 @@ class DAOUsers{
                     function(err, result){
                         if(err) return callback("Error de acceso a la base de datos");
                         else{
-                            let user ={
+                            let user = {
+                                email: result[0].email,
+                                password: result[0].contraseña,
                                 name: result[0].nombre,
                                 date: result[0].fecha,
                                 gender: result[0].sexo,
+                                img: result[0].img,
                                 pts: result[0].email 
                             };
+                            let date = user.date.toISOString().substr(0, 10);
+                            user.date = date;
                             return callback(null, user);
                         }
+                    }
+                );
+            }
+        });
+    }
+
+    updateUser(user, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "UPDATE usuarios SET email = ?, contraseña = ?, nombre = ?, sexo = ?, fecha = ?, imagen = ? WHERE id = ?",
+                    [user.email, user.password, user.name, user.gender, user.date, user.img, user.id],
+                    function(err, result){
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else return callback(null);
                     }
                 );
             }

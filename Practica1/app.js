@@ -73,7 +73,10 @@ app.get("/login", function(request, response){
         response.redirect("/profile");
     } 
     else{
+        request.session.currentUser = null;
         app.locals.userEmail = null;
+        app.locals.userId = null;
+        request.session.currentId = null;
         response.render("login", {"errorMsg": false});
     }
 });
@@ -166,6 +169,41 @@ app.get("/logout", function(request, response){
     response.redirect("/login");
 });
 
+// GET del perfil del usuario
+app.get("/profile", checkSession, function(request, response){
+    response.status(200);
+    daoU.getInfoUser(app.locals.userId, function(err, user){
+        if(err) next(new Error(err));
+        else response.render("profile", {"user": user});
+    });
+});
+
+// GET de la vista de modificar usuario
+app.get("/modifyProfile", checkSession, function(request, response){
+    response.status(200);
+    daoU.getInfoUser(app.locals.userId, function(err, user){
+        if(err) next(new Error(err));
+        else response.render("modify_profile", {"user": user});
+    });
+});
+
+// POST de modificar perfil
+app.post("/modifyProfile", checkSession, function(request, response){
+    let user = {
+        id: app.locals.userId,
+        email: request.body.email,
+        password: request.body.password,
+        name: request.body.name,
+        gender: request.body.gender,
+        date: request.body.date,
+        img: request.body.file
+    };
+    daoU.updateUser(user, function(err){
+        if(err) next(new Error(err));
+        else response.redirect("/profile");
+    });
+});
+
 // GET de userImage
 app.get("/userImage/:id", function(request, response){
     response.status(200);
@@ -176,15 +214,6 @@ app.get("/userImage/:id", function(request, response){
         else{
             response.sendFile(path.join(__dirname, "profile_imgs", "Noprofile.jpg"));
         }    
-    });
-});
-
-// GET del perfil del usuario
-app.get("/profile", checkSession, function(request, response){
-    response.status(200);
-    daoU.getInfoUser(app.locals.userId, function(err, user){
-        if(err) next(new Error(err));
-        else response.render("profile", {"user": user});
     });
 });
 

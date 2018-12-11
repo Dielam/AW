@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Modificar Perfil</title>
+        <link rel="icon" type="image/ico" href="/img/u.ico">
+        <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/login_register.css" media="screen">
+    </head>
+    <body>
+        <section><%- include header %></section>
+        <div class="page_container">
+            <div class="login">
+                <form method="POST" action="/modifyProfile">
+                    <label for="email_input">Dirección de correo</label>
+                    <input id="email_input" type="email" class="input_primary" value='<%= user.email %>' name="email"/>
+                    <label for="password_input">Contraseña</label>
+                    <input id="password_input" type="password" class="input_primary" value='<%= user.password %>' name="password"/>
+                    <label for="name_input">Nombre completo</label>
+                    <input id="name_input" type="text" class="input_primary" value='<%= user.name %>' name="name"/>
+                    <span>Sexo</span>
+                    <% if(user.gender == "Masculino"){ %>
+                        <input id="gender_input--male" type="radio" name="gender" value="Masculino" checked="checked"/><label for="gender_input--male">Masculino</label>
+                        <input id="gender_input--female" type="radio" name="gender" value="Femenino"/><label for="gender_input--female">Femenino</label>
+                        <input id="gender_input--other" type="radio" name="gender" value="Otro" /><label for="gender_input--other">Otro</label>
+                    <% } else if(user.gender == "Femenino"){ %>
+                        <input id="gender_input--male" type="radio" name="gender" value="Masculino"/><label for="gender_input--male">Masculino</label>
+                        <input id="gender_input--female" type="radio" name="gender" value="Femenino" checked="checked"/><label for="gender_input--female">Femenino</label>
+                        <input id="gender_input--other" type="radio" name="gender" value="Otro" /><label for="gender_input--other">Otro</label>
+                    <% } else{ %>
+                        <input id="gender_input--male" type="radio" name="gender" value="Masculino"/><label for="gender_input--male">Masculino</label>
+                        <input id="gender_input--female" type="radio" name="gender" value="Femenino"/><label for="gender_input--female">Femenino</label>
+                        <input id="gender_input--other" type="radio" name="gender" value="Otro" checked="checked"/><label for="gender_input--other">Otro</label>
+                    <% } %>
+                    <label for="date_input">Fecha nacimiento</label>
+                    <input id="date_input" type="date" class="input_primary" value='<%= user.date %>' name="date"/>
+                    <label for="user_image_input">Imagen de perfil</label>
+                    <input id="user_image_input" type="file" value="/profile_imgs/'<%= user.img %>' name="file"/>
+                    <input id="btn_ok" type="submit" class="btn_ok" value="Crear usuario"/>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
