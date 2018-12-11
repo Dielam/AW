@@ -56,6 +56,12 @@ body{
     border-radius: 0.4rem;
     margin: 5px auto; 
 }
+.error_Msg{
+    color: #ff010e;
+    margin: 10px 0;
+    display:flex;
+    align-items: center;
+}
 
 /* BUTTONS STARTS */
 .button_container{

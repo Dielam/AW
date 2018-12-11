@@ -74,7 +74,7 @@ app.get("/login", function(request, response){
     } 
     else{
         app.locals.userEmail = null;
-        response.render("login", {"errorMsg": true});
+        response.render("login", {"errorMsg": false});
     }
 });
 
@@ -82,7 +82,12 @@ app.get("/login", function(request, response){
 app.post("/login", function(request, response){
     response.status(200);
     daoU.isUserCorrect(request.body.email, request.body.password, function(err, id, ok){
-        if(err) response.render("login", {"errorMsg": true});
+        if(err){
+            request.session.currentUser = null;
+            app.locals.userEmail = null;
+            app.locals.userId = null;
+            response.render("login", {"errorMsg": null});
+        }
         if(ok){
             request.session.currentUser = request.body.email;
             app.locals.userEmail = request.body.email;
@@ -90,6 +95,9 @@ app.post("/login", function(request, response){
             response.redirect("/profile");
         }  
         else{
+            request.session.currentUser = null;
+            app.locals.userEmail = null;
+            app.locals.userId = null;
             response.render("login", {"errorMsg": null});
         }
     });
@@ -98,8 +106,16 @@ app.post("/login", function(request, response){
 // GET del registro de usuario
 app.get("/signUp", function(request, response){
     response.status(200);
-    if(request.session.currentUser == null) response.render("sign_up");
-    else response.redirect("/profile");
+    if(request.session.currentUser == null){
+        app.locals.userEmail = null;
+        app.locals.userId = null;
+        response.render("sign_up", {"errorMsg": false});
+    }
+    else{
+        app.locals.userEmail = request.session.currentUser;
+        app.locals.userId = request.session.currentId;
+        response.redirect("/profile");
+    }
 });
 
 // POST del registro de usuario
@@ -110,15 +126,19 @@ app.post("/signUp", function(request, response){
             email: request.body.email,
             password: request.body.password,
             name: request.body.name,
-            sex: request.body.gender,
+            gender: request.body.gender,
             date: request.body.date,
             img: request.body.file
-        }
-        daoU.insertUser(user, function(err){
-            if(err) response.render("sign_up", {"errorMsg": err});
+        };
+        daoU.insertUser(user, function(err, id){
+            if(err){
+                app.locals.userEmail = null;
+                app.locals.userId = null;
+                response.render("sign_up", {"errorMsg": null});
+            } 
             else{
-                app.locals.userEmail = request.session.currentUser;
-                app.locals.userId = request.session.currentId;
+                app.locals.userEmail = user.email;
+                app.locals.userId = id;
                 response.redirect("/profile")
             }
         });
@@ -139,7 +159,6 @@ app.get("/userImage/:id", function(request, response){
     daoU.getUserImageName(request.params.id, function(err, img){
         if(img != null){
             response.sendFile(path.join(__dirname, "profile_imgs", img));
-            console.log(img);
         }
         else{
             response.sendFile(path.join(__dirname, "profile_imgs", "Noprofile.jpg"));

@@ -10,12 +10,6 @@
     margin: auto;
     align-items: center;
 }
-.error_Msg{
-    color: #ff010e;
-    margin: 10px 0;
-    display:flex;
-    align-items: center;
-}
 #gender_input{
     margin: 10px;
 }
