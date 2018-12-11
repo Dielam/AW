@@ -77,7 +77,7 @@ class DAOUsers{
                                 date: result[0].fecha,
                                 gender: result[0].sexo,
                                 img: result[0].img,
-                                pts: result[0].email 
+                                pts: result[0].puntos 
                             };
                             let date = user.date.toISOString().substr(0, 10);
                             user.date = date;
