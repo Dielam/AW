@@ -86,17 +86,20 @@ app.post("/login", function(request, response){
             request.session.currentUser = null;
             app.locals.userEmail = null;
             app.locals.userId = null;
+            request.session.currentId = null;
             response.render("login", {"errorMsg": null});
         }
         if(ok){
             request.session.currentUser = request.body.email;
             app.locals.userEmail = request.body.email;
+            request.session.currentId = id;
             app.locals.userId = id;
             response.redirect("/profile");
         }  
         else{
             request.session.currentUser = null;
             app.locals.userEmail = null;
+            request.session.currentId = null;
             app.locals.userId = null;
             response.render("login", {"errorMsg": null});
         }
@@ -107,8 +110,10 @@ app.post("/login", function(request, response){
 app.get("/signUp", function(request, response){
     response.status(200);
     if(request.session.currentUser == null){
+        request.session.currentUser = null;
         app.locals.userEmail = null;
         app.locals.userId = null;
+        request.session.currentId = null;
         response.render("sign_up", {"errorMsg": false});
     }
     else{
@@ -132,18 +137,26 @@ app.post("/signUp", function(request, response){
         };
         daoU.insertUser(user, function(err, id){
             if(err){
+                request.session.currentUser = null;
                 app.locals.userEmail = null;
                 app.locals.userId = null;
+                request.session.currentId = null;
                 response.render("sign_up", {"errorMsg": null});
             } 
             else{
                 app.locals.userEmail = user.email;
+                request.session.currentUser = user.email;
+                request.session.currentId = id; 
                 app.locals.userId = id;
                 response.redirect("/profile")
             }
         });
     }
-    else response.redirect("/profile");
+    else{
+        app.locals.userEmail = request.session.currentUser;
+        app.locals.userId = request.session.currentId;
+        response.redirect("/profile");
+    } 
 });
 
 // GET de logout
@@ -166,13 +179,22 @@ app.get("/userImage/:id", function(request, response){
     });
 });
 
+// GET del perfil del usuario
+app.get("/profile", checkSession, function(request, response){
+    response.status(200);
+    daoU.getInfoUser(app.locals.userId, function(err, user){
+        if(err) next(new Error(err));
+        else response.render("profile", {"user": user});
+    });
+});
+
 // GET de la vista tasks.ejs
 app.get("/questions", function(request, response){
     response.status(200);
     userEmail = request.session.currentUser;
     daoT.getAllTasks(request.session.currentUser, function(err, questionsList){
         if(err) next(new Error(err));
-        response.render("questions", {"questionsList": questionsList}); 
+        else response.render("questions", {"questionsList": questionsList}); 
     });
 });
 
