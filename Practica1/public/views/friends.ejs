@@ -8,35 +8,32 @@
         <link rel="stylesheet" type="text/css" href="/css/friends.css" media="screen">
 	</head>
 	<body>
+		<section><%- include header %></section>
 		<div class="page_container">
 			<h1 class="centered">Amigos</h1>
 			<h2 class="centered">Solicitudes de amistad</h2>
 
 			<div class="content_wrapper">
 				<ul>
-					<li>
-						<img src="" class="friend_avatar" height="50" width="50">
-						<span class="friend_name">Amigo Uno</span>
-						<div class="button_container btn_right">
-							<a class="btn btn_primary">Aceptar</a>
-							<a class="btn btn_secondary">Rechazar</a>
-						</div>
-					</li>
-					<li>
-						<img src="" class="friend_avatar" height="50" width="50">
-						<span class="friend_name">Amigo Dos</span>
-						<div class="button_container btn_right">
-							<a class="btn btn_primary">Aceptar</a>
-							<a class="btn btn_secondary">Rechazar</a>
-						</div>
-					</li>
+					<% contactsList.forEach(contact => { %>
+						<% if(contact.friendship == null) { %>
+							<li>
+								<img src="/userImage/<% contact.id %>" class="friend_avatar" height="50" width="50">
+								<span class="friend_name"><% contact.name %></span>
+								<div class="button_container btn_right">
+									<a class="btn btn_primary" href="/acceptFriendInv/<% contact.id %>">Aceptar</a>
+									<a class="btn btn_secondary"  href="/declineFriendInv/<% contact.id %>">Rechazar</a>
+								</div>
+							</li>
+						<% } %>
+					<% }) %>
 				</ul>
 			</div>
 
 			<h2 class="centered">Búsqueda de amigos</h2>
 
 			<div class="content_wrapper">
-				<form method="/search_users">
+				<form method="/searchUsers">
 					<label for="user_searcher">Buscar por nombre: </label>
 					<input type="text" name="searcher" id="user_searcher" class="input_primary">
 					<div class="right">
@@ -49,14 +46,14 @@
 
 			<div class="content_wrapper">
 				<ul>
-					<li>
-						<img src="" class="friend_avatar" height="50" width="50">
-						<span class="friend_name">Amigo Tres</span>
-					</li>
-					<li>
-						<img src="" class="friend_avatar" height="50" width="50">
-						<span class="friend_name">Amigo Cuatro</span>
-					</li>
+					<% contactsList.forEach(contact => { %>
+						<% if(contact.friendship != null && contact.friendship == true) { %>
+							<li>
+								<img src="/userImage/<% contact.id %>" class="friend_avatar" height="50" width="50">
+								<span class="friend_name"><% contact.name %></span>
+							</li>
+						<% } %>
+					<% }) %>
 				</ul>
 			</div>
 		</div>
