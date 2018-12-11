@@ -1,14 +1,14 @@
-const config = require("./config");
-const DAOTasks = require("./DAOTasks");
-const DAOUsers = require("./DAOUsers");
-const tareas = require("./tareas.js");
+const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
-const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const mySqlSession = require("express-mysql-session");
 const fs = require("fs");
+const config = require("./config");
+const DAOTasks = require("./DAOTasks");
+const DAOUsers = require("./DAOUsers");
+const tareas = require("./tareas.js");
 
 // Crear servidor Express.js
 const app = express();
@@ -208,7 +208,7 @@ app.post("/modifyProfile", checkSession, function(request, response){
 app.get("/userImage/:id", function(request, response){
     response.status(200);
     daoU.getUserImageName(request.params.id, function(err, img){
-        if(img != null){
+        if(img != null && fs.existsSync(path.join(__dirname, "profile_imgs", img))){
             response.sendFile(path.join(__dirname, "profile_imgs", img));
         }
         else{

@@ -76,11 +76,11 @@ class DAOUsers{
                                 name: result[0].nombre,
                                 date: result[0].fecha,
                                 gender: result[0].sexo,
-                                img: result[0].img,
+                                img: result[0].imagen,
                                 pts: result[0].puntos 
                             };
-                            let date = user.date.toISOString().substr(0, 10);
-                            user.date = date;
+                            user.date = new Date(user.date);
+                            user.date = new Date(user.date.getTime() - (user.date.getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
                             return callback(null, user);
                         }
                     }
@@ -93,14 +93,27 @@ class DAOUsers{
         this.pool.getConnection(function(err, connection){
             if(err) return callback("Error de conexión a la base de datos");
             else{
-                connection.query(
-                    "UPDATE usuarios SET email = ?, contraseña = ?, nombre = ?, sexo = ?, fecha = ?, imagen = ? WHERE id = ?",
-                    [user.email, user.password, user.name, user.gender, user.date, user.img, user.id],
-                    function(err, result){
-                        if(err) return callback("Error de acceso a la base de datos");
-                        else return callback(null);
-                    }
-                );
+                console.log("user_img", user.img);
+                if(user.img != ""){
+                    connection.query(
+                        "UPDATE usuarios SET email = ?, contraseña = ?, nombre = ?, sexo = ?, fecha = ?, imagen = ? WHERE id = ?",
+                        [user.email, user.password, user.name, user.gender, user.date, user.img, user.id],
+                        function(err, result){
+                            if(err) return callback("Error de acceso a la base de datos");
+                            else return callback(null);
+                        }
+                    );
+                }
+                else{
+                    connection.query(
+                        "UPDATE usuarios SET email = ?, contraseña = ?, nombre = ?, sexo = ?, fecha = ? WHERE id = ?",
+                        [user.email, user.password, user.name, user.gender, user.date, user.id],
+                        function(err, result){
+                            if(err) return callback("Error de acceso a la base de datos");
+                            else return callback(null);
+                        }
+                    );
+                }
             }
         });
     }
