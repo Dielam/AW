@@ -18,15 +18,15 @@ class DAOUsers{
                         [email, password],
                         function(err, result){
                             if(err){
-                                callback("Error de acceso a la base de datos", false);
+                                callback("Error de acceso a la base de datos", null, false);
                             }
                             else{
                                 let size = result.length;
                                 if(size != 0){
-                                    callback(err, true);
+                                    callback(err, result[0].id, true);
                                 }
                                 else{
-                                    callback(err, false);
+                                    callback(err, null, false);
                                 }
                             }
                         }
@@ -36,15 +36,15 @@ class DAOUsers{
             });
 	}
 
-	getUserImageName(email, callback){
+	getUserImageName(id, callback){
             this.pool.getConnection(function(err, connection){
                 if(err){
                     callback("Error de conexión a la base de datos");
                 }
                 else{
                     connection.query(
-                        "SELECT img FROM user WHERE email = ?",
-                        [email],
+                        "SELECT image FROM user WHERE id = ?",
+                        [id],
                         function(err, result){
                             if(err){
                                 callback("Error de acceso a la base de datos");

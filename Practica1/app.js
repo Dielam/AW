@@ -54,11 +54,22 @@ const daoT = new DAOTasks(pool);
 // Crear instancia DAOUsers
 const daoU = new DAOUsers(pool);
 
+// Middleware de comprobacion
+function checkSession(request, response, next){
+    if(request.session.currentUser != null){
+        app.locals.userEmail = request.session.currentUser;
+        app.locals.userId = request.session.currentId;
+        next();
+    }
+    else response.redirect("/login");
+}
+
 // GET de login
 app.get("/login", function(request, response){
     response.status(200);
     if(request.session.currentUser != null){
         app.locals.userEmail = request.session.currentUser;
+        app.locals.userId = request.session.currentId;
         response.redirect("/profile");
     } 
     else{
@@ -70,12 +81,13 @@ app.get("/login", function(request, response){
 // POST de login
 app.post("/login", function(request, response){
     response.status(200);
-    daoU.isUserCorrect(request.body.email, request.body.password, function(err, ok){
-        if(err) next(new Error(err));
+    daoU.isUserCorrect(request.body.email, request.body.password, function(err, id, ok){
+        if(err) response.render("login", {"errorMsg": true});
         if(ok){
             request.session.currentUser = request.body.email;
             app.locals.userEmail = request.body.email;
-            response.redirect("/tasks");
+            app.locals.userId = id;
+            response.redirect("/profile");
         }  
         else{
             response.render("login", {"errorMsg": null});
@@ -87,10 +99,32 @@ app.post("/login", function(request, response){
 app.get("/signUp", function(request, response){
     response.status(200);
     if(request.session.currentUser == null) response.render("sign_up");
-    //En caso de que ya haya un usuario.
+    else response.redirect("/profile");
 });
 
 // POST del registro de usuario
+app.post("/signUp", function(request, response){
+    response.status(200);
+    if(request.session.currentUser == null){
+        let user = {
+            email: request.body.email,
+            password: request.body.password,
+            name: request.body.name,
+            sex: request.body.gender,
+            date: request.body.date,
+            img: request.body.file
+        }
+        daoU.insertUser(user, function(err){
+            if(err) response.render("sign_up", {"errorMsg": err});
+            else{
+                app.locals.userEmail = request.session.currentUser;
+                app.locals.userId = request.session.currentId;
+                response.redirect("/profile")
+            }
+        });
+    }
+    else response.redirect("/profile");
+});
 
 // GET de logout
 app.get("/logout", function(request, response){
@@ -100,9 +134,9 @@ app.get("/logout", function(request, response){
 });
 
 // GET de userImage
-app.get("/userImage", function(request, response){
+app.get("/userImage/:id", function(request, response){
     response.status(200);
-    daoU.getUserImageName(request.session.currentUser, function(err, img){
+    daoU.getUserImageName(request.params.id, function(err, img){
         if(img != null){
             response.sendFile(path.join(__dirname, "profile_imgs", img));
             console.log(img);
