@@ -8,7 +8,7 @@ const fs = require("fs");
 const config = require("./config");
 const DAOQuestions = require("./DAOQuestions");
 const DAOUsers = require("./DAOUsers");
-const tareas = require("./tareas.js");
+const tareas = require("./DAOFriends");
 
 // Crear servidor Express.js
 const app = express();
