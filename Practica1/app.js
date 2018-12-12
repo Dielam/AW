@@ -238,7 +238,7 @@ app.post("/friendsSearch", checkSession, function(request, response){
         else{
             let search={
                 contaclist: searchList,
-                seacrher: request.body.searcher
+                searcher: request.body.searcher
             }
             response.render("friends_search", {"search" : search});
         }
