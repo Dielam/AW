@@ -167,7 +167,7 @@ app.post("/signUp", function(request, response){
 });
 
 // GET de logout
-app.get("/logout", function(request, response){
+app.get("/logout", checkSession, function(request, response){
     response.status(200);
     request.session.destroy();
     response.redirect("/login");
@@ -229,7 +229,21 @@ app.get("/friends", checkSession, function(request, response){
         if(err) next(new Error(err));
         else response.render("friends", {"contactsList": contactsList});
     })
-})
+});
+
+// POST de la búsqueda de usuarios
+app.post("/friendsSearch", checkSession, function(request, response){
+    daoU.searchUser(request.body.searcher, function(err, searchList){
+        if(err) next(new Error(err));
+        else{
+            let search={
+                contaclist: searchList,
+                seacrher: request.body.searcher
+            }
+            response.render("friends_search", {"search" : search});
+        }
+    });
+});
 
 // GET de la vista de preguntas
 app.get("/questions", function(request, response){

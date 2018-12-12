@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Búsqueda de Amigos</title>
+		<link rel="icon" type="image/ico" href="/img/u.ico">
+        <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/friends.css" media="screen">
+	</head>
+	<body>
+		<section><%- include header %></section>
+		<div class="page_container">
+			<h1 class="centered">Amigos</h1>
+			<h2 class="centered">Resultado de la búsqueda: <%= search.searcher %></h2>
+
+			<div class="content_wrapper">
+				<ul>
+					<% search.contactsList.forEach(contact => { %>
+						<% if(contact.friendship == null) { %>
+							<li>
+								<img src="/userImage/<% contact.id %>" class="friend_avatar" height="50" width="50">
+								<span class="friend_name"><% contact.name %></span>
+								<div class="button_container btn_right">
+									<a class="btn btn_primary" href="/frienship_request<% contact.id %>">Solicitar amistad</a>
+								</div>
+							</li>
+						<% } %>
+					<% }) %>
+				</ul>
+			</div>
