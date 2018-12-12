@@ -16,10 +16,10 @@
 			<div class="content_wrapper">
 				<ul>
 					<% contactsList.forEach(contact => { %>
-						<% if(contact.friendship == null) { %>
+						<% if(contact.confirmacion == null) { %>
 							<li>
-								<img src="/userImage/<% contact.id %>" class="friend_avatar" height="50" width="50">
-								<span class="friend_name"><% contact.name %></span>
+								<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
+								<span class="friend_name"><%= contact.nombre %></span>
 								<div class="button_container btn_right">
 									<a class="btn btn_primary" href="/acceptFriendInv/<% contact.id %>">Aceptar</a>
 									<a class="btn btn_secondary"  href="/declineFriendInv/<% contact.id %>">Rechazar</a>
@@ -47,10 +47,10 @@
 			<div class="content_wrapper">
 				<ul>
 					<% contactsList.forEach(contact => { %>
-						<% if(contact.friendship != null && contact.friendship == true) { %>
+						<% if(contact.confirmacion != null && contact.confirmacion == true) { %>
 							<li>
-								<img src="/userImage/<% contact.id %>" class="friend_avatar" height="50" width="50">
-								<span class="friend_name"><% contact.name %></span>
+								<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
+								<span class="friend_name"><%= contact.nombre %></span>
 							</li>
 						<% } %>
 					<% }) %>
