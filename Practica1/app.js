@@ -238,6 +238,23 @@ app.get("/friendship_request/:id", checkSession, function(request, response){
     });
 });
 
+// GET de aceptar una peticion  de amistad
+app.get("/acceptFriendInv/:id", checkSession, function(request, response){
+    daoF.acceptFriend(usuario1, app.loacals.userId, function(err){
+        if(err) next(new Error(err));
+        else response.redirect("friends");
+    });
+});
+
+// GET de rechazar una peticion de amistad
+app.get("/declineFriendInv/:id", checkSession, function(request, response){
+    daoF.declineFriend(usuario1, app.loacals.userId, function(err){
+        if(err) next(new Error(err));
+        else response.redirect("friends");
+    });
+});
+
+
 // POST de la búsqueda de amigos
 app.post("/friendsSearch", checkSession, function(request, response){
     daoU.searchUser(app.locals.userId, request.body.searcher, function(err, searchList){
