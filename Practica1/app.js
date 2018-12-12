@@ -225,6 +225,7 @@ app.get("/userImage/:id", function(request, response){
 app.get("/friends", checkSession, function(request, response){
     response.status(200);
     daoF.getFriendsData(request.session.currentId, function(err, contactsList){
+        console.log(contactsList);
         if(err) next(new Error(err));
         else response.render("friends", {"contactsList": contactsList});
     })
