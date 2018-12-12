@@ -11,11 +11,11 @@
 		<section><%- include header %></section>
 		<div class="page_container">
 			<h1 class="centered">Amigos</h1>
-			<h2 class="centered">Resultado de la búsqueda: <%= search %></h2>
+			<h2 class="centered">Resultado de la búsqueda: <%= search.searcher %></h2>
 
 			<div class="content_wrapper">
 				<ul>
-					<% contactsList.forEach(contact => { %>
+					<% search.contactsList.forEach(contact => { %>
 						<% if(contact.friendship == null) { %>
 							<li>
 								<img src="/userImage/<% contact.id %>" class="friend_avatar" height="50" width="50">
