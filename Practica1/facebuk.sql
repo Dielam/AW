@@ -96,6 +96,35 @@ INSERT INTO `respuestas` (`idPregunta`, `idRespuesta`, `respuesta`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla `respuestas_usuarios`
+--
+
+CREATE TABLE `respuestas_usuarios` (
+  `idPregunta` int(11) NOT NULL,
+  `idRespuesta` int(11) NOT NULL,
+  `idUsuarioPregunta` int(11) NOT NULL,
+  `idUsuarioResponde` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `respuestas_usuarios`
+--
+
+INSERT INTO `respuestas_usuarios` (`idPregunta`, `idRespuesta`, `idUsuarioPregunta`, `idUsuarioResponde`) VALUES
+(1, 1, 4, 1),
+(1, 2, 1, 5),
+(2, 3, 1, 1),
+(4, 4, 1, 1),
+(2, 5, 1, 2),
+(4, 6, 1, 2),
+(5, 7, 1, 1),
+(3, 8, 3, 3),
+(1, 9, 4, 2),
+(5, 10, 1, 5);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -147,6 +176,15 @@ ALTER TABLE `respuestas`
   ADD KEY `idPregunta` (`idPregunta`);
 
 --
+-- Indices de la tabla `respuestas_usuarios`
+--
+ALTER TABLE `respuestas_usuarios`
+  ADD KEY `idPregunta` (`idPregunta`,`idRespuesta`,`idUsuarioPregunta`,`idUsuarioResponde`),
+  ADD KEY `idUsuarioPregunta` (`idUsuarioPregunta`),
+  ADD KEY `idUsuarioResponde` (`idUsuarioResponde`),
+  ADD KEY `idRespuesta` (`idRespuesta`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -189,6 +227,15 @@ ALTER TABLE `amigos`
 --
 ALTER TABLE `respuestas`
   ADD CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`idPregunta`) REFERENCES `preguntas` (`id`);
+
+--
+-- Filtros para la tabla `respuestas_usuarios`
+--
+ALTER TABLE `respuestas_usuarios`
+  ADD CONSTRAINT `respuestas_usuarios_ibfk_1` FOREIGN KEY (`idUsuarioPregunta`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `respuestas_usuarios_ibfk_2` FOREIGN KEY (`idUsuarioResponde`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `respuestas_usuarios_ibfk_3` FOREIGN KEY (`idPregunta`) REFERENCES `preguntas` (`id`),
+  ADD CONSTRAINT `respuestas_usuarios_ibfk_4` FOREIGN KEY (`idRespuesta`) REFERENCES `respuestas` (`idRespuesta`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
