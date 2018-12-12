@@ -174,9 +174,9 @@ app.get("/logout", checkSession, function(request, response){
 });
 
 // GET del perfil del usuario
-app.get("/profile", checkSession, function(request, response){
+app.get("/profile/:id", checkSession, function(request, response){
     response.status(200);
-    daoU.getInfoUser(app.locals.userId, function(err, user){
+    daoU.getInfoUser(request.params.id, function(err, user){
         if(err) next(new Error(err));
         else response.render("profile", {"user": user});
     });

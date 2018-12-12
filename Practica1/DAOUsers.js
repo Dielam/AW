@@ -74,6 +74,7 @@ class DAOUsers{
                         if(err) return callback("Error de acceso a la base de datos");
                         else{
                             let user = {
+                                id: id,
                                 email: result[0].email,
                                 password: result[0].contraseña,
                                 name: result[0].nombre,
