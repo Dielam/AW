@@ -160,7 +160,7 @@ class DAOUsers{
                                 if(pos == -1){
                                     arrayContacts.push({
                                             "id"	        : element.id,
-                                            "name"        : element.nombre
+                                            "nombre"        : element.nombre
                                     });
                                 }
                             });

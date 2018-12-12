@@ -17,10 +17,10 @@
 				<ul>
 					<% search.contactsList.forEach(contact => { %>
 							<li>
-								<img src="/userImage/<% contact.id %>" class="friend_avatar" height="50" width="50">
-								<span class="friend_name"><% contact.name %></span>
+								<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
+								<span class="friend_name"><%= contact.nombre %></span>
 								<div class="button_container btn_right">
-									<a class="btn btn_primary" href="/frienship_request<% contact.id %>">Solicitar amistad</a>
+									<a class="btn btn_primary" href="/friendship_request/<%= contact.id %>">Solicitar amistad</a>
 								</div>
 							</li>
 					<% }) %>

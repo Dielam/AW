@@ -230,10 +230,18 @@ app.get("/friends", checkSession, function(request, response){
     })
 });
 
-// POST de la búsqueda de usuarios
+// GET de la peticion de amistad
+app.get("/friendship_request/:id", checkSession, function(request, response){
+    daoF.insertFriend(app.locals.userId, request.params.id, function(err){
+        if(err) next(new Error(err));
+        else response.redirect("/friends"); 
+    });
+});
+
+// POST de la búsqueda de amigos
 app.post("/friendsSearch", checkSession, function(request, response){
     daoU.searchUser(app.locals.userId, request.body.searcher, function(err, searchList){
-        if(err) console.log(err);//next(new Error(err));
+        if(err) next(new Error(err));
         else{
             let search={
                 contactsList: searchList,

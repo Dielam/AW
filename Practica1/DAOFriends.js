@@ -39,6 +39,39 @@ class DAOFriends{
             }
         });
     }
+
+    insertFriend(usuario1, usuario2, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "SELECT * FROM amigos WHERE usuario1 <> ? AND usuario2 <> ? AND usuario1 <> ? AND usuario2 <> ?",
+                    [usuario1, usuario1, usuario2, usuario2],
+                    function(err, result){
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else{
+                            let size = result.length;
+                            if(size == 0){
+                                connection.query(
+                                    "INSERT INTO amigos(usuario1, usuario2) VALUES (?, ?)",
+                                    [usuario1, usuario2],
+                                    function(err){
+                                        connection.release();
+                                        if(err) return callback("Error de acceso a la base de datos");
+                                        else return callback(null);
+                                    }
+                                )
+                            }
+                            else{
+                                return callback(null);
+                                console.log("Ya son amigos");
+                            } 
+                        }
+                    }
+                );
+            }
+        });
+    }
 }
 
 module.exports = DAOFriends;
