@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const pool = mysql.createPool(config.mysqlConfig);
 
 // Crear instancia DAOQuestions
-const daoT = new DAOQuestions(pool);
+const daoQ = new DAOQuestions(pool);
 
 // Crear instancia DAOUsers
 const daoU = new DAOUsers(pool);
@@ -221,7 +221,8 @@ app.get("/userImage/:id", function(request, response){
 app.get("/questions", function(request, response){
     response.status(200);
     userEmail = request.session.currentUser;
-    daoT.getAllQuestions(request.session.currentUser, function(err, questionsList){
+    daoQ.getAllQuestions(function(err, questionsList){
+        console.log(err);
         if(err) next(new Error(err));
         else response.render("questions", {"questionsList": questionsList}); 
     });

@@ -2,7 +2,7 @@
 
 let pool;
 
-class DAOTasks {
+class DAOQuestions{
     constructor(pool){ 
         this.pool = pool;
     }
@@ -13,14 +13,11 @@ class DAOTasks {
             if (err) return callback("Error de conexión a la base de datos", arrayQuestions);
             else{
                 connection.query(
-                    "SELECT * FROM preguntas WHERE preguntas",
+                    "SELECT * FROM preguntas",
                     function(err, filas){
                         if(err) return callback("Error de acceso a la base de datos", arrayQuestions);
                         else{
-                            filas.forEach(element => {
-                                let pos = arrayQuestions.findIndex(object =>{
-                                    return element.id == object.id;
-                                });
+                            filas.forEach(question => {
                                 arrayQuestions.push({
                                     "id"	: element.id,
                                     "text"	: element.pregunta
@@ -33,7 +30,7 @@ class DAOTasks {
             }
         });
     }
-    
+
 }
 
 module.exports = DAOQuestions;
