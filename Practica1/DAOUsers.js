@@ -139,23 +139,29 @@ class DAOUsers{
         });
     }
 
-    searchUser(search, callback){
+    searchUser(id, search, callback){
         let arrayContacts = [];
+        search = "%" + search + "%";
         this.pool.getConnection(function(err, connection){
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "SELECT id, nombre FROM usuarios WHERE nombre LIKE ?",
-                    [search],
+                    "SELECT id, nombre FROM usuarios WHERE usuarios.id <> ? AND nombre LIKE ? AND NOT EXISTS ( SELECT * FROM amigos WHERE usuario1 = ? AND usuario2 = ? AND usuario1 = usuarios.id AND usuario2 = usuarios.id)",
+                    [id, search, id, id],
                     function(err, filas){
                         connection.release();
                         if(err) return callback("Error de acceso a la base de datos");
                         else{
-                            filas.array.forEach(element => {
-                                arrayContacts.push({
-                                    "id": element.id,
-                                    "name": element.nombre 
+                            filas.forEach(element => {
+                                let pos = arrayContacts.findIndex(object =>{
+                                    return element.usuario1 == object.id || element.usuario2 == object.id;
                                 });
+                                if(pos == -1){
+                                    arrayContacts.push({
+                                            "id"	        : element.id,
+                                            "name"        : element.nombre
+                                    });
+                                }
                             });
                             return callback(null, arrayContacts);
                         }

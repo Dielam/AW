@@ -225,7 +225,6 @@ app.get("/userImage/:id", function(request, response){
 app.get("/friends", checkSession, function(request, response){
     response.status(200);
     daoF.getFriendsData(request.session.currentId, function(err, contactsList){
-        console.log(contactsList);
         if(err) next(new Error(err));
         else response.render("friends", {"contactsList": contactsList});
     })
@@ -233,13 +232,14 @@ app.get("/friends", checkSession, function(request, response){
 
 // POST de la búsqueda de usuarios
 app.post("/friendsSearch", checkSession, function(request, response){
-    daoU.searchUser(request.body.searcher, function(err, searchList){
-        if(err) next(new Error(err));
+    daoU.searchUser(app.locals.userId, request.body.searcher, function(err, searchList){
+        if(err) console.log(err);//next(new Error(err));
         else{
             let search={
-                contaclist: searchList,
+                contactsList: searchList,
                 searcher: request.body.searcher
             }
+            console.log(search);
             response.render("friends_search", {"search" : search});
         }
     });

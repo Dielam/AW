@@ -16,7 +16,6 @@
 			<div class="content_wrapper">
 				<ul>
 					<% search.contactsList.forEach(contact => { %>
-						<% if(contact.friendship == null) { %>
 							<li>
 								<img src="/userImage/<% contact.id %>" class="friend_avatar" height="50" width="50">
 								<span class="friend_name"><% contact.name %></span>
@@ -24,7 +23,6 @@
 									<a class="btn btn_primary" href="/frienship_request<% contact.id %>">Solicitar amistad</a>
 								</div>
 							</li>
-						<% } %>
 					<% }) %>
 				</ul>
 			</div>
