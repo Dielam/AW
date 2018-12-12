@@ -217,6 +217,15 @@ app.get("/userImage/:id", function(request, response){
     });
 });
 
+// GET de la vista friends.ejs
+app.get("/friends", checkSession, function(request, response){
+    response.status(200);
+    daoU.getFriendsData(request.session.currentId, function(err, contactsList){
+        if(err) next(new Error(err));
+        else response.render("friends", {"contactsList": contactsList});
+    })
+})
+
 // GET de la vista tasks.ejs
 app.get("/questions", function(request, response){
     response.status(200);

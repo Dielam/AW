@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2018 at 08:30 PM
+-- Generation Time: Dec 12, 2018 at 01:49 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -39,7 +39,9 @@ CREATE TABLE `amigos` (
 --
 
 INSERT INTO `amigos` (`usuario1`, `usuario2`, `confirmación`) VALUES
-(1, 2, NULL);
+(1, 2, NULL),
+(1, 3, 1),
+(1, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -99,7 +101,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `email`, `contraseña`, `nombre`, `sexo`, `fecha`, `imagen`, `puntos`) VALUES
-(1, 'usuario@ucm.es', '123456', 'Luffy Monkey D.', 'Masculino', '1999-12-05', 'OnePieceWallpaper1.jpg', 0),
+(1, 'usuario@ucm.es', '123456', 'Luffy Monkey D.', 'Femenino', '1999-07-13', 'eXGzhUn.jpg', 0),
 (2, 'luffysenpai@gmail.com', '123456', 'Boa Hancock', 'Femenino', '1999-12-22', 'OnePieceWallpaper2.jpg', 0),
 (3, 'naveganteSunny@hotmail.com', '123456', 'Nami', 'Femenino', '1999-12-04', 'OnePieceWallpaper3.jpg', 0),
 (4, 'elGranShogekin@gmail.com', '123456', 'El Dios Usoop', 'Masculino', '1999-12-23', 'OnePieceWallpaper4.jpg', 0),
@@ -114,8 +116,7 @@ INSERT INTO `usuarios` (`id`, `email`, `contraseña`, `nombre`, `sexo`, `fecha`,
 --
 ALTER TABLE `amigos`
   ADD PRIMARY KEY (`usuario1`,`usuario2`) USING BTREE,
-  ADD UNIQUE KEY `usuario1` (`usuario1`),
-  ADD UNIQUE KEY `usuario2` (`usuario2`) USING BTREE;
+  ADD KEY `usuario1_2` (`usuario1`,`usuario2`);
 
 --
 -- Indexes for table `preguntas`

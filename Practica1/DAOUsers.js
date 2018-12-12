@@ -17,6 +17,7 @@ class DAOUsers{
                         "SELECT * FROM usuarios WHERE email = ? AND contraseña = ?",
                         [email, password],
                         function(err, result){
+                            connection.release();
                             if(err){
                                 callback("Error de acceso a la base de datos", null, false);
                             }
@@ -46,6 +47,7 @@ class DAOUsers{
                         "SELECT imagen FROM usuarios WHERE id = ?",
                         [id],
                         function(err, result){
+                            connection.release();
                             if(err){
                                 callback("Error de acceso a la base de datos");
                             }
@@ -68,6 +70,7 @@ class DAOUsers{
                     "SELECT * FROM usuarios WHERE id = ?",
                     [id],
                     function(err, result){
+                        connection.release();
                         if(err) return callback("Error de acceso a la base de datos");
                         else{
                             let user = {
@@ -93,12 +96,12 @@ class DAOUsers{
         this.pool.getConnection(function(err, connection){
             if(err) return callback("Error de conexión a la base de datos");
             else{
-                console.log("user_img", user.img);
                 if(user.img != ""){
                     connection.query(
                         "UPDATE usuarios SET email = ?, contraseña = ?, nombre = ?, sexo = ?, fecha = ?, imagen = ? WHERE id = ?",
                         [user.email, user.password, user.name, user.gender, user.date, user.img, user.id],
                         function(err, result){
+                            connection.release();
                             if(err) return callback("Error de acceso a la base de datos");
                             else return callback(null);
                         }
@@ -109,6 +112,7 @@ class DAOUsers{
                         "UPDATE usuarios SET email = ?, contraseña = ?, nombre = ?, sexo = ?, fecha = ? WHERE id = ?",
                         [user.email, user.password, user.name, user.gender, user.date, user.id],
                         function(err, result){
+                            connection.release();
                             if(err) return callback("Error de acceso a la base de datos");
                             else return callback(null);
                         }
@@ -126,8 +130,45 @@ class DAOUsers{
                     "INSERT INTO usuarios(email, contraseña, nombre, sexo, fecha, imagen) VALUES(?, ?, ?, ?, ?, ?)",
                     [user.email, user.password, user.name, user.gender, user.date, user.img],
                     function(err, result){
+                        connection.release();
                         if(err) return callback("Error de acceso a la base de datos");
                         else return callback(null, result.insertId);
+                    }
+                );
+            }
+        });
+    }
+
+    getFriendsData(user, callback){
+        let arrayContacts = [];
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "SELECT usuario1, usuario2, confirmacion FROM amigos WHERE id = ?",
+                    [user],
+                    function(err, filas){
+                        connection.release();
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else{
+                            filas.forEach(element => {
+                                let pos = arrayContacts.findIndex(object =>{
+                                    return element.usuario1 == object.id || element.usuario2 == object.id;
+                                });
+                                if(pos == -1){
+
+                                    arrayTasks.push({
+                                            "id"	        : element.usuario1 == user ? element.usuario2 : element.usuario1,
+                                            "text"	        : element.text,
+                                            "confirmacion"	: element.confirmacion,
+                                    });
+                                }
+                                else{
+                                    element.tag == null ? null : arrayTasks[pos].tags.push(element.tag);
+                                }
+
+                            });
+                        }
                     }
                 );
             }
