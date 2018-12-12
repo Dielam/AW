@@ -138,6 +138,32 @@ class DAOUsers{
             }
         });
     }
+
+    searchUser(search, callback){
+        let arrayContacts = [];
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "SELECT id, nombre FROM usuarios WHERE nombre LIKE ?",
+                    [search],
+                    function(err, filas){
+                        connection.release();
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else{
+                            filas.array.forEach(element => {
+                                arrayContacts.push({
+                                    "id": element.id,
+                                    "name": element.nombre 
+                                });
+                            });
+                            return callback(null, arrayContacts);
+                        }
+                    }
+                );
+            }
+        });
+    }
 }
 
 module.exports = DAOUsers;
