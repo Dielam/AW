@@ -8,6 +8,7 @@ const fs = require("fs");
 const config = require("./config");
 const DAOQuestions = require("./DAOQuestions");
 const DAOUsers = require("./DAOUsers");
+const DAOFriends = require("./DAOFriends");
 const tareas = require("./DAOFriends");
 
 // Crear servidor Express.js
@@ -53,6 +54,9 @@ const daoQ = new DAOQuestions(pool);
 
 // Crear instancia DAOUsers
 const daoU = new DAOUsers(pool);
+
+// Crear instancia DAOFriends
+const daoF = new DAOFriends(pool);
 
 // Middleware de comprobacion
 function checkSession(request, response, next){
@@ -220,7 +224,7 @@ app.get("/userImage/:id", function(request, response){
 // GET de la vista friends.ejs
 app.get("/friends", checkSession, function(request, response){
     response.status(200);
-    daoU.getFriendsData(request.session.currentId, function(err, contactsList){
+    daoF.getFriendsData(request.session.currentId, function(err, contactsList){
         if(err) next(new Error(err));
         else response.render("friends", {"contactsList": contactsList});
     })
