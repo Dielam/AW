@@ -157,6 +157,13 @@ ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `preguntas`
+--
+ALTER TABLE `preguntas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+
+
+--
 -- Constraints for dumped tables
 --
 
