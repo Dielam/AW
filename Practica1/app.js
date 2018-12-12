@@ -6,7 +6,7 @@ const session = require("express-session");
 const mySqlSession = require("express-mysql-session");
 const fs = require("fs");
 const config = require("./config");
-const DAOTasks = require("./DAOTasks");
+const DAOQuestions = require("./DAOQuestions");
 const DAOUsers = require("./DAOUsers");
 const tareas = require("./tareas.js");
 
@@ -48,8 +48,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Crear el pool de conexiones
 const pool = mysql.createPool(config.mysqlConfig);
 
-// Crear instancia DAOTasks
-const daoT = new DAOTasks(pool);
+// Crear instancia DAOQuestions
+const daoT = new DAOQuestions(pool);
 
 // Crear instancia DAOUsers
 const daoU = new DAOUsers(pool);
@@ -217,11 +217,11 @@ app.get("/userImage/:id", function(request, response){
     });
 });
 
-// GET de la vista tasks.ejs
+// GET de la vista de preguntas
 app.get("/questions", function(request, response){
     response.status(200);
     userEmail = request.session.currentUser;
-    daoT.getAllTasks(request.session.currentUser, function(err, questionsList){
+    daoT.getAllQuestions(request.session.currentUser, function(err, questionsList){
         if(err) next(new Error(err));
         else response.render("questions", {"questionsList": questionsList}); 
     });
