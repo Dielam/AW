@@ -63,7 +63,6 @@ class DAOFriends{
                             }
                             else{
                                 return callback(null);
-                                console.log("Ya son amigos");
                             } 
                         }
                     }
