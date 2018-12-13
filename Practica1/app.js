@@ -9,6 +9,7 @@ const config = require("./config");
 const DAOQuestions = require("./DAOQuestions");
 const DAOUsers = require("./DAOUsers");
 const DAOFriends = require("./DAOFriends");
+const DAOAnswers = require("./DAOAnswers");
 const tareas = require("./DAOFriends");
 
 // Crear servidor Express.js
@@ -57,6 +58,9 @@ const daoU = new DAOUsers(pool);
 
 // Crear instancia DAOFriends
 const daoF = new DAOFriends(pool);
+
+// Crear instancia DAOAnswers
+const daoA = new DAOAnswers(pool);
 
 // Middleware de comprobacion
 function checkSession(request, response, next){
@@ -232,6 +236,7 @@ app.get("/friends", checkSession, function(request, response, next){
 
 // GET de la peticion de amistad
 app.get("/friendship_request/:id", checkSession, function(request, response, next){
+    response.status(200);
     daoF.insertFriend(app.locals.userId, request.params.id, function(err){
         if(err) next(new Error(err));
         else response.redirect("/friends"); 
@@ -240,6 +245,7 @@ app.get("/friendship_request/:id", checkSession, function(request, response, nex
 
 // GET de aceptar una peticion  de amistad
 app.get("/acceptFriendInv/:id", checkSession, function(request, response, next){
+    response.status(200);
     daoF.acceptFriend(request.params.id, app.locals.userId, function(err){
         if(err) next(new Error(err));
         else response.redirect("friends");
@@ -248,6 +254,7 @@ app.get("/acceptFriendInv/:id", checkSession, function(request, response, next){
 
 // GET de rechazar una peticion de amistad
 app.get("/declineFriendInv/:id", checkSession, function(request, response, next){
+    response.status(200);
     daoF.declineFriend(request.params.id, app.locals.userId, function(err){
         if(err) next(new Error(err));
         else response.redirect("friends");
@@ -256,6 +263,7 @@ app.get("/declineFriendInv/:id", checkSession, function(request, response, next)
 
 // POST de la búsqueda de amigos
 app.post("/friendsSearch", checkSession, function(request, response, next){
+    response.status(200);
     daoU.searchUser(app.locals.userId, request.body.searcher, function(err, searchList){
         if(err) next(new Error(err));
         else{
@@ -269,7 +277,7 @@ app.post("/friendsSearch", checkSession, function(request, response, next){
 });
 
 // GET de la vista de preguntas
-app.get("/questions", function(request, response){
+app.get("/questions", checkSession, function(request, response, next){
     response.status(200);
     userEmail = request.session.currentUser;
     daoQ.getAllQuestions(function(err, questionsList){
@@ -278,12 +286,35 @@ app.get("/questions", function(request, response){
     });
 });
 
-// POST del formulario de añadir tareas de la vista tasks.ejs
-app.post("/addTask", function(request, response){
+// GET de la vista de contestar una pregunta
+app.get("/answerQuestion", checkSession, function(request, response, next){
+
+});
+
+// GET de responder preguntas
+app.get("/addQuestion", checkSession, function(request, response){
+    response.status(200);
+    response.render("add_question");
+});
+
+// POST del formulario de añadir preguntas de la vista question.ejs
+app.post("/addQuestion", checkSession, function(request, response, next){
     response.status(200); 
-    daoT.insertTask(request.session.currentUser, tareas.createTask(request.body.new_task), function(err){
+    daoQ.insertQuestion(request.body.new_question, function(err, id){
         if(err) next(new Error(err));
-        response.redirect("/tasks");
+        else{
+            let answers = []
+            answers.push(request.body.answer1);
+            answers.push(request.body.answer2);
+            answers.push(request.body.answer3);
+            answers.push(request.body.answer4);
+            daoA.insertAnswers(id, answers, function(err){
+                if(err) next(new Error(err));
+                else{
+                    response.redirect("/questions");
+                } 
+            });
+        }
     });
 });
 

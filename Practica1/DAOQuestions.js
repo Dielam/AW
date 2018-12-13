@@ -37,6 +37,23 @@ class DAOQuestions{
         });
     }
 
+    insertQuestion(question, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "INSERT INTO preguntas(pregunta) VALUES (?)",
+                    [question],
+                    function(err, result){
+                        connection.release();
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else callback(null, result.insertId);
+                    }
+                );
+            }
+        });
+    }
+
 }
 
 module.exports = DAOQuestions;
