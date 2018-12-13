@@ -273,7 +273,6 @@ app.get("/questions", function(request, response){
     response.status(200);
     userEmail = request.session.currentUser;
     daoQ.getAllQuestions(function(err, questionsList){
-        console.log(err);
         if(err) next(new Error(err));
         else response.render("questions", {"questionsList": questionsList}); 
     });

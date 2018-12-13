@@ -15,6 +15,7 @@ class DAOQuestions{
                 connection.query(
                     "SELECT * FROM preguntas",
                     function(err, filas){
+                        connection.release();
                         if(err) return callback("Error de acceso a la base de datos", arrayQuestions);
                         else{
                             filas.forEach(element => {
