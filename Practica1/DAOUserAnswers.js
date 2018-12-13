@@ -74,7 +74,19 @@ class DAOUserAnswers{
     }
     
     insertUserAnswer(idPregunta, idRespuesta, userPregunta, userRespuesta, callback){
-
+        this.pool.getConnection(function(err, connection){
+            if(error) return callback("Error de acceso a la base de datos");
+            else{
+                connection.query(
+                    "INSERT INTO respuestas_usuarios(idPregunta, idRespuesta, idUsuarioPregunta, idUsuarioResponde) VALUES(?, ?, ?, ?)",
+                    [idPregunta, idRespuesta, userPregunta, userRespuesta],
+                    function(err){
+                        if(error) return callback("Error de acceso a la base de datos");
+                        else return callback(null);
+                    }
+                );
+            }
+        });
     }
 
 }
