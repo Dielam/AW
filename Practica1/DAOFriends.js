@@ -13,7 +13,7 @@ class DAOFriends{
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "SELECT usuario1, usuario2, US1.nombre nombre1, US2.nombre nombre2, confirmación FROM amigos, usuarios US1, usuarios US2 WHERE (usuario1 = ? OR usuario2 = ?) AND (usuario1 = US1.id AND usuario2 = US2.id)",
+                    "SELECT usuario1, usuario2, US1.nombre nombre1, US2.nombre nombre2, confirmación FROM amigos, usuarios US1, usuarios US2 WHERE usuario2 = ? AND (usuario1 = US1.id AND usuario2 = US2.id)",
                     [user, user],
                     function(err, filas){
                         connection.release();
@@ -67,6 +67,38 @@ class DAOFriends{
                                 console.log("Ya son amigos");
                             } 
                         }
+                    }
+                );
+            }
+        });
+    }
+
+    acceptFriend(usuario1, usuario2, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "UPDATE amigos SET confirmación = 1 WHERE usuario1 = ? AND usuario2 = ?",
+                    [usuario1, usuario2],
+                    function(err){
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else return callback(null)
+                    }
+                );
+            }
+        });
+    }
+
+    declineFriend(usuario1, usuario2, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "DELETE TO amigos WHERE usuario1 = ? AND usuario2 = ?",
+                    [usuario1, usuario2],
+                    function(err){
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else return callback(null)
                     }
                 );
             }
