@@ -12,15 +12,15 @@
             <div class="login">
                 <form method="POST" action="/signUp">
                     <label for="email_input">Dirección de correo</label>
-                    <input id="email_input" type="email" class="input_primary" placeholder="Dirección de Correo" name="email"/>
+                    <input id="email_input" type="email" class="input_primary" placeholder="Dirección de Correo" name="email" required/>
                     <label for="password_input">Contraseña</label>
-                    <input id="password_input" type="password" class="input_primary" placeholder="Contraseña" name="password"/>
+                    <input id="password_input" type="password" class="input_primary" placeholder="Contraseña" name="password" required/>
                     <label for="name_input">Nombre completo</label>
-                    <input id="name_input" type="text" class="input_primary" placeholder="Nombre completo" name="name"/>
-                    <span>Sexo</span>
-                    <input id="gender_input--male" type="radio" name="gender" value="Masculino"/><label for="gender_input--male">Masculino</label>
-                    <input id="gender_input--female" type="radio" name="gender" value="Femenino"/><label for="gender_input--female">Femenino</label>
-                    <input id="gender_input--other" type="radio" name="gender" value="Otro"/><label for="gender_input--other">Otro</label>
+                    <input id="name_input" type="text" class="input_primary" placeholder="Nombre completo" name="name" required/>
+                    <p>Sexo</p>
+                    <input id="gender_input--male" class="radio_input" type="radio" name="gender" value="Masculino" checked/><label class="radio_label" for="gender_input--male">Masculino</label>
+                    <input id="gender_input--female" class="radio_input" type="radio" name="gender" value="Femenino"/><label class="radio_label" for="gender_input--female">Femenino</label>
+                    <input id="gender_input--other" class="radio_input" type="radio" name="gender" value="Otro"/><label class="radio_label" for="gender_input--other">Otro</label>
                     <label for="date_input">Fecha nacimiento</label>
                     <input id="date_input" type="date" class="input_primary" placeholder="Fecha de nacimiento" name="date"/>
                     <label for="user_image_input">Imagen de perfil</label>

@@ -13,6 +13,17 @@ li{
 body{
     font-family: 'Helvetica', Arial, sans-serif;
 }
+form{
+    width: 100%;
+    text-align: center;
+}
+label{
+    display: block;
+    color: white;
+}
+p{
+    margin: 0 0 10px 0;
+}
 /* GENERAL TAGS ENDS */
 
 /* PAGE CONTENT STARTS */
@@ -40,7 +51,7 @@ body{
 
 .content_wrapper{
     width: 50%;
-    padding: 5px;
+    padding: 20px;
     background-color: #FE2E2E;
     border: 2px solid transparent;
     border-radius: 0.4rem;
@@ -54,7 +65,10 @@ body{
     background-color: white;
     border: 2px solid #FE2E2E;
     border-radius: 0.4rem;
-    margin: 5px auto; 
+    margin: 10px auto; 
+}
+.radio_input{
+    margin-bottom: 10px;
 }
 .error_Msg{
     color: #ff010e;

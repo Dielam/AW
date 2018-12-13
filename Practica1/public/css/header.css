@@ -15,6 +15,10 @@
 .pushbutton_panel{
     margin-inline-start: 300px;
     font-size: 20px;
+    margin-top: -25px;
+}
+.pushbutton_panel a:hover{
+    font-weight:bold;
 }
 .link{
     color: white;

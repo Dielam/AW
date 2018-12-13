@@ -9,18 +9,20 @@
     <body>
         <div class="header">
             <div class="page_title">
-                <img src="/img/title.jpg" height="100"/>
+                <img src="/img/title.png" height="100"/>
             </div>
             <% if(userEmail == null){ %>
-            <div class="pushbutton_panel">
-                <a id="btn_sign_in" class="link" href="/login"> Entrar</a>
-                <a id="btn_sign_up" class="link" href="/signUp"> Nuevo Usuario</a>
-            </div>
+                <div class="pushbutton_panel">
+                    <a id="btn_sign_in" class="link" href="/login"> Entrar</a>
+                    <a id="btn_sign_up" class="link" href="/signUp"> Nuevo Usuario</a>
+                </div>
             <% }else{ %>
-                <a id="profile" class="link" href="/profile/<%= userId %>"> Perfil</a>
-                <a id="friends" class="link" href="/friends"> Amigos</a>
-                <a id="questions" class="link" href="/questions"> Preguntas</a>
-                <a id="logout" class="link" href="/logout"> Desconectar</a>
+                <div class="pushbutton_panel">
+                    <a id="profile" class="link" href="/profile/<%= userId %>"> Perfil</a>
+                    <a id="friends" class="link" href="/friends"> Amigos</a>
+                    <a id="questions" class="link" href="/questions"> Preguntas</a>
+                    <a id="logout" class="link" href="/logout"> Desconectar</a>
+                </div>
             <% } %>
         </div>
 </body>
