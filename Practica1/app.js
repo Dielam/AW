@@ -314,10 +314,44 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
             daoUA.getCorrectAnswerForUsers(friendsList,app.locals.userId,request.params.id, function(error, correctAnswersList){
                 if(error) next(new Error(error));
                 else{
-                    daoUA.getMyAnswers(app.locals.userId, request.params.id, function(MAError){
+                    daoUA.getMyAnswers(app.locals.userId, request.params.id, function(MAError, myAnswersList){
                         if(MAError) next(new Error(error));
                         else{
-                            response.redirect("/questions");
+                            console.log(correctAnswersList, myAnswersList);
+                            let finalContactsList = [];
+                            correctAnswersList.forEach(element =>{
+                                let resultado = null;
+                                let i = 0;
+                                let encontrado = false;
+                                while(i < myAnswersList.length && encontrado == false){
+                                    if (myAnswersList[i].idUsuario === element.idUsuario && myAnswersList[i].miRespuesta === element.respuestaCorrecta) {
+                                        resultado = 1;
+                                        encontrado = true;
+                                    }
+                                    else if(myAnswersList[i].idUsuario === element.idUsuario && myAnswersList[i].miRespuesta != element.respuestaCorrecta){
+                                        resultado = 0;
+                                        encontrado = true;
+                                    }
+                                    else i++;
+                                }
+                                finalContactsList.push({
+                                    "id"        : element.idUsuario,
+                                    "nombre"    : element.nombreUsuario,
+                                    "resultado" : resultado
+                                })
+                            });
+                            daoQ.searchQuestionById(request.params.id, function(SQError, questionName){
+                                if(SQError) next(new Error(error));
+                                else{
+                                    daoUA.getMyAnswerForMyself(app.locals.userId, request.params.id, function(AFMError, answerForMyself){
+                                        if(AFMError) next(new Error(error));
+                                        else{
+                                            console.log(questionName)
+                                            response.render("question_detail", {"contactsList":finalContactsList, "questionTitle":questionName.pregunta, "questionId": request.params.id, "myAnswer": answerForMyself});
+                                        }
+                                    })
+                                }
+                            })
                         }
                     })
                 }

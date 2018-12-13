@@ -12,7 +12,16 @@
 		<div class="page_container">
 			<h1 class="centered"><%= questionTitle %></h1>
             
-            <h3>Amigos que han contestado a la pregunta:</h3>
+                <% if(myAnswer == null){ %>
+                    <h3 class="centered">No has contestado a esta pregunta</h3>
+                    <div class="button_container">
+                        <a class="btn btn_primary btn_centered">Contestar pregunta</a>
+                    </div>
+                <% }else{ %>
+                    <h3 class="centered">Tu respuesta es: <%= myAnswer %></h3>
+                <% } %>
+            
+            <h3 class="centered">Amigos que han contestado a la pregunta:</h3>
 			<div class="content_wrapper">
 				<ul>
 					<% contactsList.forEach(contact => { %>
@@ -20,8 +29,8 @@
                             <img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
                             <a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
                             <div class="button_container btn_right">
-                                <% if(contact.resultado == null){} %>
-                                    <a class="btn btn_primary" href="/answerQuestion/<%= questionId %>">Adivinar</a>
+                                <% if(contact.resultado == null){ %>
+                                    <a class="btn btn_primary" href="/answerQuestion/<%= questionId %>/<%= contact.id%>">Adivinar</a>
                                 <% }else if(contact.resultado == 1){ %>
                                     <span class="correct_answer">Has acertado</span>
                                 <% }else{ %>
@@ -32,12 +41,5 @@
 					<% }) %>
 				</ul>
 			</div>
-            <% if(myAnswer == null){ %>
-                <h3>No has contestado a esta pregunta</h3>
-                <a class="btn btn_primary">Contestar pregunta</a>
-            <% }else{ %>
-                <h3>Tu respuesta es: <%= myAnswer %></h3>
-            <% } %>
-
 	</body>
 </html>

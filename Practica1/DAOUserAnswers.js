@@ -20,8 +20,9 @@ class DAOUserAnswers{
                     if(index < usersList.length-1) auxQueryString += ",";
                 })
                 usersIds = usersIds.concat(usersIds);
+                usersIds.push(questionId);
                 connection.query(
-                    "SELECT idRespuesta respuestaCorrecta, idUsuarioPregunta FROM respuestas_usuarios WHERE idUsuarioPregunta IN ("+ auxQueryString +") AND idUsuarioResponde IN ("+ auxQueryString +") AND idUsuarioPregunta = idUsuarioResponde",
+                    "SELECT idRespuesta respuestaCorrecta, idUsuarioPregunta FROM respuestas_usuarios WHERE idUsuarioPregunta IN ("+ auxQueryString +") AND idUsuarioResponde IN ("+ auxQueryString +") AND idUsuarioPregunta = idUsuarioResponde AND idPregunta = ?",
                     usersIds,
                     function(error, filas){
                         connection.release();
@@ -41,7 +42,7 @@ class DAOUserAnswers{
                                 arrayUserAndAnswer.push({
                                         "idUsuario"	        : element.idUsuarioPregunta,
                                         "nombreUsuario"     : userName,
-                                        "respuestaCorrecta" : element.respuestaCorrecta,
+                                        "respuestaCorrecta" : element.respuestaCorrecta
                                 });
                             });
                             return callback(null, arrayUserAndAnswer);
@@ -61,11 +62,35 @@ class DAOUserAnswers{
                     "SELECT idRespuesta, idUsuarioPregunta FROM respuestas_usuarios WHERE idUsuarioPregunta <> ? AND idUsuarioResponde = ? AND idPregunta = ?",
                     [userId, userId, questionId],
                     function(error, filas){
-                        console.log(filas);
                         connection.release();
                         if(error) return callback("Error de acceso a la base de datos");
                         else{
-                            return callback(null, filas);
+                            filas.forEach(element =>{
+                                arrayAnswers.push({
+                                    "idUsuario"     : element.idUsuarioPregunta,
+                                    "miRespuesta"   : element.idRespuesta
+                                })
+                            })
+                            return callback(null, arrayAnswers);
+                        }
+                    }
+                )
+            }
+        })
+    }
+
+    getMyAnswerForMyself(userId, questionId, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "SELECT idRespuesta FROM respuestas_usuarios WHERE idUsuarioPregunta = ? AND idUsuarioResponde = ? AND idPregunta = ?",
+                    [userId, userId, questionId],
+                    function(error, result){
+                        connection.release();
+                        if(error) return callback("Error de acceso a la base de datos");
+                        else{
+                            return callback(null, result[0]);
                         }
                     }
                 )
