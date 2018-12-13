@@ -242,7 +242,7 @@ app.get("/friendship_request/:id", checkSession, function(request, response, nex
 app.get("/acceptFriendInv/:id", checkSession, function(request, response, next){
     daoF.acceptFriend(request.params.id, app.locals.userId, function(err){
         if(err) next(new Error(err));
-        else response.redirect("friends");
+        else response.redirect("/friends");
     });
 });
 
@@ -250,7 +250,7 @@ app.get("/acceptFriendInv/:id", checkSession, function(request, response, next){
 app.get("/declineFriendInv/:id", checkSession, function(request, response, next){
     daoF.declineFriend(request.params.id, app.locals.userId, function(err){
         if(err) next(new Error(err));
-        else response.redirect("friends");
+        else response.redirect("/friends");
     });
 });
 
@@ -269,12 +269,27 @@ app.post("/friendsSearch", checkSession, function(request, response, next){
 });
 
 // GET de la vista de preguntas
-app.get("/questions", function(request, response){
+app.get("/questions", checkSession, function(request, response, next){
     response.status(200);
-    userEmail = request.session.currentUser;
     daoQ.getAllQuestions(function(err, questionsList){
         if(err) next(new Error(err));
         else response.render("questions", {"questionsList": questionsList}); 
+    });
+});
+
+// GET de la vista de detalle de pregunta
+app.get("/questionDetails/:id", checkSession, function(request, response, next){
+    response.status(200);
+    daoF.getFriendsData(app.locals.userId, function(err, contactsList){
+        if(err) next(new Error(err));
+        else {
+            friendsList = contactsList.filter(contact =>{
+                if(contact.confirmacion) return true;
+                else return false;
+            })
+            console.log(friendsList);
+            response.redirect("/questions");
+        }
     });
 });
 

@@ -80,7 +80,16 @@ h1{
     display:flex;
     align-items: center;
 }
-
+.link{
+    color: white;
+    text-decoration-line: none;
+    padding: 10px;
+}
+.link_secondary{
+    color: black;
+    text-decoration-line: none;
+    padding: 10px;
+}
 /* BUTTONS STARTS */
 .button_container{
     display: flex;
