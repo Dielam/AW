@@ -30,7 +30,7 @@
                             <a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
                             <div class="button_container btn_right">
                                 <% if(contact.resultado == null){ %>
-                                    <a class="btn btn_primary" href="/answerQuestion/<%= questionId %>/<%= contact.id%>">Adivinar</a>
+                                    <a class="btn btn_primary" href="/guessQuestion/<%= questionId %>/<%= contact.id%>">Adivinar</a>
                                 <% }else if(contact.resultado == 1){ %>
                                     <span class="correct_answer">Has acertado</span>
                                 <% }else{ %>
