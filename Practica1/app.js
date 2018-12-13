@@ -331,24 +331,6 @@ app.post("/addQuestion", checkSession, function(request, response, next){
     });
 });
 
-// GET de marcar las tareas como finalizadas
-app.get("/finish/:taskId", function(request, response){
-    response.status(200);
-    daoT.markTaskDone(request.params.taskId, function(err){
-        if(err) next(new Error(err));
-        response.redirect("/tasks");
-    });
-});
-
-// GET de borrar todas las tareas completadas
-app.get("/deleteCompleted", function(request, response){
-    response.status(200); 
-    daoT.deleteCompleted(request.session.currentUser, function(err){
-        if(err) next(new Error(err));
-        response.redirect("/tasks");
-    });
-});
-
 // Manejador del error
 app.use(function(error, request, response, next) {
     // Código 500: Internal server error
