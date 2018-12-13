@@ -17,11 +17,16 @@ class DAOQuestions{
                     function(err, filas){
                         if(err) return callback("Error de acceso a la base de datos", arrayQuestions);
                         else{
-                            filas.forEach(question => {
-                                arrayQuestions.push({
-                                    "id"	: element.id,
-                                    "text"	: element.pregunta
+                            filas.forEach(element => {
+                                let pos = arrayQuestions.findIndex(object =>{
+                                    return element.usuario1 == object.id || element.usuario2 == object.id;
                                 });
+                                if(pos == -1){
+                                    arrayQuestions.push({
+                                            "id"	        : element.id,
+                                            "pregunta"        : element.pregunta
+                                    });
+                                }
                             });
                             return callback(null, arrayQuestions);
                         }

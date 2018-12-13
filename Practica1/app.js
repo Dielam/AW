@@ -59,7 +59,7 @@ const daoU = new DAOUsers(pool);
 const daoF = new DAOFriends(pool);
 
 // Middleware de comprobacion
-function checkSession(request, response){
+function checkSession(request, response, next){
     if(request.session.currentUser != null){
         app.locals.userEmail = request.session.currentUser;
         app.locals.userId = request.session.currentId;

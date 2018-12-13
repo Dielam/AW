@@ -24,7 +24,6 @@ class DAOFriends{
                                     return element.usuario1 == object.id || element.usuario2 == object.id;
                                 });
                                 if(pos == -1){
-                                    console.log(element.usuario1,element.usuario2,element.confirmación)
                                     arrayContacts.push({
                                             "id"	        : element.usuario1 == user ? element.usuario2 : element.usuario1,
                                             "nombre"        : element.usuario1 == user ? element.nombre2 : element.nombre1,
