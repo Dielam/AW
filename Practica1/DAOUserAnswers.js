@@ -52,20 +52,20 @@ class DAOUserAnswers{
         });
     }
 
-    getMyAnswers(userId, questionID, callback){
+    getMyAnswers(userId, questionId, callback){
         let arrayAnswers = [];
         this.pool.getConnection(function(err, connection){
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "SELECT idRespuesta, idUsuarioPregunta FROM respuestas_amigos WHERE idUsuarioPregunta <> ? AND idUsuarioResponde = ?",
-                    [userId, userId],
+                    "SELECT idRespuesta, idUsuarioPregunta FROM respuestas_usuarios WHERE idUsuarioPregunta <> ? AND idUsuarioResponde = ? AND idPregunta = ?",
+                    [userId, userId, questionId],
                     function(error, filas){
+                        console.log(filas);
                         connection.release();
                         if(error) return callback("Error de acceso a la base de datos");
                         else{
-                            console.log(filas);
-                            return callback(null);
+                            return callback(null, filas);
                         }
                     }
                 )

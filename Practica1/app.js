@@ -387,7 +387,7 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
             }
         })
     }
-}
+})
 
 // Manejador del error
 app.use(function(error, request, response, next) {
