@@ -372,10 +372,13 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
 });
 
 // POST del formulario de la vista de contestar una pregunta
-app.get("/answerQuestion/:id", checkSession, function(request, response, next){
+app.post("/answerQuestion/:id", checkSession, function(request, response, next){
     response.status(200);
     if(request.body.other_answer == null){
-        // Emparejar con respuestas_usuarios DAONuevo
+        daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, request.body.friend_id, function(err){
+            if(err) next(new Error(err));
+            else response.redirect("/questions"); 
+        });
     }
     else{
         let answerArray = [];
@@ -383,11 +386,14 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
         daoA.insertAnswers(request.params.id, answerArray, function(err, idAnswer){
             if(err) next(new Error(err));
             else{
-                // Emparejar con respuestas_usuarios DAONuevo
+                daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, request.body.friend_id, function(err){
+                    if(err) next(new Error(err));
+                    else response.redirect("/questions"); 
+                });
             }
-        })
+        });
     }
-}
+});
 
 // Manejador del error
 app.use(function(error, request, response, next) {
