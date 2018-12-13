@@ -147,7 +147,7 @@ class DAOUsers{
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "SELECT id, nombre FROM usuarios WHERE usuarios.id <> ? AND nombre LIKE ? AND NOT EXISTS ( SELECT * FROM amigos WHERE usuario1 = ? AND usuario2 = ? AND usuario1 = usuarios.id AND usuario2 = usuarios.id)",
+                    "SELECT id, nombre FROM usuarios WHERE usuarios.id <> ? AND nombre LIKE ? AND NOT EXISTS (SELECT * FROM amigos WHERE (usuario1 = ? OR usuario2 = ?) AND usuario1 = usuarios.id OR usuario2 = usuarios.id)",
                     [id, search, id, id],
                     function(err, filas){
                         connection.release();

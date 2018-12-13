@@ -155,7 +155,7 @@ app.post("/signUp", function(request, response){
                 request.session.currentUser = user.email;
                 request.session.currentId = id; 
                 app.locals.userId = id;
-                response.redirect("/profile/" + request.session.currentId);
+                response.redirect("/profile/" + request.session.currentId)
             }
         });
     }
