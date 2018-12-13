@@ -19,7 +19,7 @@
 						<% if(contact.confirmacion == null) { %>
 							<li>
 								<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
-								<a href="/profile/<%= contact.id%>" class="friend_name"><%= contact.nombre %></a>
+								<a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
 								<div class="button_container btn_right">
 									<a class="btn btn_primary" href="/acceptFriendInv/<%= contact.id %>">Aceptar</a>
 									<a class="btn btn_secondary"  href="/declineFriendInv/<%= contact.id %>">Rechazar</a>
