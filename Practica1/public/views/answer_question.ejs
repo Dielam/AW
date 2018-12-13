@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Crea tu pregunta</title>
+        <link rel="icon" type="image/ico" href="/img/u.ico">
+        <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/questions.css" media="screen">
+    </head>
+    <body>
+        <section><%- include header %></section>
+        <div class="page_container">
+            <form method="POST" action="/addQuestion">
+                <h1 class="centered"><%= question.pregunta %></h1>
+                <% question.answersList.forEach(element => {
+                    <input id="answer_input" type="radio" name="answer" value='<%= element %>'/><label><%= element %></label>
+                <% });%>
+                <input id="other_answer_input" type="text" class="input_primary" name="other_answer"/>
+                <input id="btn_add" type="submit" class="btn_ok" value="Contestar"/>
+            </form>
+        </div>
+    </body>
+</html>

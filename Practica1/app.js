@@ -288,8 +288,10 @@ app.get("/questions", checkSession, function(request, response, next){
             let questionsList = [];
             while(i < 5){
                 pos = Math.floor(Math.random() * size);
-                questionsList[i] = questionsArray[pos]
-                i++;
+                if(!questionsList.includes(questionsArray[pos])){
+                    questionsList[i] = questionsArray[pos]
+                    i++;
+                }
             }
             response.render("questions", {"questionsList": questionsList}); 
         }
@@ -310,12 +312,6 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
             response.redirect("/questions");
         }
     });
-});
-
-// GET de la vista de contestar una pregunta
-app.get("/answerQuestion", checkSession, function(request, response, next){
-    response.status(200);
-
 });
 
 // GET de responder preguntas
@@ -342,6 +338,44 @@ app.post("/addQuestion", checkSession, function(request, response, next){
         }
     });
 });
+
+// GET de la vista de contestar una pregunta
+app.get("/answerQuestion/:id", checkSession, function(request, response, next){
+    response.status(200);
+    daoA.getAnswersOfQuestion(request.params.id, function(err, answerList){
+        if(err) next(new Error(err));
+        else{
+            daoQ.searchQuestionById(request.params.id, function(err, question){
+                if(err) next(new Error(err));
+                else{
+                    let question = {
+                        pregunta: question,
+                        answersList: answerList
+                    };
+                    response.render("answer_question", {"question": question});
+                }
+            });
+        }
+    });
+});
+
+// POST del formulario de la vista de contestar una pregunta
+app.get("/answerQuestion/:id", checkSession, function(request, response, next){
+    response.status(200);
+    if(request.body.other_answer == null){
+        // Emparejar con respuestas_usuarios DAONuevo
+    }
+    else{
+        let answerArray = [];
+        answerArray.push(request.body.answer);
+        daoA.insertAnswers(request.params.id, answerArray, function(err, idAnswer){
+            if(err) next(new Error(err));
+            else{
+                // Emparejar con respuestas_usuarios DAONuevo
+            }
+        })
+    }
+}
 
 // Manejador del error
 app.use(function(error, request, response, next) {

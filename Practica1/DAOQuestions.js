@@ -37,6 +37,22 @@ class DAOQuestions{
         });
     }
 
+    searchQuestionById(id, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "SELECT pregunta FROM preguntas WHERE id = ?",
+                    [id],
+                    function(err, result){
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else callback(null, result[0]);
+                    }
+                );
+            }
+        });
+    }
+
     insertQuestion(question, callback){
         this.pool.getConnection(function(err, connection){
             if(err) return callback("Error de conexión a la base de datos");
