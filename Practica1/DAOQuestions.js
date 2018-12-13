@@ -46,7 +46,7 @@ class DAOQuestions{
                     [id],
                     function(err, result){
                         if(err) return callback("Error de acceso a la base de datos");
-                        else callback(null, result[0].id, result[0].pregunta);
+                        else callback(null, result[0].pregunta);
                     }
                 );
             }

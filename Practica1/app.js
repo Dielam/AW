@@ -389,12 +389,12 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
     daoA.getAnswersOfQuestion(request.params.id, function(err, answerList){
         if(err) next(new Error(err));
         else{
-            daoQ.searchQuestionById(request.params.id, function(err, id, question){
+            daoQ.searchQuestionById(request.params.id, function(err, question){
                 if(err) next(new Error(err));
                 else{
                     let question = {
-                        idPregunta = id,
-                        friendId = null,
+                        idPregunta : request.params.id,
+                        friendId : app.locals.userId,
                         pregunta: question,
                         answersList: answerList
                     };
@@ -409,7 +409,7 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
 app.post("/answerQuestion/:id", checkSession, function(request, response, next){
     response.status(200);
     if(request.body.other_answer == null){
-        daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, request.body.friend_id, function(err){
+        daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, app.locals.userId, function(err){
             if(err) next(new Error(err));
             else response.redirect("/questions"); 
         });
@@ -420,7 +420,7 @@ app.post("/answerQuestion/:id", checkSession, function(request, response, next){
         daoA.insertAnswers(request.params.id, answerArray, function(err, idAnswer){
             if(err) next(new Error(err));
             else{
-                daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, request.body.friend_id, function(err){
+                daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, app.locals.userId, function(err){
                     if(err) next(new Error(err));
                     else response.redirect("/questions"); 
                 });
@@ -440,8 +440,8 @@ app.get("/guessQuestion/:idPregunta/:friendId", checkSession, function(request, 
                 if(err) next(new Error(err));
                 else{
                     let question = {
-                        idPregunta = id,
-                        friendId = request.params.friendId,
+                        idPregunta : request.params.idPregunta,
+                        friendId : request.params.friendId,
                         pregunta: question,
                         answersList: answerList
                     };
@@ -467,7 +467,7 @@ app.post("/guessQuestion/:idPregunta/:idFriend", checkSession, function(request,
         daoA.insertAnswers(request.params.id, answerArray, function(err, idAnswer){
             if(err) next(new Error(err));
             else{
-                daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, request.body.friend_id, function(err){
+                daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, request.body.idFriend, function(err){
                     if(err) next(new Error(err));
                     else response.redirect("/questions"); 
                 });

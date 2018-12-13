@@ -11,12 +11,11 @@
         <section><%- include header %></section>
         <div class="page_container">
             <h1 class="centered"><%= question.pregunta %></h1>
-            <% if(question.friendId != null){ %>
+            <% if(question.friendId != userId){ %>
                 <h2>Que ha respondido <% FriendName %></h2>
                 <form method="POST" action="/guessQuestion/<%= question.idPregunta%>/<%= question.friendId%>">
                     <% question.answersList.forEach(element => {
                         <input id="answer_input" type="radio" name="answer_id" value='<%= element.id %>'/><label><%= element.respuesta %></label>
-                        <input id="answer_input" type="hidden" name="friend_id" value=/>
                     <% });%>
                     <input id="other_answer_input" type="text" class="input_primary" name="other_answer"/>
                     <input id="btn_ok" class="btn btn_primary" type="submit" value="Contestar"/>
@@ -25,7 +24,6 @@
             <form method="POST" action="/answerQuestion/<%= question.idPregunta%>">
                 <% question.answersList.forEach(element => {
                     <input id="answer_input" type="radio" name="answer_id" value='<%= element.id %>'/><label><%= element.respuesta %></label>
-                    <input id="answer_input" type="hidden" name="friend_id" value=/>
                 <% });%>
                 <input id="other_answer_input" type="text" class="input_primary" name="other_answer"/>
                 <input id="btn_ok" class="btn btn_primary" type="submit" value="Contestar"/>
