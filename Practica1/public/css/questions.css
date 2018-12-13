@@ -35,7 +35,6 @@
     display: flex;
 }
 #btn_add{
-    text-decoration-line: none;
     display: flex;
     flex-direction: column;
     margin: 25px auto;

@@ -80,6 +80,7 @@ class DAOFriends{
                     "UPDATE amigos SET confirmación = 1 WHERE usuario1 = ? AND usuario2 = ?",
                     [usuario1, usuario2],
                     function(err){
+                        connection.release();
                         if(err) return callback("Error de acceso a la base de datos");
                         else return callback(null)
                     }
@@ -96,6 +97,7 @@ class DAOFriends{
                     "DELETE FROM amigos WHERE usuario1 = ? AND usuario2 = ?",
                     [usuario1, usuario2],
                     function(err){
+                        connection.release();
                         if(err) return callback("Error de acceso a la base de datos");
                         else return callback(null)
                     }

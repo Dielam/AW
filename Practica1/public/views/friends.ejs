@@ -48,7 +48,7 @@
 				<ul>
 					<% contactsList.forEach(contact => { %>
 						<% if(contact.confirmacion != null && contact.confirmacion == true) { %>
-							<li>
+							<li class="friend_item">
 								<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
 								<a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
 							</li>

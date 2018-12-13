@@ -24,6 +24,10 @@ label{
 p{
     margin: 0 0 10px 0;
 }
+h1{
+    font-size: 45px;
+    margin-bottom: 60px;
+}
 /* GENERAL TAGS ENDS */
 
 /* PAGE CONTENT STARTS */
@@ -51,7 +55,7 @@ p{
 
 .content_wrapper{
     width: 50%;
-    padding: 20px;
+    padding: 30px;
     background-color: #FE2E2E;
     border: 2px solid transparent;
     border-radius: 0.4rem;
@@ -88,6 +92,8 @@ p{
     border-radius: 5px;
     cursor: pointer;
     padding: 5px 15px;
+    text-decoration-line: none;
+    margin-right: 15px;
 }
 .btn:hover{
     background-color: #ff0101;
@@ -99,12 +105,14 @@ p{
     border-radius: 5px;
     cursor: pointer;
     padding: 5px 15px;
+    text-decoration-line: none;
 }
 .btn_centered{
     margin: 0 auto;
 }
 .btn_right{
     margin-left: auto;
+    margin-right: 20px;
 }
 /* BUTTONS ENDS */
 

@@ -84,7 +84,9 @@ class DAOUsers{
                                 pts: result[0].puntos 
                             };
                             user.date = new Date(user.date);
-                            user.date = new Date(user.date.getTime() - (user.date.getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+                            let ageDifMs = Date.now() - user.date.getTime();
+                            var ageDate = new Date(ageDifMs);
+                            user.date = Math.abs(ageDate.getUTCFullYear() - 1970);
                             return callback(null, user);
                         }
                     }
@@ -147,7 +149,7 @@ class DAOUsers{
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "SELECT id, nombre FROM usuarios WHERE usuarios.id <> ? AND nombre LIKE ? AND NOT EXISTS (SELECT * FROM amigos WHERE (usuario1 = ? OR usuario2 = ?) AND usuario1 = usuarios.id OR usuario2 = usuarios.id)",
+                    "SELECT id, nombre FROM usuarios WHERE usuarios.id <> ? AND nombre LIKE ? AND NOT EXISTS (SELECT * FROM amigos WHERE (usuario1 = ? OR usuario2 = ?) AND (usuario1 = usuarios.id OR usuario2 = usuarios.id))",
                     [id, search, id, id],
                     function(err, filas){
                         connection.release();

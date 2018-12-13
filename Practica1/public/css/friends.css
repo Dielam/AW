@@ -9,3 +9,13 @@ form{
 .btn_secondary{
 	margin-left: 10px;
 }
+
+.friend_item{
+    width: 48%;
+    display: inline-flex;
+}
+
+.friend_name{
+    overflow: hidden;
+}
+
