@@ -84,7 +84,7 @@ class DAOUserAnswers{
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "SELECT idRespuesta FROM respuestas_usuarios WHERE idUsuarioPregunta = ? AND idUsuarioResponde = ? AND idPregunta = ?",
+                    "SELECT R.respuesta FROM respuestas_usuarios RU, respuestas R WHERE idUsuarioPregunta = ? AND idUsuarioResponde = ? AND RU.idPregunta = ? AND RU.idRespuesta = R.idRespuesta",
                     [userId, userId, questionId],
                     function(error, result){
                         connection.release();

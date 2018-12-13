@@ -345,7 +345,7 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                                     daoUA.getMyAnswerForMyself(app.locals.userId, request.params.id, function(AFMError, answerForMyself){
                                         if(AFMError) next(new Error(error));
                                         else{
-                                            response.render("question_detail", {"contactsList":finalContactsList, "questionTitle":questionName.pregunta, "questionId": request.params.id, "myAnswer": answerForMyself});
+                                            response.render("question_detail", {"contactsList":finalContactsList, "questionTitle":questionName.pregunta, "questionId": request.params.id, "myAnswer": answerForMyself.respuesta});
                                         }
                                     })
                                 }
