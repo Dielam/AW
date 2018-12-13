@@ -59,7 +59,7 @@ const daoU = new DAOUsers(pool);
 const daoF = new DAOFriends(pool);
 
 // Middleware de comprobacion
-function checkSession(request, response, next){
+function checkSession(request, response){
     if(request.session.currentUser != null){
         app.locals.userEmail = request.session.currentUser;
         app.locals.userId = request.session.currentId;
@@ -174,7 +174,7 @@ app.get("/logout", checkSession, function(request, response){
 });
 
 // GET del perfil del usuario
-app.get("/profile/:id", checkSession, function(request, response){
+app.get("/profile/:id", checkSession, function(request, response, next){
     response.status(200);
     daoU.getInfoUser(request.params.id, function(err, user){
         if(err) next(new Error(err));
@@ -183,7 +183,7 @@ app.get("/profile/:id", checkSession, function(request, response){
 });
 
 // GET de la vista de modificar usuario
-app.get("/modifyProfile", checkSession, function(request, response){
+app.get("/modifyProfile", checkSession, function(request, response, next){
     response.status(200);
     daoU.getInfoUser(app.locals.userId, function(err, user){
         if(err) next(new Error(err));
@@ -192,7 +192,7 @@ app.get("/modifyProfile", checkSession, function(request, response){
 });
 
 // POST de modificar perfil
-app.post("/modifyProfile", checkSession, function(request, response){
+app.post("/modifyProfile", checkSession, function(request, response, next){
     let user = {
         id: app.locals.userId,
         email: request.body.email,
@@ -222,7 +222,7 @@ app.get("/userImage/:id", function(request, response){
 });
 
 // GET de la vista friends.ejs
-app.get("/friends", checkSession, function(request, response){
+app.get("/friends", checkSession, function(request, response, next){
     response.status(200);
     daoF.getFriendsData(request.session.currentId, function(err, contactsList){
         if(err) next(new Error(err));
@@ -231,7 +231,7 @@ app.get("/friends", checkSession, function(request, response){
 });
 
 // GET de la peticion de amistad
-app.get("/friendship_request/:id", checkSession, function(request, response){
+app.get("/friendship_request/:id", checkSession, function(request, response, next){
     daoF.insertFriend(app.locals.userId, request.params.id, function(err){
         if(err) next(new Error(err));
         else response.redirect("/friends"); 
@@ -239,7 +239,7 @@ app.get("/friendship_request/:id", checkSession, function(request, response){
 });
 
 // GET de aceptar una peticion  de amistad
-app.get("/acceptFriendInv/:id", checkSession, function(request, response){
+app.get("/acceptFriendInv/:id", checkSession, function(request, response, next){
     daoF.acceptFriend(request.params.id, app.locals.userId, function(err){
         if(err) next(new Error(err));
         else response.redirect("friends");
@@ -247,16 +247,15 @@ app.get("/acceptFriendInv/:id", checkSession, function(request, response){
 });
 
 // GET de rechazar una peticion de amistad
-app.get("/declineFriendInv/:id", checkSession, function(request, response){
+app.get("/declineFriendInv/:id", checkSession, function(request, response, next){
     daoF.declineFriend(request.params.id, app.locals.userId, function(err){
         if(err) next(new Error(err));
         else response.redirect("friends");
     });
 });
 
-
 // POST de la búsqueda de amigos
-app.post("/friendsSearch", checkSession, function(request, response){
+app.post("/friendsSearch", checkSession, function(request, response, next){
     daoU.searchUser(app.locals.userId, request.body.searcher, function(err, searchList){
         if(err) next(new Error(err));
         else{
@@ -264,7 +263,6 @@ app.post("/friendsSearch", checkSession, function(request, response){
                 contactsList: searchList,
                 searcher: request.body.searcher
             }
-            console.log(search);
             response.render("friends_search", {"search" : search});
         }
     });
