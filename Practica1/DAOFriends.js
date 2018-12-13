@@ -13,7 +13,7 @@ class DAOFriends{
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "SELECT usuario1, usuario2, US1.nombre nombre1, US2.nombre nombre2, confirmación FROM amigos, usuarios US1, usuarios US2 WHERE usuario2 = ? AND (usuario1 = US1.id AND usuario2 = US2.id)",
+                    "SELECT usuario1, usuario2, US1.nombre nombre1, US2.nombre nombre2, confirmación FROM amigos, usuarios US1, usuarios US2 WHERE (usuario1 = ? OR usuario2 = ?) AND (usuario1 = US1.id AND usuario2 = US2.id)",
                     [user, user],
                     function(err, filas){
                         connection.release();
@@ -24,11 +24,11 @@ class DAOFriends{
                                     return element.usuario1 == object.id || element.usuario2 == object.id;
                                 });
                                 if(pos == -1){
-
+                                    console.log(element.usuario1,element.usuario2,element.confirmación)
                                     arrayContacts.push({
                                             "id"	        : element.usuario1 == user ? element.usuario2 : element.usuario1,
                                             "nombre"        : element.usuario1 == user ? element.nombre2 : element.nombre1,
-                                            "confirmacion"	: element.confirmación
+                                            "confirmacion"	: element.usuario1 == user && element.confirmación != 1 ? 0 : element.confirmación
                                     });
                                 }
                             });

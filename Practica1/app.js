@@ -240,7 +240,7 @@ app.get("/friendship_request/:id", checkSession, function(request, response){
 
 // GET de aceptar una peticion  de amistad
 app.get("/acceptFriendInv/:id", checkSession, function(request, response){
-    daoF.acceptFriend(usuario1, app.loacals.userId, function(err){
+    daoF.acceptFriend(request.params.id, app.locals.userId, function(err){
         if(err) next(new Error(err));
         else response.redirect("friends");
     });
@@ -248,7 +248,7 @@ app.get("/acceptFriendInv/:id", checkSession, function(request, response){
 
 // GET de rechazar una peticion de amistad
 app.get("/declineFriendInv/:id", checkSession, function(request, response){
-    daoF.declineFriend(usuario1, app.loacals.userId, function(err){
+    daoF.declineFriend(request.params.id, app.locals.userId, function(err){
         if(err) next(new Error(err));
         else response.redirect("friends");
     });
