@@ -13,7 +13,8 @@
             <form method="POST" action="/addQuestion">
                 <h1 class="centered"><%= question.pregunta %></h1>
                 <% question.answersList.forEach(element => {
-                    <input id="answer_input" type="radio" name="answer" value='<%= element %>'/><label><%= element %></label>
+                    <input id="answer_input" type="radio" name="answer_id" value='<%= element.id %>'/><label><%= element.respuesta %></label>
+                    <input id="answer_input" type="hidden" name="friend_id" value=/>
                 <% });%>
                 <input id="other_answer_input" type="text" class="input_primary" name="other_answer"/>
                 <input id="btn_add" type="submit" class="btn_ok" value="Contestar"/>

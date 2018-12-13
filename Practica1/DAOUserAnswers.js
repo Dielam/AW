@@ -72,6 +72,10 @@ class DAOUserAnswers{
             }
         })
     }
+    
+    insertUserAnswer(idPregunta, idRespuesta, userPregunta, userRespuesta, callback){
+
+    }
 
 }
 
