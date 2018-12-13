@@ -13,11 +13,11 @@
             <div class="login">
                 <form method="POST" action="/modifyProfile">
                     <label for="email_input">Dirección de correo</label>
-                    <input id="email_input" type="email" class="input_primary" value='<%= user.email %>' name="email"/>
+                    <input id="email_input" type="email" class="input_primary" value='<%= user.email %>' name="email" required/>
                     <label for="password_input">Contraseña</label>
-                    <input id="password_input" type="password" class="input_primary" value='<%= user.password %>' name="password"/>
+                    <input id="password_input" type="password" class="input_primary" value='<%= user.password %>' name="password" required/>
                     <label for="name_input">Nombre completo</label>
-                    <input id="name_input" type="text" class="input_primary" value='<%= user.name %>' name="name"/>
+                    <input id="name_input" type="text" class="input_primary" value='<%= user.name %>' name="name" required/>
                     <p>Sexo</p>
                     <% if(user.gender == "Masculino"){ %>
                         <input id="gender_input--male" type="radio" class="radio_input" name="gender" value="Masculino" checked="checked"/><label for="gender_input--male" class="radio_label">Masculino</label>
