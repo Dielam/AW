@@ -10,7 +10,7 @@ const DAOQuestions = require("./DAOQuestions");
 const DAOUsers = require("./DAOUsers");
 const DAOFriends = require("./DAOFriends");
 const DAOAnswers = require("./DAOAnswers");
-const tareas = require("./DAOFriends");
+const DAOUserAnswers = require("./DAOUserAnswers");
 
 // Crear servidor Express.js
 const app = express();
@@ -61,6 +61,9 @@ const daoF = new DAOFriends(pool);
 
 // Crear instancia DAOAnswers
 const daoA = new DAOAnswers(pool);
+
+// Crear instancia DAOUserAnswers
+const daoUA = new DAOUserAnswers(pool);
 
 // Middleware de comprobacion
 function checkSession(request, response, next){
@@ -295,8 +298,17 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                 if(contact.confirmacion) return true;
                 else return false;
             })
-            console.log(friendsList);
-            response.redirect("/questions");
+            daoUA.getCorrectAnswerForUsers(friendsList,app.locals.userId,request.params.id, function(error, correctAnswersList){
+                if(error) next(new Error(error));
+                else{
+                    daoUA.getMyAnswers(app.locals.userId, request.params.id, function(MAError){
+                        if(MAError) next(new Error(error));
+                        else{
+                            response.redirect("/questions");
+                        }
+                    })
+                }
+            })
         }
     });
 });
