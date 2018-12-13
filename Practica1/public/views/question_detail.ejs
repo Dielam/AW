@@ -15,7 +15,7 @@
                 <% if(myAnswer == null){ %>
                     <h3 class="centered">No has contestado a esta pregunta</h3>
                     <div class="button_container">
-                        <a class="btn btn_primary btn_centered">Contestar pregunta</a>
+                        <a href="/answerQuestion/<%= questionId%>" class="btn btn_primary btn_centered">Contestar pregunta</a>
                     </div>
                 <% }else{ %>
                     <h3 class="centered">Tu respuesta es: <%= myAnswer %></h3>
