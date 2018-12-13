@@ -20,7 +20,7 @@ class DAOAnswers{
                         if(err) return callback("Error de acceso a la base de datos");
                         else{
                             filas.forEach(element => {
-                                let pos = arrayAnswers.findIndex(object =>{
+                                let pos = arrayAnswer.findIndex(object =>{
                                     return element.usuario1 == object.id || element.usuario2 == object.id;
                                 });
                                 if(pos == -1){
@@ -30,6 +30,7 @@ class DAOAnswers{
                                     });
                                 }
                             });
+                            console.log(arrayAnswer);
                             return callback(null, arrayAnswer);
                         }
                     }

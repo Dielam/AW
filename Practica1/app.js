@@ -391,13 +391,13 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
     daoA.getAnswersOfQuestion(request.params.id, function(err, answerList){
         if(err) next(new Error(err));
         else{
-            daoQ.searchQuestionById(request.params.id, function(err, question){
+            daoQ.searchQuestionById(request.params.id, function(err, text){
                 if(err) next(new Error(err));
                 else{
                     let question = {
                         idPregunta : request.params.id,
                         friendId : app.locals.userId,
-                        pregunta: question,
+                        pregunta: text,
                         answersList: answerList
                     };
                     response.render("answer_question", {"question": question});
@@ -422,7 +422,7 @@ app.post("/answerQuestion/:id", checkSession, function(request, response, next){
         daoA.insertAnswers(request.params.id, answerArray, function(err, idAnswer){
             if(err) next(new Error(err));
             else{
-                daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, app.locals.userId, function(err){
+                daoUA.insertUserAnswer(request.params.id, idAnswer, app.locals.userId, app.locals.userId, function(err){
                     if(err) next(new Error(err));
                     else response.redirect("/questions"); 
                 });
@@ -438,13 +438,13 @@ app.get("/guessQuestion/:idPregunta/:friendId", checkSession, function(request, 
     daoA.getAnswersOfQuestion(request.params.id, function(err, answerList){
         if(err) next(new Error(err));
         else{
-            daoQ.searchQuestionById(request.params.id, function(err, id, question){
+            daoQ.searchQuestionById(request.params.id, function(err, text){
                 if(err) next(new Error(err));
                 else{
                     let question = {
                         idPregunta : request.params.idPregunta,
                         friendId : request.params.friendId,
-                        pregunta: question,
+                        pregunta: text,
                         answersList: answerList
                     };
                     response.render("answer_question", {"question": question});
@@ -469,7 +469,7 @@ app.post("/guessQuestion/:idPregunta/:idFriend", checkSession, function(request,
         daoA.insertAnswers(request.params.id, answerArray, function(err, idAnswer){
             if(err) next(new Error(err));
             else{
-                daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, request.body.idFriend, function(err){
+                daoUA.insertUserAnswer(request.params.id, idAnswer, app.locals.userId, request.body.idFriend, function(err){
                     if(err) next(new Error(err));
                     else response.redirect("/questions"); 
                 });
