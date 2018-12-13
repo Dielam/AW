@@ -16,12 +16,12 @@ class DAOAnswers{
                         "INSERT INTO respuestas(idPregunta, respuesta) VALUES (?, ?)",
                         [id, element],
                         function(err, result){
-                            connection.release();
                             if(err) return callback("Error de acceso a la base de datos");
-                            else callback(null);
                         }
                     );
                 });
+                connection.release();
+                return callback(null);
             }
         });
     }

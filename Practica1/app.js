@@ -282,9 +282,20 @@ app.post("/friendsSearch", checkSession, function(request, response, next){
 // GET de la vista de preguntas
 app.get("/questions", checkSession, function(request, response, next){
     response.status(200);
-    daoQ.getAllQuestions(function(err, questionsList){
+    daoQ.getAllQuestions(function(err, questionsArray){
         if(err) next(new Error(err));
-        else response.render("questions", {"questionsList": questionsList}); 
+        else{
+            let i = 0;
+            let pos;
+            let size = questionsArray.length;
+            let questionsList = [];
+            while(i < 5){
+                pos = Math.floor(Math.random() * size);
+                questionsList[i] = questionsArray[pos]
+                i++;
+            }
+            response.render("questions", {"questionsList": questionsList}); 
+        }
     });
 });
 
@@ -315,6 +326,7 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
 
 // GET de la vista de contestar una pregunta
 app.get("/answerQuestion", checkSession, function(request, response, next){
+    response.status(200);
 
 });
 
@@ -340,24 +352,6 @@ app.post("/addQuestion", checkSession, function(request, response, next){
                 else response.redirect("/questions");
             });
         }
-    });
-});
-
-// GET de marcar las tareas como finalizadas
-app.get("/finish/:taskId", function(request, response){
-    response.status(200);
-    daoT.markTaskDone(request.params.taskId, function(err){
-        if(err) next(new Error(err));
-        response.redirect("/tasks");
-    });
-});
-
-// GET de borrar todas las tareas completadas
-app.get("/deleteCompleted", function(request, response){
-    response.status(200); 
-    daoT.deleteCompleted(request.session.currentUser, function(err){
-        if(err) next(new Error(err));
-        response.redirect("/tasks");
     });
 });
 
