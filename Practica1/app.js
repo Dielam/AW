@@ -347,7 +347,8 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                                         else{
                                             if(answerForMyself == null) answerForMyself = null;
                                             else answerForMyself = answerForMyself.respuesta;
-                                            response.render("question_detail", {"contactsList":finalContactsList, "questionTitle":questionName.pregunta, "questionId": request.params.id, "myAnswer": answerForMyself});
+                                            console.log(questionName)
+                                            response.render("question_detail", {"contactsList":finalContactsList, "questionTitle":questionName, "questionId": request.params.id, "myAnswer": answerForMyself});
                                         }
                                     })
                                 }
