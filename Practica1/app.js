@@ -74,7 +74,7 @@ app.get("/login", function(request, response){
     if(request.session.currentUser != null){
         app.locals.userEmail = request.session.currentUser;
         app.locals.userId = request.session.currentId;
-        response.redirect("/profile");
+        response.redirect("/profile/" + request.session.currentId);
     } 
     else{
         request.session.currentUser = null;
@@ -101,7 +101,7 @@ app.post("/login", function(request, response){
             app.locals.userEmail = request.body.email;
             request.session.currentId = id;
             app.locals.userId = id;
-            response.redirect("/profile");
+            response.redirect("/profile/" + request.session.currentId);
         }  
         else{
             request.session.currentUser = null;
@@ -126,7 +126,7 @@ app.get("/signUp", function(request, response){
     else{
         app.locals.userEmail = request.session.currentUser;
         app.locals.userId = request.session.currentId;
-        response.redirect("/profile");
+        response.redirect("/profile/" + request.session.currentId);
     }
 });
 
@@ -155,14 +155,14 @@ app.post("/signUp", function(request, response){
                 request.session.currentUser = user.email;
                 request.session.currentId = id; 
                 app.locals.userId = id;
-                response.redirect("/profile")
+                response.redirect("/profile/" + request.session.currentId)
             }
         });
     }
     else{
         app.locals.userEmail = request.session.currentUser;
         app.locals.userId = request.session.currentId;
-        response.redirect("/profile");
+        response.redirect("/profile/" + request.session.currentId);
     } 
 });
 
