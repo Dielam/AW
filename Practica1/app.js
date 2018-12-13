@@ -310,9 +310,7 @@ app.post("/addQuestion", checkSession, function(request, response, next){
             answers.push(request.body.answer4);
             daoA.insertAnswers(id, answers, function(err){
                 if(err) next(new Error(err));
-                else{
-                    response.redirect("/questions");
-                } 
+                else response.redirect("/questions");
             });
         }
     });
