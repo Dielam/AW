@@ -50,7 +50,7 @@
 						<% if(contact.confirmacion != null && contact.confirmacion == true) { %>
 							<li>
 								<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
-								<a href="/profile/<%= contact.id%>" class="friend_name"><%= contact.nombre %></a>
+								<a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
 							</li>
 						<% } %>
 					<% }) %>

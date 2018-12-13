@@ -94,7 +94,7 @@ class DAOFriends{
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "DELETE TO amigos WHERE usuario1 = ? AND usuario2 = ?",
+                    "DELETE FROM amigos WHERE usuario1 = ? AND usuario2 = ?",
                     [usuario1, usuario2],
                     function(err){
                         if(err) return callback("Error de acceso a la base de datos");
