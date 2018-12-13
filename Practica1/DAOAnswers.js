@@ -30,7 +30,6 @@ class DAOAnswers{
                                     });
                                 }
                             });
-                            console.log(arrayAnswer);
                             return callback(null, arrayAnswer);
                         }
                     }
