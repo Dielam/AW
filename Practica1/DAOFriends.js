@@ -14,7 +14,7 @@ class DAOFriends{
             else{
                 connection.query(
                     "SELECT usuario1, usuario2, US1.nombre nombre1, US2.nombre nombre2, confirmación FROM amigos, usuarios US1, usuarios US2 WHERE usuario2 = ? AND (usuario1 = US1.id AND usuario2 = US2.id)",
-                    [user, user],
+                    [user],
                     function(err, filas){
                         connection.release();
                         if(err) return callback("Error de acceso a la base de datos");
