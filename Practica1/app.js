@@ -279,9 +279,20 @@ app.post("/friendsSearch", checkSession, function(request, response, next){
 // GET de la vista de preguntas
 app.get("/questions", checkSession, function(request, response, next){
     response.status(200);
-    daoQ.getAllQuestions(function(err, questionsList){
+    daoQ.getAllQuestions(function(err, questionsArray){
         if(err) next(new Error(err));
-        else response.render("questions", {"questionsList": questionsList}); 
+        else{
+            let i = 0;
+            let pos;
+            let size = questionsArray.length;
+            let questionsList = [];
+            while(i < 5){
+                pos = Math.floor(Math.random() * size);
+                questionsList[i] = questionsArray[pos]
+                i++;
+            }
+            response.render("questions", {"questionsList": questionsList}); 
+        }
     });
 });
 
@@ -303,6 +314,7 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
 
 // GET de la vista de contestar una pregunta
 app.get("/answerQuestion", checkSession, function(request, response, next){
+    response.status(200);
 
 });
 
