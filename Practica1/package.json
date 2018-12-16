@@ -1,7 +1,7 @@
 {
   "name": "facebuk",
   "version": "1.0.0",
-  "description": "Red social Facebuk",
+  "description": "Juego Memorion",
   "main": "app.js",
   "scripts": {
     "test": "test.js",
@@ -14,9 +14,9 @@
   "keywords": [
     "node",
     "proyecto",
-    "red", 
-    "social",
-    "facebuk"
+    "juego", 
+    "memoria",
+    "memorion"
   ],
   "author": "Carlos Jiménez & Diego Laguna",
   "license": "MIT",
