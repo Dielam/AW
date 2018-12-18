@@ -67,12 +67,10 @@ const daoUA = new DAOUserAnswers(pool);
 
 // Middleware de comprobacion
 function checkSession(request, response, next){
-    console.log(request.session.currentId);
+    console.log("Checkeando Id: ", request.session.currentId);
     if(request.session.currentUser != null){
-        //if() {
-            app.locals.userEmail = request.session.currentUser;
-            app.locals.userId = request.session.currentId;
-        //}
+        app.locals.userEmail = request.session.currentUser;
+        app.locals.userId = request.session.currentId;
         next();
     }
     else response.redirect("/login");
@@ -350,7 +348,7 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                                         else{
                                             if(answerForMyself == null) answerForMyself = null;
                                             else answerForMyself = answerForMyself.respuesta;
-                                            console.log(questionName)
+                                            console.log(request.session.currentId, "Id QuestionDetails: ");
                                             response.render("question_detail", {"contactsList":finalContactsList, "questionTitle":questionName, "questionId": request.params.id, "myAnswer": answerForMyself});
                                         }
                                     })
@@ -392,7 +390,7 @@ app.post("/addQuestion", function(request, response, next){
 // GET de la vista de contestar una pregunta para uno mismo
 app.get("/answerQuestion/:id", checkSession, function(request, response, next){
     response.status(200);
-    //console.log(app.locals.userId);
+    console.log("Contestando Id: ", app.locals.userId);
     daoA.getAnswersOfQuestion(request.params.id, function(err, answerList){
         if(err) next(new Error(err));
         else{
@@ -416,7 +414,7 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
 app.post("/answerQuestion/:id", checkSession, function(request, response, next){
     response.status(200);
     if(request.body.other_answer == null){
-        console.log(app.locals.userId);
+        console.log(request.body.answer_id);
         daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, app.locals.userId, function(err){
             if(err) next(new Error(err));
             else response.redirect("/questions"); 
