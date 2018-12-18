@@ -230,14 +230,14 @@ app.get("/userImage/:id", function(request, response){
 
 // POST del formulario de subir imagen
 app.post("/uploadImage", function(request, response){
-    let image = request.body.uploadedFile;
-    console.log(request.body.uploadedFile);
+    response.status(200);
+    console.log(request.body.uploadedfile);
 
     // luego extraes la cabecera del data url
-    var base64Data = image.data.replace(/^data:image\/jpeg;base64,/, "");
+    var base64Data = request.body.uploadedfile.data.replace(/^data:image\/jpeg;base64,/, "");
 
     // grabas la imagen el disco
-    fs.writeFile(path.join(__dirname, "profile_imgs", ), base64Data, 'base64', function(err) {
+    fs.writeFile(path.join(__dirname, "profile_imgs", request.body.uploadedfile), base64Data, 'base64', function(err) {
         if(err) next(new Error(err));
     });
 });

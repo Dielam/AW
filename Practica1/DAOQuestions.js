@@ -40,7 +40,6 @@ class DAOQuestions{
                     "SELECT pregunta FROM preguntas WHERE id = ?",
                     [id],
                     function(err, result){
-                        console.log(id);
                         if(err) return callback("Error de acceso a la base de datos");
                         else return callback(null, result[0].pregunta);
                     }
