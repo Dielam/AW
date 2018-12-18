@@ -57,6 +57,23 @@ class DAOAnswers{
         });
     }
 
+    insertAnswer(id, answer, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "INSERT INTO respuestas(idPregunta, respuesta) VALUES (?, ?)",
+                    [id, answer],
+                    function(err, result){
+                        connection.release();
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else return callback(null, result.insertId);
+                    }
+                );
+            }
+        });
+    }
+
 }
 
 module.exports = DAOAnswers;

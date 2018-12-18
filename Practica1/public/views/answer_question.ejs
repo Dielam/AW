@@ -16,22 +16,23 @@
                 <div class="content_wrapper">
                     <form method="POST" action="/guessQuestion/<%= question.idPregunta%>/<%= question.friendId%>">
                         <% question.answersList.forEach(element => { %>
-                            <input id="answer_input<%= element.id %>" type="radio" name="answer_id" value='<%= element.id %>'/><label for="answer_input_<%= element.id %>"><%= element.respuesta %></label>
+                            <input id="answer_input<%= element.id %>" type="radio" name="answer" value='<%= element.respuesta %>'/><label for="answer_input_<%= element.id %>"><%= element.respuesta %></label>
                         <% }); %>
                         <input id="other_answer_input" type="text" class="input_primary" name="other_answer"/>
                         <input id="btn_ok" class="btn btn_primary" type="submit" value="Contestar"/>
                     </form>
                 </div>
+            <% }else{ %>
+                <div class="content_wrapper">
+                    <form method="POST" action="/answerQuestion/<%= question.idPregunta%>">
+                        <% question.answersList.forEach(element => { %>
+                            <input id="answer_input_<%= element.id %>" type="radio" name="answer" value='<%= element.respuesta %>'/><label for="answer_input_<%= element.id %>"><%= element.respuesta %></label>
+                        <% });%>
+                        <input id="other_answer_input" type="text" class="input_primary" name="other_answer"/>
+                        <input id="btn_ok" class="btn btn_primary" type="submit" value="Contestar"/>
+                    </form>
+                </div>
             <% } %>
-            <div class="content_wrapper">
-                <form method="POST" action="/answerQuestion/<%= question.idPregunta%>">
-                    <% question.answersList.forEach(element => { %>
-                        <input id="answer_input_<%= element.id %>" type="radio" name="answer_id" value='<%= element.id %>'/><label for="answer_input_<%= element.id %>"><%= element.respuesta %></label>
-                    <% });%>
-                    <input id="other_answer_input" type="text" class="input_primary" name="other_answer"/>
-                    <input id="btn_ok" class="btn btn_primary" type="submit" value="Contestar"/>
-                </form>
-            </div>
         </div>
     </body>
 </html>

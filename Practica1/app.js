@@ -67,7 +67,6 @@ const daoUA = new DAOUserAnswers(pool);
 
 // Middleware de comprobacion
 function checkSession(request, response, next){
-    console.log("Checkeando Id: ", request.session.currentId);
     if(request.session.currentUser != null){
         app.locals.userEmail = request.session.currentUser;
         app.locals.userId = request.session.currentId;
@@ -348,7 +347,6 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                                         else{
                                             if(answerForMyself == null) answerForMyself = null;
                                             else answerForMyself = answerForMyself.respuesta;
-                                            console.log(request.session.currentId, "Id QuestionDetails: ");
                                             response.render("question_detail", {"contactsList":finalContactsList, "questionTitle":questionName, "questionId": request.params.id, "myAnswer": answerForMyself});
                                         }
                                     })
@@ -390,7 +388,6 @@ app.post("/addQuestion", function(request, response, next){
 // GET de la vista de contestar una pregunta para uno mismo
 app.get("/answerQuestion/:id", checkSession, function(request, response, next){
     response.status(200);
-    console.log("Contestando Id: ", app.locals.userId);
     daoA.getAnswersOfQuestion(request.params.id, function(err, answerList){
         if(err) next(new Error(err));
         else{
@@ -413,17 +410,19 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
 // POST del formulario de la vista de contestar una pregunta para uno mismo
 app.post("/answerQuestion/:id", checkSession, function(request, response, next){
     response.status(200);
-    if(request.body.other_answer == null){
-        console.log(request.body.answer_id);
-        daoUA.insertUserAnswer(request.params.id, request.body.answer_id, app.locals.userId, app.locals.userId, function(err){
+    if(request.body.other_answer === ''){
+        daoA.insertAnswer(request.params.id, request.body.answer, function(err, idAnswer){
             if(err) next(new Error(err));
-            else response.redirect("/questions"); 
+            else{
+                daoUA.insertUserAnswer(request.params.id, idAnswer, app.locals.userId, app.locals.userId, function(err){
+                    if(err) next(new Error(err));
+                    else response.redirect("/questions"); 
+                });
+            }
         });
     }
     else{
-        let answerArray = [];
-        answerArray.push(request.body.answer);
-        daoA.insertAnswers(request.params.id, answerArray, function(err, idAnswer){
+        daoA.insertAnswer(request.params.id, request.body.other_answer, function(err, idAnswer){
             if(err) next(new Error(err));
             else{
                 daoUA.insertUserAnswer(request.params.id, idAnswer, app.locals.userId, app.locals.userId, function(err){
@@ -461,16 +460,14 @@ app.get("/guessQuestion/:idPregunta/:friendId", checkSession, function(request, 
 // POST de la vista de adivinar una respuesta de un amigo
 app.post("/guessQuestion/:idPregunta/:idFriend", checkSession, function(request, response, next){
     response.status(200);
-    if(request.body.other_answer == null){
+    if(request.body.other_answer === ''){
         daoUA.insertUserAnswer(request.params.idPregunta, request.body.answer_id, app.locals.userId, request.params.idFriend, function(err){
             if(err) next(new Error(err));
             else response.redirect("/questions"); 
         });
     }
     else{
-        let answerArray = [];
-        answerArray.push(request.body.answer);
-        daoA.insertAnswers(request.params.id, answerArray, function(err, idAnswer){
+        daoA.insertAnswer(request.params.id, request.body.other_answer, function(err, idAnswer){
             if(err) next(new Error(err));
             else{
                 daoUA.insertUserAnswer(request.params.id, idAnswer, app.locals.userId, request.body.idFriend, function(err){

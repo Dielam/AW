@@ -106,7 +106,6 @@ class DAOUserAnswers{
                     "INSERT INTO respuestas_usuarios(idPregunta, idRespuesta, idUsuarioPregunta, idUsuarioResponde) VALUES(?, ?, ?, ?)",
                     [idPregunta, idRespuesta, userPregunta, userRespuesta],
                     function(error){
-                        console.log(idPregunta, idRespuesta, userPregunta, userRespuesta);
                         if(error) return callback("Error de acceso a la base de datos");
                         else return callback(null);
                     }
