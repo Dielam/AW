@@ -231,12 +231,13 @@ app.get("/userImage/:id", function(request, response){
 // POST del formulario de subir imagen
 app.post("/uploadImage", function(request, response){
     let image = request.body.uploadedFile;
+    console.log(request.body.uploadedFile);
 
     // luego extraes la cabecera del data url
     var base64Data = image.data.replace(/^data:image\/jpeg;base64,/, "");
 
     // grabas la imagen el disco
-    fs.writeFile('nombredearchivo.jpg', base64Data, 'base64', function(err) {
+    fs.writeFile(path.join(__dirname, "profile_imgs", ), base64Data, 'base64', function(err) {
         if(err) next(new Error(err));
     });
 });
@@ -324,49 +325,66 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                 if(contact.confirmacion) return true;
                 else return false;
             })
-            daoUA.getCorrectAnswerForUsers(friendsList,app.locals.userId,request.params.id, function(error, correctAnswersList){
+            daoUA.getCorrectAnswerForUsers(friendsList, app.locals.userId,request.params.id, function(error, correctAnswersList){
                 if(error) next(new Error(error));
                 else{
-                    daoUA.getMyAnswers(app.locals.userId, request.params.id, function(MAError, myAnswersList){
-                        if(MAError) next(new Error(error));
-                        else{
-                            let finalContactsList = [];
-                            correctAnswersList.forEach(element =>{
-                                let resultado = null;
-                                let i = 0;
-                                let encontrado = false;
-                                while(i < myAnswersList.length && encontrado == false){
-                                    if (myAnswersList[i].idUsuario === element.idUsuario && myAnswersList[i].miRespuesta === element.respuestaCorrecta) {
-                                        resultado = 1;
-                                        encontrado = true;
-                                    }
-                                    else if(myAnswersList[i].idUsuario === element.idUsuario && myAnswersList[i].miRespuesta != element.respuestaCorrecta){
-                                        resultado = 0;
-                                        encontrado = true;
-                                    }
-                                    else i++;
-                                }
-                                finalContactsList.push({
-                                    "id"        : element.idUsuario,
-                                    "nombre"    : element.nombreUsuario,
-                                    "resultado" : resultado
-                                })
-                            });
-                            daoQ.searchQuestionById(request.params.id, function(SQError, questionName){
-                                if(SQError) next(new Error(error));
-                                else{
-                                    daoUA.getMyAnswerForMyself(app.locals.userId, request.params.id, function(AFMError, answerForMyself){
-                                        if(AFMError) next(new Error(error));
-                                        else{
-                                            if(answerForMyself == null) answerForMyself = null;
-                                            else answerForMyself = answerForMyself.respuesta;
-                                            response.render("question_detail", {"contactsList":finalContactsList, "questionTitle":questionName, "questionId": request.params.id, "myAnswer": answerForMyself});
+                    if(correctAnswersList != null){ 
+                        daoUA.getMyAnswers(app.locals.userId, request.params.id, function(MAError, myAnswersList){
+                            if(MAError) next(new Error(error));
+                            else{
+                                let finalContactsList = [];
+                                correctAnswersList.forEach(element =>{
+                                    let resultado = null;
+                                    let i = 0;
+                                    let encontrado = false;
+                                    while(i < myAnswersList.length && encontrado == false){
+                                        if (myAnswersList[i].idUsuario === element.idUsuario && myAnswersList[i].miRespuesta === element.respuestaCorrecta) {
+                                            resultado = 1;
+                                            encontrado = true;
                                         }
+                                        else if(myAnswersList[i].idUsuario === element.idUsuario && myAnswersList[i].miRespuesta != element.respuestaCorrecta){
+                                            resultado = 0;
+                                            encontrado = true;
+                                        }
+                                        else i++;
+                                    }
+                                    finalContactsList.push({
+                                        "id"        : element.idUsuario,
+                                        "nombre"    : element.nombreUsuario,
+                                        "resultado" : resultado
                                     })
-                                }
-                            })
-                        }
-                    })
+                                });
+                                daoQ.searchQuestionById(request.params.id, function(SQError, questionName){
+                                    if(SQError) next(new Error(error));
+                                    else{
+                                        daoUA.getMyAnswerForMyself(app.locals.userId, request.params.id, function(AFMError, answerForMyself){
+                                            if(AFMError) next(new Error(error));
+                                            else{
+                                                if(answerForMyself == null) answerForMyself = null;
+                                                else answerForMyself = answerForMyself.respuesta;
+                                                response.render("question_detail", {"contactsList":finalContactsList, "questionTitle":questionName, "questionId": request.params.id, "myAnswer": answerForMyself});
+                                            }
+                                        })
+                                    }
+                                });
+                            }
+                        })
+                    }
+                    else{
+                        daoQ.searchQuestionById(request.params.id, function(SQError, questionName){
+                            if(SQError) next(new Error(error));
+                            else{
+                                daoUA.getMyAnswerForMyself(app.locals.userId, request.params.id, function(AFMError, answerForMyself){
+                                    if(AFMError) next(new Error(error));
+                                    else{
+                                        if(answerForMyself == null) answerForMyself = null;
+                                        else answerForMyself = answerForMyself.respuesta;
+                                        response.render("question_detail", {"contactsList":null, "questionTitle":questionName, "questionId": request.params.id, "myAnswer": answerForMyself});
+                                    }
+                                })
+                            }
+                        });
+                    }
                 }
             })
         }
@@ -410,6 +428,7 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
                     let question = {
                         idPregunta : request.params.id,
                         friendId : null,
+                        friendName : null,
                         pregunta: text,
                         answersList: answerList
                     };
@@ -424,15 +443,10 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
 app.post("/answerQuestion/:id", checkSession, function(request, response, next){
     response.status(200);
     if(request.body.other_answer === ''){
-        daoA.insertAnswer(request.params.id, request.body.answer, function(err, idAnswer){
-            if(err) next(new Error(err));
-            else{
-                daoUA.insertUserAnswer(request.params.id, idAnswer, app.locals.userId, app.locals.userId, function(err){
-                    if(err) next(new Error(err));
-                    else response.redirect("/questions"); 
-                });
-            }
-        });
+            daoUA.insertUserAnswer(request.params.id, request.body.answer, app.locals.userId, app.locals.userId, function(err){
+                if(err) next(new Error(err));
+                else response.redirect("/questions"); 
+            });
     }
     else{
         daoA.insertAnswer(request.params.id, request.body.other_answer, function(err, idAnswer){
@@ -449,17 +463,18 @@ app.post("/answerQuestion/:id", checkSession, function(request, response, next){
 });
 
 // GET de la vista de adivinar una respuesta de un amigo
-app.get("/guessQuestion/:idPregunta/:friendId", checkSession, function(request, response, next){
+app.get("/guessQuestion/:idPregunta/:friendId/:friendName", checkSession, function(request, response, next){
     response.status(200);
-    daoA.getAnswersOfQuestion(request.params.id, function(err, answerList){
+    daoA.getAnswersOfQuestion(request.params.idPregunta, function(err, answerList){
         if(err) next(new Error(err));
         else{
-            daoQ.searchQuestionById(request.params.id, function(err, text){
+            daoQ.searchQuestionById(request.params.idPregunta, function(err, text){
                 if(err) next(new Error(err));
                 else{
                     let question = {
                         idPregunta : request.params.idPregunta,
                         friendId : request.params.friendId,
+                        friendName : request.params.friendName,
                         pregunta: text,
                         answersList: answerList
                     };
@@ -473,24 +488,10 @@ app.get("/guessQuestion/:idPregunta/:friendId", checkSession, function(request, 
 // POST de la vista de adivinar una respuesta de un amigo
 app.post("/guessQuestion/:idPregunta/:idFriend", checkSession, function(request, response, next){
     response.status(200);
-    if(request.body.other_answer === ''){
-        daoUA.insertUserAnswer(request.params.idPregunta, request.body.answer_id, app.locals.userId, request.params.idFriend, function(err){
-            if(err) next(new Error(err));
-            else response.redirect("/questions"); 
-        });
-    }
-    else{
-        daoA.insertAnswer(request.params.id, request.body.other_answer, function(err, idAnswer){
-            if(err) next(new Error(err));
-            else{
-                daoUA.insertUserAnswer(request.params.id, idAnswer, app.locals.userId, request.body.idFriend, function(err){
-                    if(err) next(new Error(err));
-                    else response.redirect("/questions"); 
-                });
-            }
-        });
-    }
-
+    daoUA.insertUserAnswer(request.params.idPregunta, request.body.answer, request.params.idFriend, app.locals.userId, function(err){
+        if(err) next(new Error(err));
+        else response.redirect("/questions"); 
+    });
 });
 
 // Manejador del error

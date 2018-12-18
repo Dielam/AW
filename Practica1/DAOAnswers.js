@@ -20,15 +20,10 @@ class DAOAnswers{
                         if(err) return callback("Error de acceso a la base de datos");
                         else{
                             filas.forEach(element => {
-                                let pos = arrayAnswer.findIndex(object =>{
-                                    return element.usuario1 == object.id || element.usuario2 == object.id;
-                                });
-                                if(pos == -1){
                                     arrayAnswer.push({
                                             "id"	        : element.idRespuesta,
                                             "respuesta"        : element.respuesta
                                     });
-                                }
                             });
                             return callback(null, arrayAnswer);
                         }

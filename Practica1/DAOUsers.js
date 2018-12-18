@@ -156,15 +156,10 @@ class DAOUsers{
                         if(err) return callback("Error de acceso a la base de datos");
                         else{
                             filas.forEach(element => {
-                                let pos = arrayContacts.findIndex(object =>{
-                                    return element.usuario1 == object.id || element.usuario2 == object.id;
-                                });
-                                if(pos == -1){
                                     arrayContacts.push({
                                             "id"	        : element.id,
                                             "nombre"        : element.nombre
                                     });
-                                }
                             });
                             return callback(null, arrayContacts);
                         }

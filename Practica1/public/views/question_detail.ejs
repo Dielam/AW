@@ -24,21 +24,23 @@
             <h3 class="centered">Amigos que han contestado a la pregunta:</h3>
 			<div class="content_wrapper">
 				<ul>
-					<% contactsList.forEach(contact => { %>
-                        <li>
-                            <img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
-                            <a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
-                            <div class="button_container btn_right">
-                                <% if(contact.resultado == null){ %>
-                                    <a class="btn btn_primary" href="/guessQuestion/<%= questionId %>/<%= contact.id%>">Adivinar</a>
-                                <% }else if(contact.resultado == 1){ %>
-                                    <span class="correct_answer">Has acertado</span>
-                                <% }else{ %>
-                                    <span class="wrong_answer">Has fallado</span>
-                                <% } %>
-                            </div>
-                        </li>
-					<% }) %>
+                    <% if(contactsList != null){ %>
+                        <% contactsList.forEach(contact => { %>
+                            <li>
+                                <img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
+                                <a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
+                                <div class="button_container btn_right">
+                                    <% if(contact.resultado == null){ %>
+                                        <a class="btn btn_primary" href="/guessQuestion/<%= questionId %>/<%= contact.id%>/<%= contact.nombre%>">Adivinar</a>
+                                    <% }else if(contact.resultado == 1){ %>
+                                        <span class="correct_answer">Has acertado</span>
+                                    <% }else{ %>
+                                        <span class="wrong_answer">Has fallado</span>
+                                    <% } %>
+                                </div>
+                            </li>
+                        <% }) %>
+                    <% } %>
 				</ul>
 			</div>
 	</body>
