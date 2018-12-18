@@ -23,8 +23,10 @@
                     <input id="gender_input--other" class="radio_input" type="radio" name="gender" value="Otro"/><label class="radio_label" for="gender_input--other">Otro</label>
                     <label for="date_input">Fecha nacimiento</label>
                     <input id="date_input" type="date" class="input_primary" placeholder="Fecha de nacimiento" name="date"/>
-                    <label for="user_image_input">Imagen de perfil</label>
-                    <input id="user_image_input" type="file" name="file"/>
+                    <form enctype="multipart/form-data" action="/uploadImage" method="POST">
+                        <input name="uploadedfile" type="file"/>
+                        <input type="submit" value="Subir archivo"/>
+                    </form>
                     <input id="btn_ok" type="submit" class="btn_ok" value="Crear usuario"/>
                 </form>
                 <% if(errorMsg == null) { %>

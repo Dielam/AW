@@ -228,6 +228,19 @@ app.get("/userImage/:id", function(request, response){
     });
 });
 
+// POST del formulario de subir imagen
+app.post("/uploadImage", function(request, response){
+    let image = request.body.uploadedFile;
+
+    // luego extraes la cabecera del data url
+    var base64Data = image.data.replace(/^data:image\/jpeg;base64,/, "");
+
+    // grabas la imagen el disco
+    fs.writeFile('nombredearchivo.jpg', base64Data, 'base64', function(err) {
+        if(err) next(new Error(err));
+    });
+});
+
 // GET de la vista friends.ejs
 app.get("/friends", checkSession, function(request, response, next){
     response.status(200);
