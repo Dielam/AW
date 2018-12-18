@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const mySqlSession = require("express-mysql-session");
 const fs = require("fs");
+const multer = require("multer");
 const config = require("./config");
 const DAOQuestions = require("./DAOQuestions");
 const DAOUsers = require("./DAOUsers");
@@ -34,6 +35,9 @@ const middlewareSession = session({
     resave: false,
     store: sessionStore
 });
+
+// Creacion de factoria de multer
+const multerFactory = multer({dest: path.join(__dirname, "profile_imgs/")});
 
 // Arrancar middleware middlewareSession
 app.use(middlewareSession);
@@ -70,6 +74,7 @@ function checkSession(request, response, next){
     if(request.session.currentUser != null){
         app.locals.userEmail = request.session.currentUser;
         app.locals.userId = request.session.currentId;
+        app.locals.userPts = request.session.currentPts;
         next();
     }
     else response.redirect("/login");
@@ -81,6 +86,7 @@ app.get("/login", function(request, response){
     if(request.session.currentUser != null){
         app.locals.userEmail = request.session.currentUser;
         app.locals.userId = request.session.currentId;
+        app.locals.userPts = request.session.currentPts;
         response.redirect("/profile/" + request.session.currentId);
     } 
     else{
@@ -88,6 +94,8 @@ app.get("/login", function(request, response){
         app.locals.userEmail = null;
         app.locals.userId = null;
         request.session.currentId = null;
+        app.locals.userPts = null;
+        request.session.currentPts = null;
         response.render("login", {"errorMsg": false});
     }
 });
@@ -95,12 +103,14 @@ app.get("/login", function(request, response){
 // POST de login
 app.post("/login", function(request, response){
     response.status(200);
-    daoU.isUserCorrect(request.body.email, request.body.password, function(err, id, ok){
+    daoU.isUserCorrect(request.body.email, request.body.password, function(err, id, pts, ok){
         if(err){
             request.session.currentUser = null;
             app.locals.userEmail = null;
             app.locals.userId = null;
             request.session.currentId = null;
+            app.locals.userPts = null;
+            request.session.currentPts = null;
             response.render("login", {"errorMsg": null});
         }
         if(ok){
@@ -108,6 +118,8 @@ app.post("/login", function(request, response){
             app.locals.userEmail = request.body.email;
             request.session.currentId = id;
             app.locals.userId = id;
+            app.locals.userPts = pts;
+            request.session.currentPts = pts;
             response.redirect("/profile/" + request.session.currentId);
         }  
         else{
@@ -115,6 +127,8 @@ app.post("/login", function(request, response){
             app.locals.userEmail = null;
             request.session.currentId = null;
             app.locals.userId = null;
+            app.locals.userPts = null;
+            request.session.currentPts = null;
             response.render("login", {"errorMsg": null});
         }
     });
@@ -128,17 +142,20 @@ app.get("/signUp", function(request, response){
         app.locals.userEmail = null;
         app.locals.userId = null;
         request.session.currentId = null;
+        app.locals.userPts = null;
+        request.session.currentPts = null;
         response.render("sign_up", {"errorMsg": false});
     }
     else{
         app.locals.userEmail = request.session.currentUser;
         app.locals.userId = request.session.currentId;
+        app.locals.userPts = request.session.currentPts;
         response.redirect("/profile/" + request.session.currentId);
     }
 });
 
 // POST del registro de usuario
-app.post("/signUp", function(request, response){
+app.post("/signUp", multerFactory.single('uploadedfile'), function(request, response){
     response.status(200);
     if(request.session.currentUser == null){
         let user = {
@@ -147,7 +164,7 @@ app.post("/signUp", function(request, response){
             name: request.body.name,
             gender: request.body.gender,
             date: request.body.date,
-            img: request.body.file
+            img: request.file.filename,
         };
         daoU.insertUser(user, function(err, id){
             if(err){
@@ -155,6 +172,8 @@ app.post("/signUp", function(request, response){
                 app.locals.userEmail = null;
                 app.locals.userId = null;
                 request.session.currentId = null;
+                app.locals.userPts = null;
+                request.session.currentPts = null;
                 response.render("sign_up", {"errorMsg": null});
             } 
             else{
@@ -162,6 +181,7 @@ app.post("/signUp", function(request, response){
                 request.session.currentUser = user.email;
                 request.session.currentId = id; 
                 app.locals.userId = id;
+                app.locals.userPts = request.session.currentPts;
                 response.redirect("/profile/" + request.session.currentId)
             }
         });
@@ -199,7 +219,7 @@ app.get("/modifyProfile", checkSession, function(request, response, next){
 });
 
 // POST de modificar perfil
-app.post("/modifyProfile", checkSession, function(request, response, next){
+app.post("/modifyProfile", checkSession, multerFactory.single('uploadedfile'), function(request, response, next){
     let user = {
         id: app.locals.userId,
         email: request.body.email,
@@ -207,11 +227,11 @@ app.post("/modifyProfile", checkSession, function(request, response, next){
         name: request.body.name,
         gender: request.body.gender,
         date: request.body.date,
-        img: request.body.file
+        img: request.file.filename
     };
     daoU.updateUser(user, function(err){
         if(err) next(new Error(err));
-        else response.redirect("/profile");
+        else response.redirect("/profile/"+ request.session.currentId);
     });
 });
 
@@ -225,20 +245,6 @@ app.get("/userImage/:id", function(request, response){
         else{
             response.sendFile(path.join(__dirname, "profile_imgs", "Noprofile.jpg"));
         }    
-    });
-});
-
-// POST del formulario de subir imagen
-app.post("/uploadImage", function(request, response){
-    response.status(200);
-    console.log(request.body.uploadedfile);
-
-    // luego extraes la cabecera del data url
-    var base64Data = request.body.uploadedfile.data.replace(/^data:image\/jpeg;base64,/, "");
-
-    // grabas la imagen el disco
-    fs.writeFile(path.join(__dirname, "profile_imgs", request.body.uploadedfile), base64Data, 'base64', function(err) {
-        if(err) next(new Error(err));
     });
 });
 
@@ -468,17 +474,38 @@ app.get("/guessQuestion/:idPregunta/:friendId/:friendName", checkSession, functi
     daoA.getAnswersOfQuestion(request.params.idPregunta, function(err, answerList){
         if(err) next(new Error(err));
         else{
-            daoQ.searchQuestionById(request.params.idPregunta, function(err, text){
+            daoUA.searchAnswerByUserQuestion(request.params.idPregunta, request.params.friendId, function(err, idCorrect){
                 if(err) next(new Error(err));
                 else{
-                    let question = {
-                        idPregunta : request.params.idPregunta,
-                        friendId : request.params.friendId,
-                        friendName : request.params.friendName,
-                        pregunta: text,
-                        answersList: answerList
-                    };
-                    response.render("answer_question", {"question": question});
+                    let i = 1;
+                    let pos;
+                    let size = answerList.length;
+                    let answersArray = [];
+                    let posCorrect = Math.floor(Math.random() * size);
+                    answersArray[posCorrect] = answerList.find(o =>{ o.id === idCorrect });
+                    while(i < 5){
+                        if(i == posCorrect) i++;
+                        else{
+                            pos = Math.floor(Math.random() * size);
+                            if(!answersArray.find(answerList[pos])){
+                                answersArray[i] = answerList[pos]
+                                i++;
+                            }
+                        }
+                    }
+                    daoQ.searchQuestionById(request.params.idPregunta, function(err, text){
+                        if(err) next(new Error(err));
+                        else{
+                            let question = {
+                                idPregunta : request.params.idPregunta,
+                                friendId : request.params.friendId,
+                                friendName : request.params.friendName,
+                                pregunta: text,
+                                answersList: answersArray
+                            };
+                            response.render("answer_question", {"question": question});
+                        }
+                    });
                 }
             });
         }
@@ -490,7 +517,22 @@ app.post("/guessQuestion/:idPregunta/:idFriend", checkSession, function(request,
     response.status(200);
     daoUA.insertUserAnswer(request.params.idPregunta, request.body.answer, request.params.idFriend, app.locals.userId, function(err){
         if(err) next(new Error(err));
-        else response.redirect("/questions"); 
+        else{
+            daoUA.searchAnswerByUserQuestion(request.params.idPregunta, request.params.idFriend, function(err, answer){
+                if(err) next(new Error(err));
+                else{
+                    if(answer == request.body.answer){ 
+                        daoU.addPoints(app.locals.userId, function(err){
+                            if(err) next(new Error(err));
+                            else response.redirect("/questions");
+                        });
+                    }
+                    else{
+                        response.redirect("/questions");
+                    }
+                }
+            });
+        } 
     });
 });
 

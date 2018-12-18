@@ -117,6 +117,22 @@ class DAOUserAnswers{
         });
     }
 
+    searchAnswerByUserQuestion(idPregunta, idUsuarioPregunta, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "SELECT idRespuesta FROM respuestas_usuarios WHERE idPregunta = ? AND idUsuarioPregunta = ? AND idUsuarioResponde = ?",
+                    [idPregunta, idUsuarioPregunta, idUsuarioPregunta],
+                    function(error, result){
+                        if(error) return callback("Error de acceso a la base de datos");
+                        else return callback(null, result[0].idRespuesta);
+                    }
+                );
+            }
+        });
+    }
+
 }
 
 module.exports = DAOUserAnswers;

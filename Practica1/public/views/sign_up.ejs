@@ -10,7 +10,7 @@
         <section><%- include header %></section>
         <div class="page_container">
             <div class="login">
-                <form method="POST" action="/signUp">
+                <form enctype="multipart/form-data" method="POST" action="/signUp">
                     <label for="email_input">Dirección de correo</label>
                     <input id="email_input" type="email" class="input_primary" placeholder="Dirección de Correo" name="email" required/>
                     <label for="password_input">Contraseña</label>
@@ -23,12 +23,8 @@
                     <input id="gender_input--other" class="radio_input" type="radio" name="gender" value="Otro"/><label class="radio_label" for="gender_input--other">Otro</label>
                     <label for="date_input">Fecha nacimiento</label>
                     <input id="date_input" type="date" class="input_primary" placeholder="Fecha de nacimiento" name="date"/>
-                    
-                    <input id="btn_ok" type="submit" class="btn_ok" value="Crear usuario"/>
-                </form>
-                <form enctype="multipart/form-data" action="/uploadImage" method="POST">
                     <input name="uploadedfile" type="file"/>
-                    <input type="submit" value="Subir archivo"/>
+                    <input id="btn_ok" type="submit" class="btn_ok" value="Crear usuario"/>
                 </form>
                 <% if(errorMsg == null) { %>
                     <p class="error_Msg">ERROR</p>

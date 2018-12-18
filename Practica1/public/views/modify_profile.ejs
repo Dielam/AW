@@ -11,7 +11,7 @@
         <section><%- include header %></section>
         <div class="page_container">
             <div class="login">
-                <form method="POST" action="/modifyProfile">
+                <form enctype="multipart/form-data" method="POST" action="/modifyProfile">
                     <label for="email_input">Dirección de correo</label>
                     <input id="email_input" type="email" class="input_primary" value='<%= user.email %>' name="email" required/>
                     <label for="password_input">Contraseña</label>
@@ -34,10 +34,7 @@
                     <% } %>
                     <label for="date_input">Fecha nacimiento</label>
                     <input id="date_input" type="date" class="input_primary" value='<%= user.date %>' name="date"/>
-                    <form enctype="multipart/form-data" action="/uploadImage" method="POST">
-                        <input name="uploadedfile" type="file"/>
-                        <input type="submit" value="Subir archivo"/>
-                    </form>
+                    <input name="uploadedfile" type="file"/>
                     <input id="btn_ok" type="submit" class="btn_ok" value="Actualizar usuario"/>
                 </form>
             </div>

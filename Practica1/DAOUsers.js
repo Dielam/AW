@@ -24,10 +24,10 @@ class DAOUsers{
                             else{
                                 let size = result.length;
                                 if(size != 0){
-                                    callback(err, result[0].id, true);
+                                    callback(err, result[0].id, result[0].puntos, true);
                                 }
                                 else{
-                                    callback(err, null, false);
+                                    callback(err, null, null, false);
                                 }
                             }
                         }
@@ -130,7 +130,7 @@ class DAOUsers{
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "INSERT INTO usuarios(email, contraseña, nombre, sexo, fecha, imagen) VALUES(?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO usuarios(email, contraseña, nombre, sexo, fecha, imagen, puntos) VALUES(?, ?, ?, ?, ?, ?, 0)",
                     [user.email, user.password, user.name, user.gender, user.date, user.img],
                     function(err, result){
                         connection.release();
@@ -162,6 +162,34 @@ class DAOUsers{
                                     });
                             });
                             return callback(null, arrayContacts);
+                        }
+                    }
+                );
+            }
+        });
+    }
+
+    addPoints(id, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err) return callback("Error de conexión a la base de datos");
+            else{
+                connection.query(
+                    "SELECT puntos FROM usuarios WHERE id = ?",
+                    [id],
+                    function(err, result){
+                        connection.release();
+                        if(err) return callback("Error de acceso a la base de datos");
+                        else {
+                            let pts = result[0].puntos + 50;
+                            connection.query(
+                                "UPDATE usuarios SET puntos = ? WHERE id = ?",
+                                [pts, id],
+                                function(err, result){
+                                    connection.release();
+                                    if(err) return callback("Error de acceso a la base de datos");
+                                    else return callback(null, result.insertId);
+                                }
+                            );
                         }
                     }
                 );
