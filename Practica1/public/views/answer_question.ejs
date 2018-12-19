@@ -5,7 +5,7 @@
         <link rel="icon" type="image/ico" href="/img/u.ico">
         <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
         <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="/css/questions.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/answer_question.css" media="screen">
     </head>
     <body>
         <section><%- include header %></section>
@@ -13,22 +13,30 @@
             <h1 class="centered"><%= question.pregunta %></h1>
             <% if(question.friendId != null){ %>
                 <h2 class="centered">Que ha respondido <%= question.friendName %> </h2>
-                <div class="content_wrapper">
+                <div class="content_wrapper content_wrapper--centered">
                     <form method="POST" action="/guessQuestion/<%= question.idPregunta%>/<%= question.friendId%>">
                         <% question.answersList.forEach(element => { %>
-                            <input id="answer_input<%= element.id %>" type="radio" name="answer" value='<%= element.id %>'/><label for="answer_input_<%= element.id %>"><%= element.respuesta %></label>
+                            <div class="answer_wrapper">
+                                <input id="answer_input<%= element.id %>" type="radio" class="radio_input" name="answer" value='<%= element.id %>'/><label class="radio_label" for="answer_input_<%= element.id %>"><%= element.respuesta %></label>
+                            </div>
                         <% }); %>
-                        <input id="btn_ok" class="btn btn_primary" type="submit" value="Contestar"/>
+                        <div class="button_container">
+                            <input id="btn_ok" class="btn btn_primary" type="submit" value="Contestar"/>
+                        </div>
                     </form>
                 </div>
             <% }else{ %>
-                <div class="content_wrapper">
+                <div class="content_wrapper content_wrapper--centered">
                     <form method="POST" action="/answerQuestion/<%= question.idPregunta%>">
                         <% question.answersList.forEach(element => { %>
-                            <input id="answer_input_<%= element.id %>" type="radio" name="answer" value='<%= element.id %>'/><label for="answer_input_<%= element.id %>"><%= element.respuesta %></label>
+                            <div class="answer_wrapper">
+                                <input id="answer_input_<%= element.id %>" type="radio" class="radio_input" name="answer" value='<%= element.id %>'/><label class="radio_label" for="answer_input_<%= element.id %>"><%= element.respuesta %></label>
+                            </div>
                         <% });%>
-                        <input id="other_answer_input" type="text" class="input_primary" name="other_answer"/>
-                        <input id="btn_ok" class="btn btn_primary" type="submit" value="Contestar"/>
+                        <input id="answer_input_other" type="radio" class="radio_input" name="answer" value='other'/> <input id="other_answer_input" type="text" class="input_primary" name="other_answer"/>
+                        <div class="button_container">
+                            <input id="btn_ok" class="btn btn_primary" type="submit" value="Contestar"/>
+                        </div>
                     </form>
                 </div>
             <% } %>

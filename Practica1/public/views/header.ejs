@@ -23,9 +23,9 @@
                     <a id="questions" class="link" href="/questions"> Preguntas</a>
                     <a id="logout" class="link" href="/logout"> Desconectar</a>
                 </div>
-                <div>
-                    <img src="/userImage/<%= userId %>" class="friend_avatar" height="75" width="75">
-                    <span><%= userPts%> Puntos </span>
+                <div class="info_panel">
+                    <img src="/userImage/<%= userId %>" class="info_panel--avatar" height="75" width="75">
+                    <span class="info_panel--points"><%= userPts%> Puntos </span>
                 </div>
             <% } %>
         </div>

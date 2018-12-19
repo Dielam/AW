@@ -21,4 +21,19 @@
 .pushbutton_panel a:hover{
     font-weight:bold;
 }
+.info_panel{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 15%;
+    margin-top: -4%;
+    margin-bottom: 1%
+}
+.info_panel--avatar{
+    margin-right: 2%;
+}
+.info_panel--points{
+    align-self: center;
+    color: white;
+    font-size: 18px;
+}
 /* HEADER SECTION ENDS */

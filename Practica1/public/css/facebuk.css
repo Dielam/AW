@@ -59,13 +59,16 @@ h2{
 
 .content_wrapper{
     width: 50%;
-    padding: 30px;
+    padding: 20px;
     background-color: #FE2E2E;
     border: 2px solid transparent;
-    border-radius: 0.4rem;
+    border-radius: 0.4em;
     display: flex;
     flex-direction: column;
     margin: auto;
+}
+.content_wrapper--centered{
+    align-items: center;
 }
 .input_primary{
     width: 70%;
@@ -77,6 +80,9 @@ h2{
 }
 .radio_input{
     margin-bottom: 10px;
+}
+.radio_label{
+    display: inline;
 }
 .error_Msg{
     color: #ff010e;
@@ -110,7 +116,8 @@ h2{
     margin-right: 15px;
 }
 .btn:hover{
-    background-color: #ff0101;
+    background-color: white;
+    color: black;
 }
 .btn_secondary{
     color: white;

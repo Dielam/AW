@@ -1,6 +1,6 @@
 /* QUESTIONS STARTS */
 .question_list{
-    width: 35%;
+    width: 50%;
     padding: 5px;
     background-color: #FE2E2E;
     border: 2px solid transparent;
@@ -10,15 +10,17 @@
     margin: auto;
     align-items: center;
 }
+.question_list ul{
+    width: 60%;
+}
 .question{
     color: #121212;
     list-style-type: none;
     background-color: white;
     border: 2px solid transparent;
     border-radius: 0.4rem;
-    width: 80%;
-    padding: 10px;
-    margin: 0 auto 1%;
+    padding: 5px;
+    margin: 0 auto 2%;
     display: flex;
     align-items: center;
 }

@@ -43,8 +43,6 @@ class DAOFriends{
         this.pool.getConnection(function(err, connection){
             if(err) return callback("Error de conexión a la base de datos");
             else{
-                console.log(usuario1);
-                console.log(usuario2);
                 connection.query(
                     "INSERT INTO amigos(usuario1, usuario2) VALUES (?, ?)",
                     [usuario1, usuario2],

@@ -157,6 +157,7 @@ app.get("/signUp", function(request, response){
 // POST del registro de usuario
 app.post("/signUp", multerFactory.single('uploadedfile'), function(request, response){
     response.status(200);
+    console.log(request.file);
     if(request.session.currentUser == null){
         let user = {
             email: request.body.email,
@@ -164,7 +165,7 @@ app.post("/signUp", multerFactory.single('uploadedfile'), function(request, resp
             name: request.body.name,
             gender: request.body.gender,
             date: request.body.date,
-            img: request.file.filename,
+            img: request.file == null ? null : request.file.filename,
         };
         daoU.insertUser(user, function(err, id){
             if(err){
@@ -177,12 +178,23 @@ app.post("/signUp", multerFactory.single('uploadedfile'), function(request, resp
                 response.render("sign_up", {"errorMsg": null});
             } 
             else{
-                app.locals.userEmail = user.email;
-                request.session.currentUser = user.email;
-                request.session.currentId = id; 
-                app.locals.userId = id;
-                app.locals.userPts = request.session.currentPts;
-                response.redirect("/profile/" + request.session.currentId)
+                if(id == false){
+                    request.session.currentUser = null;
+                    app.locals.userEmail = null;
+                    app.locals.userId = null;
+                    request.session.currentId = null;
+                    app.locals.userPts = null;
+                    request.session.currentPts = null;
+                    response.render("sign_up", {"errorMsg": true});
+                }
+                else{
+                    app.locals.userEmail = user.email;
+                    request.session.currentUser = user.email;
+                    request.session.currentId = id; 
+                    app.locals.userId = id;
+                    app.locals.userPts = request.session.currentPts;
+                    response.redirect("/profile/" + request.session.currentId)
+                }
             }
         });
     }
@@ -400,26 +412,29 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
 // GET de responder preguntas
 app.get("/addQuestion", checkSession, function(request, response){
     response.status(200);
-    response.render("add_question");
+    response.render("add_question",{"errorMsg": null});
 });
 
 // POST del formulario de añadir preguntas de la vista question.ejs
 app.post("/addQuestion", function(request, response, next){
-    response.status(200); 
-    daoQ.insertQuestion(request.body.new_question, function(err, id){
-        if(err) next(new Error(err));
-        else{
-            let answers = []
-            answers.push(request.body.answer1);
-            answers.push(request.body.answer2);
-            answers.push(request.body.answer3);
-            answers.push(request.body.answer4);
-            daoA.insertAnswers(id, answers, function(err){
-                if(err) next(new Error(err));
-                else response.redirect("/questions");
-            });
-        }
-    });
+    response.status(200);
+    if(request.body.new_question != null && request.body.answer1 != null && request.body.answer2 != null && request.body.answer3 != null && request.body.answer4 != null){
+        daoQ.insertQuestion(request.body.new_question, function(err, id){
+            if(err) next(new Error(err));
+            else{
+                let answers = []
+                answers.push(request.body.answer1);
+                answers.push(request.body.answer2);
+                answers.push(request.body.answer3);
+                answers.push(request.body.answer4);
+                daoA.insertAnswers(id, answers, function(err){
+                    if(err) next(new Error(err));
+                    else response.redirect("/questions");
+                });
+            }
+        });
+    }
+    else response.render("add_question", {"errorMsg": true});
 });
 
 // GET de la vista de contestar una pregunta para uno mismo
@@ -448,22 +463,25 @@ app.get("/answerQuestion/:id", checkSession, function(request, response, next){
 // POST del formulario de la vista de contestar una pregunta para uno mismo
 app.post("/answerQuestion/:id", checkSession, function(request, response, next){
     response.status(200);
-    if(request.body.other_answer === ''){
-            daoUA.insertUserAnswer(request.params.id, request.body.answer, app.locals.userId, app.locals.userId, function(err){
-                if(err) next(new Error(err));
-                else response.redirect("/questions"); 
-            });
+    if(request.body.answer != null && request.body.answer != "other"){
+        daoUA.insertUserAnswer(request.params.id, request.body.answer, app.locals.userId, app.locals.userId, function(err){
+            if(err) next(new Error(err));
+            else response.redirect("/questions"); 
+        });
     }
     else{
-        daoA.insertAnswer(request.params.id, request.body.other_answer, function(err, idAnswer){
-            if(err) next(new Error(err));
-            else{
-                daoUA.insertUserAnswer(request.params.id, idAnswer, app.locals.userId, app.locals.userId, function(err){
-                    if(err) next(new Error(err));
-                    else response.redirect("/questions"); 
-                });
-            }
-        });
+        if(request.body.other_answer != ""){
+            daoA.insertAnswer(request.params.id, request.body.other_answer, function(err, idAnswer){
+                if(err) next(new Error(err));
+                else{
+                    daoUA.insertUserAnswer(request.params.id, idAnswer, app.locals.userId, app.locals.userId, function(err){
+                        if(err) next(new Error(err));
+                        else response.redirect("/questions"); 
+                    });
+                }
+            });
+        }
+        else response.redirect("/questions");
     }
 
 });
@@ -477,17 +495,23 @@ app.get("/guessQuestion/:idPregunta/:friendId/:friendName", checkSession, functi
             daoUA.searchAnswerByUserQuestion(request.params.idPregunta, request.params.friendId, function(err, idCorrect){
                 if(err) next(new Error(err));
                 else{
-                    let i = 1;
+                    let i = 0;
                     let pos;
                     let size = answerList.length;
                     let answersArray = [];
                     let posCorrect = Math.floor(Math.random() * size);
-                    answersArray[posCorrect] = answerList.find(o =>{ o.id === idCorrect });
-                    while(i < 5){
+                    let aux = answerList.findIndex(o =>{ return o.id == idCorrect });
+                    answersArray[posCorrect] = answerList[aux];
+                    console.log(answerList[aux]);
+                    while(i < 4){
                         if(i == posCorrect) i++;
                         else{
                             pos = Math.floor(Math.random() * size);
-                            if(!answersArray.find(answerList[pos])){
+                            aux = answersArray.findIndex(o =>{ 
+                                if(o != null) return o.id == answerList[pos].id
+                                else return false;
+                            })
+                            if(aux == -1){
                                 answersArray[i] = answerList[pos]
                                 i++;
                             }

@@ -12,12 +12,21 @@
         <div class="page_container">
             <form method="POST" action="/addQuestion">
                 <h1 class="centered">Introduce tu pregunta</h1>
-                <input id="question_input" type="text" class="input_primary" name="new_question"/>
+                <div class="content_wrapper">
+                    <input id="question_input" type="text" class="input_primary" name="new_question" required/>
+                </div>
+
                 <h1 class="centered">Añade las posibles respuestas</h1>
-                <input id="answer_input" type="text" class="input_primary" name="answer1"/>
-                <input id="answer_input" type="text" class="input_primary" name="answer2"/>
-                <input id="answer_input" type="text" class="input_primary" name="answer3"/>
-                <input id="answer_input" type="text" class="input_primary" name="answer4"/>
+                <div class="content_wrapper">
+                    <input id="answer_input" type="text" class="input_primary" name="answer1" required/>
+                    <input id="answer_input" type="text" class="input_primary" name="answer2" required/>
+                    <input id="answer_input" type="text" class="input_primary" name="answer3" required/>
+                    <input id="answer_input" type="text" class="input_primary" name="answer4" required/>
+                </div>
+
+                <% if(errorMsg != null) { %>
+                    <p class="error_Msg">ERROR: debes rellenar el nombre de la pregunta y las 4 respuestas iniciales</p>
+                <% } %>
                 <input id="btn_add" class="btn btn_primary" type="submit" value="Aceptar"/>
             </form>
         </div>

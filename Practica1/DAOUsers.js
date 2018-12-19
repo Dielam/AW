@@ -130,14 +130,24 @@ class DAOUsers{
             if(err) return callback("Error de conexión a la base de datos");
             else{
                 connection.query(
-                    "INSERT INTO usuarios(email, contraseña, nombre, sexo, fecha, imagen, puntos) VALUES(?, ?, ?, ?, ?, ?, 0)",
-                    [user.email, user.password, user.name, user.gender, user.date, user.img],
+                    "SELECT * FROM usuarios WHERE email = ?",
+                    [user.email],
                     function(err, result){
-                        connection.release();
                         if(err) return callback("Error de acceso a la base de datos");
-                        else return callback(null, result.insertId);
+                        else if(result[0] == null) return callback(null, false);
+                        else{
+                            connection.query(
+                                "INSERT INTO usuarios(email, contraseña, nombre, sexo, fecha, imagen, puntos) VALUES(?, ?, ?, ?, ?, ?, 0)",
+                                [user.email, user.password, user.name, user.gender, user.date, user.img],
+                                function(err, result){
+                                    connection.release();
+                                    if(err) return callback("Error de acceso a la base de datos");
+                                    else return callback(null, result.insertId);
+                                }
+                            );
+                        }
                     }
-                );
+                )
             }
         });
     }
