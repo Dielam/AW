@@ -239,12 +239,15 @@ app.post("/modifyProfile", checkSession, multerFactory.single('uploadedfile'), f
         name: request.body.name,
         gender: request.body.gender,
         date: request.body.date,
-        img: request.file.filename
+        img: request.file == null ? null : request.file.filename
     };
-    daoU.updateUser(user, function(err){
-        if(err) next(new Error(err));
-        else response.redirect("/profile/"+ request.session.currentId);
-    });
+    if(user.email != null && user.password != null && user.name != null){
+        daoU.updateUser(user, function(err){
+            if(err) next(new Error(err));
+            else response.redirect("/profile/"+ request.session.currentId);
+        });
+    }
+    else response.redirect("/profile/"+ request.session.currentId);
 });
 
 // GET de userImage
