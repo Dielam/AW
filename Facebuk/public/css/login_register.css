@@ -1,0 +1,36 @@
+/* LOGIN AND REGISTER STARTS */
+.login{
+    width: 50%;
+    padding: 20px;
+    background-color: #FE2E2E;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+}
+.login p, .login input[type="file"]{
+    color: white;
+}
+#gender_input{
+    margin: 10px;
+}
+#user_image_input{
+    margin: 10px 10px;
+}
+#btn_ok{
+    padding: 5px;
+    font-size: 18px;
+    color: white;
+    background-color: #9e0303;
+    border: 2px solid transparent;
+    border-radius: 0.4rem;
+    display: flex;
+    margin: 15px auto 0;
+    cursor: pointer;
+}
+#btn_ok:hover{
+    background-color: white;
+    color: black;
+}
+/* LOGIN AND REGISTER ENDS*/

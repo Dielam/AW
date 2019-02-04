@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Crea tu pregunta</title>
+        <link rel="icon" type="image/ico" href="/img/u.ico">
+        <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/questions.css" media="screen">
+    </head>
+    <body>
+        <section><%- include header %></section>
+        <div class="page_container">
+            <form method="POST" action="/addQuestion">
+                <h1 class="centered">Introduce tu pregunta</h1>
+                <div class="content_wrapper">
+                    <input id="question_input" type="text" class="input_primary" name="new_question" required/>
+                </div>
+
+                <h1 class="centered">Añade las posibles respuestas</h1>
+                <div class="content_wrapper">
+                    <input id="answer_input" type="text" class="input_primary" name="answer1" required/>
+                    <input id="answer_input" type="text" class="input_primary" name="answer2" required/>
+                    <input id="answer_input" type="text" class="input_primary" name="answer3" required/>
+                    <input id="answer_input" type="text" class="input_primary" name="answer4" required/>
+                </div>
+
+                <% if(errorMsg != null) { %>
+                    <p class="error_Msg">ERROR: debes rellenar el nombre de la pregunta y las 4 respuestas iniciales</p>
+                <% } %>
+                <input id="btn_add" class="btn btn_primary" type="submit" value="Aceptar"/>
+            </form>
+        </div>
+    </body>
+</html>

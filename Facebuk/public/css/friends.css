@@ -1,0 +1,21 @@
+form{
+    display: flex;
+    align-items: center;
+}
+.friend_avatar{
+	margin-right: 10px;
+}
+
+.btn_secondary{
+	margin-left: 10px;
+}
+
+.friend_item{
+    width: 48%;
+    display: inline-flex;
+}
+
+.friend_name{
+    overflow: hidden;
+}
+

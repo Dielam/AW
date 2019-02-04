@@ -1,0 +1,29 @@
+{
+  "name": "facebuk",
+  "version": "1.0.0",
+  "description": "Red social Facebuk",
+  "main": "app.js",
+  "scripts": {
+    "test": "test.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dielam/AW.git"
+  },
+  "keywords": [
+    "node",
+    "proyecto",
+    "red",
+    "social",
+    "facebuk"
+  ],
+  "author": "Carlos Jiménez & Diego Laguna",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express-mysql-session": "^2.0.1",
+    "express-session": "^1.15.6",
+    "multer": "^1.4.1"
+  }
+}

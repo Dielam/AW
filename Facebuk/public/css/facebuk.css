@@ -1,0 +1,141 @@
+/* GENERAL TAGS STARTS */
+html{
+    background-color: #FFFDF9;
+}
+ul{
+    padding-inline-start: 0;
+    list-style-type: none; 
+}
+li{
+    display: flex;
+    align-items: center;
+}
+body{
+    font-family: 'Helvetica', Arial, sans-serif;
+}
+form{
+    width: 100%;
+    text-align: center;
+}
+label{
+    display: block;
+    color: white;
+}
+p{
+    margin: 0 0 10px 0;
+}
+h1{
+    font-size: 45px;
+    margin-bottom: 60px;
+}
+h2{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+/* GENERAL TAGS ENDS */
+
+/* PAGE CONTENT STARTS */
+.page_container{
+    margin-top: 140px;
+}
+.title{
+    color: black;
+    font-size: 25px;
+    width: 35%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+}
+.centered{
+    display: flex;
+    justify-content: center;
+}
+.right{
+    display: flex;
+    margin-left: auto;
+}
+
+.content_wrapper{
+    width: 50%;
+    padding: 20px;
+    background-color: #FE2E2E;
+    border: 2px solid transparent;
+    border-radius: 0.4em;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+.content_wrapper--centered{
+    align-items: center;
+}
+.input_primary{
+    width: 70%;
+    padding: 5px 0;
+    background-color: white;
+    border: 2px solid #FE2E2E;
+    border-radius: 0.4rem;
+    margin: 10px auto; 
+}
+.radio_input{
+    margin-bottom: 10px;
+}
+.radio_label{
+    display: inline;
+}
+.error_Msg{
+    color: #ff010e;
+    margin: 10px 0;
+    display:flex;
+    align-items: center;
+}
+.link{
+    color: white;
+    text-decoration-line: none;
+    padding: 10px;
+}
+.link_secondary{
+    color: black;
+    text-decoration-line: none;
+    padding: 10px;
+}
+
+/* BUTTONS STARTS */
+.button_container{
+    display: flex;
+}
+.btn_primary{
+    color: white;
+    background-color: #9e0303;
+    border: 0px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 15px;
+    text-decoration-line: none;
+    margin-right: 15px;
+}
+.btn:hover{
+    background-color: white;
+    color: black;
+}
+.btn_secondary{
+    color: white;
+    background-color: black;
+    border: 0px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 15px;
+    text-decoration-line: none;
+}
+.btn_centered{
+    margin: 0 auto;
+}
+.btn_right{
+    margin-left: auto;
+    margin-right: 20px;
+}
+/* BUTTONS ENDS */
+
+
+/* PAGE CONTENT ENDS */

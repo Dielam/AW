@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" type="image/ico" href="/img/u.ico">
+        <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/questions.css" media="screen">
+    </head>
+    <body>
+        <section><%- include header %></section>
+        <div class="page_container">
+            <div class="title">Preguntas aleatorias</div>
+                <div class="question_list">
+                    <ul>
+                        <% questionsList.forEach(q => { %>
+                                <li class="question">
+                                    <a href="/questionDetails/<%= q.id %>" class="link_secondary question_title"> <%= q.pregunta %> </a>
+                                </li>
+                        <% }) %>
+                    </ul>
+                </div>
+            <div class="title">Añade tus preguntas</div>
+            <div class="question_add">
+                <a id="btn_add" class="btn_primary" href="/addQuestion">Crear nuevas preguntas</a>    
+            </div>
+        </div>
+    </body>
+</html>

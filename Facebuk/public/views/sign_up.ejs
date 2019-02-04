@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" type="image/ico" href="/img/u.ico">
+        <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/facebuk.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/css/login_register.css" media="screen">
+    </head>
+    <body>
+        <section><%- include header %></section>
+        <div class="page_container">
+            <div class="login">
+                <form enctype="multipart/form-data" method="POST" action="/signUp">
+                    <label for="email_input">Dirección de correo</label>
+                    <input id="email_input" type="email" class="input_primary" placeholder="Dirección de Correo" name="email" required/>
+                    <label for="password_input">Contraseña</label>
+                    <input id="password_input" type="password" class="input_primary" placeholder="Contraseña" name="password" required/>
+                    <label for="name_input">Nombre completo</label>
+                    <input id="name_input" type="text" class="input_primary" placeholder="Nombre completo" name="name" required/>
+                    <p>Sexo</p>
+                    <input id="gender_input--male" class="radio_input" type="radio" name="gender" value="Masculino" checked/><label class="radio_label" for="gender_input--male">Masculino</label>
+                    <input id="gender_input--female" class="radio_input" type="radio" name="gender" value="Femenino"/><label class="radio_label" for="gender_input--female">Femenino</label>
+                    <input id="gender_input--other" class="radio_input" type="radio" name="gender" value="Otro"/><label class="radio_label" for="gender_input--other">Otro</label>
+                    <label for="date_input">Fecha nacimiento</label>
+                    <input id="date_input" type="date" class="input_primary" placeholder="Fecha de nacimiento" name="date"/>
+                    <input name="uploadedfile" type="file"/>
+                    <input id="btn_ok" type="submit" class="btn_ok" value="Crear usuario"/>
+                </form>
+                <% if(errorMsg == null) { %>
+                    <p class="error_Msg">ERROR: ya existe un usuario con este email</p>
+                <% } %>
+            </div>
+        </div>
+    </body>
+</html>
