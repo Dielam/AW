@@ -3,10 +3,10 @@
     width: 50%;
     padding: 20px;
     background-color: #FE2E2E;
-    border: 2px solid transparent;
     display: flex;
     flex-direction: column;
     margin: auto;
+    padding: 1.5rem;
     align-items: center;
 }
 .login p, .login input[type="file"]{
@@ -19,15 +19,17 @@
     margin: 10px 10px;
 }
 #btn_ok{
-    padding: 5px;
+    padding: 0.5rem 1rem;
     font-size: 18px;
     color: white;
     background-color: #9e0303;
     border: 2px solid transparent;
-    border-radius: 0.4rem;
     display: flex;
     margin: 15px auto 0;
     cursor: pointer;
+}
+.new-user #btn_ok{
+    margin-top: 4rem;
 }
 #btn_ok:hover{
     background-color: white;

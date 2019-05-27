@@ -9,9 +9,9 @@
     <body>
         <section><%- include header %></section>
         <div class="page_container">
-            <div class="title">Preguntas aleatorias</div>
-                <div class="question_list">
-                    <ul>
+            <h1 class="question_title">Preguntas aleatorias</h1>
+                <div class="content_wrapper question_list">
+                    <ul class="list">
                         <% questionsList.forEach(q => { %>
                                 <li class="question">
                                     <a href="/questionDetails/<%= q.id %>" class="link_secondary question_title"> <%= q.pregunta %> </a>
@@ -19,10 +19,10 @@
                         <% }) %>
                     </ul>
                 </div>
-            <div class="title">Añade tus preguntas</div>
-            <div class="question_add">
-                <a id="btn_add" class="btn_primary" href="/addQuestion">Crear nuevas preguntas</a>    
-            </div>
+                <div class="add-container">
+                    <h2 class="question_title">Añade tus preguntas</h2>
+                    <a class=" btn_add btn_primary add" href="/addQuestion">+</a>    
+                </div>
         </div>
     </body>
 </html>

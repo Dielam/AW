@@ -11,51 +11,54 @@
 		<section><%- include header %></section>
 		<div class="page_container">
 			<h1 class="centered">Amigos</h1>
-			<h2 class="centered">Solicitudes de amistad</h2>
+			<div class="friends-wrapper">
+				<h2>Solicitudes de amistad</h2>
 
-			<div class="content_wrapper">
-				<ul>
-					<% contactsList.forEach(contact => { %>
-						<% if(contact.confirmacion == null) { %>
-							<li>
-								<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
-								<a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
-								<div class="button_container btn_right">
-									<a class="btn btn_primary" href="/acceptFriendInv/<%= contact.id %>">Aceptar</a>
-									<a class="btn btn_secondary"  href="/declineFriendInv/<%= contact.id %>">Rechazar</a>
-								</div>
-							</li>
-						<% } %>
-					<% }) %>
-				</ul>
-			</div>
+				<div class="content_wrapper">
+					<ul>
+						<% contactsList.forEach(contact => { %>
+							<% if(contact.confirmacion == null) { %>
+								<li>
+									<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
+									<a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
+									<div class="button_container btn_right">
+										<a class="btn btn_primary" href="/acceptFriendInv/<%= contact.id %>">Aceptar</a>
+										<a class="btn btn_secondary"  href="/declineFriendInv/<%= contact.id %>">Rechazar</a>
+									</div>
+								</li>
+							<% } %>
+						<% }) %>
+					</ul>
+				</div>
+	
+				<h2>Búsqueda de amigos</h2>
+	
+				<div class="content_wrapper">
+					<form method="POST" action="/friendsSearch" class="friends_search">
+						<label for="user_searcher" class="user_searches-title">Buscar por nombre: </label>
+						<input type="text" name="searcher" id="user_searcher" class="input_primary">
+						<div class="left">
+							<input type="submit" class="btn btn_primary" value="Buscar">
+						</div>
+					</form>
+				</div>
+	
+				<h2>Mis amigos</h2>
+	
+				<div class="content_wrapper">
+					<ul>
+						<% contactsList.forEach(contact => { %>
+							<% if(contact.confirmacion != null && contact.confirmacion == true) { %>
+								<li class="friend_item">
+									<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
+									<a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
+								</li>
+							<% } %>
+						<% }) %>
+					</ul>
+				</div>
+		</div>
 
-			<h2 class="centered">Búsqueda de amigos</h2>
-
-			<div class="content_wrapper">
-				<form method="POST" action="/friendsSearch">
-					<label for="user_searcher">Buscar por nombre: </label>
-					<input type="text" name="searcher" id="user_searcher" class="input_primary">
-					<div class="right">
-						<input type="submit" class="btn btn_primary" value="Buscar">
-					</div>
-				</form>
-			</div>
-
-			<h2 class="centered">Mis amigos</h2>
-
-			<div class="content_wrapper">
-				<ul>
-					<% contactsList.forEach(contact => { %>
-						<% if(contact.confirmacion != null && contact.confirmacion == true) { %>
-							<li class="friend_item">
-								<img src="/userImage/<%= contact.id %>" class="friend_avatar" height="50" width="50">
-								<a href="/profile/<%= contact.id%>" class="link friend_name"><%= contact.nombre %></a>
-							</li>
-						<% } %>
-					<% }) %>
-				</ul>
-			</div>
 		</div>
 	</body>
 </html>

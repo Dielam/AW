@@ -1,22 +1,25 @@
 /* HEADER SECTION STARTS */
 .header{
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between;
     background-color: #FE2E2E;
     position: fixed;
     top: 0;
+    left: 0;
+    padding: 0 1rem;
     width: 100%;
-    margin-left: -8px;
-    padding-right: 15px;
+    height: 100px;
+    align-items: center;
     z-index: 99999; 
 }
+
 .page_title{
     display: flex;
-    margin-left: 1rem;
 }
-.pushbutton_panel{
-    margin-inline-start: 300px;
+.pushbutton_panel{ 
     font-size: 20px;
-    margin-top: -25px;
-    margin-bottom: 15px;
+    padding-right: 1.5rem;
 }
 .pushbutton_panel a:hover{
     font-weight:bold;
@@ -24,16 +27,23 @@
 .info_panel{
     display: flex;
     justify-content: flex-end;
-    margin-right: 15%;
-    margin-top: -6%;
-    margin-bottom: 1%
+    padding-right: 1rem;
+}
+.general_panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 .info_panel--avatar{
-    margin-right: 2%;
+    margin-right: 15px;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
 }
 .info_panel--points{
     align-self: center;
     color: white;
     font-size: 18px;
+    width: 85px;
 }
 /* HEADER SECTION ENDS */

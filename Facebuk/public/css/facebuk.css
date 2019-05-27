@@ -24,13 +24,12 @@ label{
 p{
     margin: 0 0 10px 0;
 }
-h1{
-    font-size: 45px;
-    margin-bottom: 60px;
-}
+
 h2{
-    font-size: 30px;
+    font-size: 24px;
     margin-bottom: 20px;
+    text-align: left;
+    margin-top: 2.5rem;
 }
 /* GENERAL TAGS ENDS */
 
@@ -38,45 +37,81 @@ h2{
 .page_container{
     margin-top: 140px;
 }
-.title{
+.question_title{
     color: black;
-    font-size: 25px;
-    width: 35%;
-    padding: 5px;
     display: flex;
-    flex-direction: column;
-    margin: auto;
-    align-items: center;
+    justify-content: center;
 }
 .centered{
     display: flex;
     justify-content: center;
+    color: #000;
+
 }
 .right{
     display: flex;
     margin-left: auto;
 }
-
+.friends-wrapper {
+    width: 70%;
+    margin: auto;
+}
 .content_wrapper{
-    width: 50%;
     padding: 20px;
     background-color: #FE2E2E;
     border: 2px solid transparent;
-    border-radius: 0.4em;
     display: flex;
     flex-direction: column;
     margin: auto;
 }
+.friends_search .left{
+    margin-left: 1rem;
+}
+.user_searches-title{
+    margin-left: 0.9rem;
+}
 .content_wrapper--centered{
     align-items: center;
 }
+.content_wrapper--small {
+    width: 50%
+}
+.friends_search{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 .input_primary{
-    width: 70%;
-    padding: 5px 0;
+    width: 95%;
+    padding: 1rem 0.5rem ;
     background-color: white;
-    border: 2px solid #FE2E2E;
-    border-radius: 0.4rem;
+    border: none;
     margin: 10px auto; 
+}
+.login label {
+    margin-top: 1rem;
+    width: 70%;
+    text-align: left;
+}
+.input_upload {
+    margin-top: 1.5rem;
+    display: flex;
+}
+h1 {
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+.login_paragraph {
+    margin-top: 1rem;
+    text-align: left;
+}
+.login_sex {
+    display: flex;
+    flex-direction: column;
+}
+.login label:first-of-type {
+    margin-top: 0;
 }
 .radio_input{
     margin-bottom: 10px;
@@ -106,14 +141,21 @@ h2{
     display: flex;
 }
 .btn_primary{
+    padding: 0.5rem 1rem;
+    font-size: 18px;
     color: white;
     background-color: #9e0303;
-    border: 0px solid transparent;
-    border-radius: 5px;
+    border: 2px solid transparent;
+    display: flex;
+    margin: 15px auto 0;
     cursor: pointer;
-    padding: 5px 15px;
-    text-decoration-line: none;
-    margin-right: 15px;
+    text-decoration: none;
+}
+.add {
+    border-radius: 50%;
+    height: 25px;
+    width: 13px;
+    margin-left: auto;
 }
 .btn:hover{
     background-color: white;
