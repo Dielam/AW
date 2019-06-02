@@ -31,8 +31,8 @@
     width: 120px;
     margin-left: auto;
     position: fixed;
-    bottom: 0;
-    right: 0;
+    bottom: 50px;
+    right: 50px;
 }
 .add-container .question_title {
     margin-bottom: 0;

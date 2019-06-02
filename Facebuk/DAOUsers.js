@@ -78,15 +78,25 @@ class DAOUsers{
                                 email: result[0].email,
                                 password: result[0].contraseña,
                                 name: result[0].nombre,
-                                date: result[0].fecha,
+                                date: new Date(result[0].fecha),
                                 gender: result[0].sexo,
                                 img: result[0].imagen,
                                 pts: result[0].puntos 
                             };
-                            user.date = new Date(user.date);
                             let ageDifMs = Date.now() - user.date.getTime();
                             var ageDate = new Date(ageDifMs);
-                            user.date = Math.abs(ageDate.getUTCFullYear() - 1970);
+                            user.age = Math.abs(ageDate.getUTCFullYear() - 1970);
+                                                        
+                            let dd = user.date.getDate();
+                            let mm = user.date.getMonth()+1;
+                            let yyyy = user.date.getFullYear();
+                            if(dd < 10){
+                                dd = '0' + dd
+                            } 
+                            if(mm < 10){
+                                mm = '0' + mm
+                            } 
+                            user.date = yyyy + '-' + mm + '-' + dd;
                             return callback(null, user);
                         }
                     }

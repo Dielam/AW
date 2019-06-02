@@ -25,7 +25,7 @@
                         <label class="radio_label" for="gender_input--other"><input id="gender_input--other" class="radio_input" type="radio" name="gender" value="Otro"/>Otro</label>
                     </div>
                     <label for="date_input">Fecha nacimiento</label>
-                    <input id="date_input" type="date" class="input_primary" placeholder="Fecha de nacimiento" name="date"/>
+                    <input id="date_input" type="date" class="input_primary" placeholder="Fecha de nacimiento" name="date" max="<%= maxDate %>"/>
                     <label for="img_input">Fotografía de perfil</label>
                     <input id="img_input" name="uploadedfile" type="file" class="input_upload"/>
                     <input id="btn_ok" type="submit" class="btn_ok btn-new-user" value="Crear usuario"/>

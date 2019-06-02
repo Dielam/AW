@@ -35,7 +35,7 @@
                         <% } %>
                     </div>
                     <label for="date_input">Fecha nacimiento</label>
-                    <input id="date_input" type="date" class="input_primary" value='<%= user.date %>' name="date"/>
+                    <input id="date_input" type="date" class="input_primary" value='<%= user.date %>' max="<%= maxDate %>" name="date"/>
                     <label for="img_input">Fotografía de perfil</label>
                     <input id="img_input" name="uploadedfile"  class="input_upload" type="file"/>
                     <input id="btn_ok" type="submit" class="btn_ok" value="Actualizar usuario"/>

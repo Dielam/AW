@@ -80,6 +80,12 @@ function checkSession(request, response, next){
     else response.redirect("/login");
 }
 
+// GET de root
+app.get("/", function(request, response){
+    response.status(200);
+    response.redirect("login");
+});
+
 // GET de login
 app.get("/login", function(request, response){
     response.status(200);
@@ -144,7 +150,7 @@ app.get("/signUp", function(request, response){
         request.session.currentId = null;
         app.locals.userPts = null;
         request.session.currentPts = null;
-        response.render("sign_up", {"errorMsg": false});
+        response.render("sign_up", {"errorMsg": false,"maxDate": getMaxDate()});
     }
     else{
         app.locals.userEmail = request.session.currentUser;
@@ -154,10 +160,9 @@ app.get("/signUp", function(request, response){
     }
 });
 
-// POST del registro de usuario
+// POST del registro de usuario TODO: No crea usuarios
 app.post("/signUp", multerFactory.single('uploadedfile'), function(request, response){
     response.status(200);
-    console.log(request.file);
     if(request.session.currentUser == null){
         let user = {
             email: request.body.email,
@@ -226,7 +231,7 @@ app.get("/modifyProfile", checkSession, function(request, response, next){
     response.status(200);
     daoU.getInfoUser(app.locals.userId, function(err, user){
         if(err) next(new Error(err));
-        else response.render("modify_profile", {"user": user});
+        else response.render("modify_profile", {"user": user, "maxDate": getMaxDate()});
     });
 });
 
@@ -336,7 +341,7 @@ app.get("/questions", checkSession, function(request, response, next){
     });
 });
 
-// GET de la vista de detalle de pregunta
+// GET de la vista de detalle de pregunta TODO: Ver dónde peta y por qué. Pasa aleatoriamente al acceder a una pregunta
 app.get("/questionDetails/:id", checkSession, function(request, response, next){
     response.status(200);
     daoF.getFriendsData(app.locals.userId, function(err, contactsList){
@@ -489,7 +494,7 @@ app.post("/answerQuestion/:id", checkSession, function(request, response, next){
 
 });
 
-// GET de la vista de adivinar una respuesta de un amigo
+// GET de la vista de adivinar una respuesta de un amigo TODO: Esto no funciona
 app.get("/guessQuestion/:idPregunta/:friendId/:friendName", checkSession, function(request, response, next){
     response.status(200);
     daoA.getAnswersOfQuestion(request.params.idPregunta, function(err, answerList){
@@ -586,3 +591,20 @@ app.listen(config.port, function(err){
 
     else console.log(`Servidor arrancado en el puerto ${config.port}`);
 });
+
+function getMaxDate(){
+    let maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() - 12);
+    let dd = maxDate.getDate();
+    let mm = maxDate.getMonth()+1;
+    let yyyy = maxDate.getFullYear();
+    if(dd < 10){
+        dd = '0' + dd
+    } 
+    if(mm < 10){
+        mm = '0' + mm
+    } 
+
+    maxDate = yyyy + '-' + mm + '-' + dd;
+    return maxDate;
+}
