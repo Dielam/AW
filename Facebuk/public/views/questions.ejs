@@ -12,11 +12,15 @@
             <h1 class="question_title">Preguntas aleatorias</h1>
                 <div class="content_wrapper question_list">
                     <ul class="list">
-                        <% questionsList.forEach(q => { %>
-                                <li class="question">
-                                    <a href="/questionDetails/<%= q.id %>" class="link_secondary question_title"> <%= q.pregunta %> </a>
-                                </li>
-                        <% }) %>
+                        <% if(questionsList.length > 0) { %>
+                            <% questionsList.forEach(q => { %>
+                                    <li class="question">
+                                        <a href="/questionDetails/<%= q.id %>" class="link_secondary question_title"> <%= q.pregunta %> </a>
+                                    </li>
+                            <% }) %>
+                        <% } else { %>
+                            <a class="link" href="/addQuestion">No hay preguntas todavía. ¡Crea la primera aquí!</a>
+                        <% } %>
                     </ul>
                 </div>
                 <div class="add-container">

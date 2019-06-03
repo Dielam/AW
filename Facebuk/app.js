@@ -37,7 +37,7 @@ const middlewareSession = session({
 });
 
 // Creacion de factoria de multer
-const multerFactory = multer({dest: path.join(__dirname, "profile_imgs/")});
+const multerFactory = multer({ storage: multer.memoryStorage() });
 
 // Arrancar middleware middlewareSession
 app.use(middlewareSession);
@@ -160,7 +160,7 @@ app.get("/signUp", function(request, response){
     }
 });
 
-// POST del registro de usuario TODO: No crea usuarios
+// POST del registro de usuario
 app.post("/signUp", multerFactory.single('uploadedfile'), function(request, response){
     response.status(200);
     if(request.session.currentUser == null){
@@ -170,7 +170,7 @@ app.post("/signUp", multerFactory.single('uploadedfile'), function(request, resp
             name: request.body.name,
             gender: request.body.gender,
             date: request.body.date,
-            img: request.file == null ? null : request.file.filename,
+            img: request.file == null ? null : request.file.buffer,
         };
         daoU.insertUser(user, function(err, id){
             if(err){
@@ -244,9 +244,9 @@ app.post("/modifyProfile", checkSession, multerFactory.single('uploadedfile'), f
         name: request.body.name,
         gender: request.body.gender,
         date: request.body.date,
-        img: request.file == null ? null : request.file.filename
+        img: request.file == null ? null : request.file.buffer
     };
-    if(user.email != null && user.password != null && user.name != null){
+    if(user.email != null && user.password != null && user.name != null && request.file.size < 65535){
         daoU.updateUser(user, function(err){
             if(err) next(new Error(err));
             else response.redirect("/profile/"+ request.session.currentId);
@@ -258,14 +258,18 @@ app.post("/modifyProfile", checkSession, multerFactory.single('uploadedfile'), f
 // GET de userImage
 app.get("/userImage/:id", function(request, response){
     response.status(200);
-    daoU.getUserImageName(request.params.id, function(err, img){
-        if(img != null && fs.existsSync(path.join(__dirname, "profile_imgs", img))){
-            response.sendFile(path.join(__dirname, "profile_imgs", img));
-        }
-        else{
-            response.sendFile(path.join(__dirname, "profile_imgs", "Noprofile.jpg"));
-        }    
-    });
+    let id = Number(request.params.id);
+    if (isNaN(id)) {
+        next(new Error("Petición incorrecta"));
+    } else {
+        daoU.getUserImageName(id, function(err, imagen) {
+            if (imagen) {
+                response.end(imagen);
+            } else {
+                response.sendFile(path.join(__dirname, "public/img/", "Noprofile.jpg"));
+            }
+        });
+    }
 });
 
 // GET de la vista friends.ejs
@@ -329,11 +333,13 @@ app.get("/questions", checkSession, function(request, response, next){
             let pos;
             let size = questionsArray.length;
             let questionsList = [];
-            while(i < 5){
-                pos = Math.floor(Math.random() * size);
-                if(!questionsList.includes(questionsArray[pos])){
-                    questionsList[i] = questionsArray[pos]
-                    i++;
+            if(questionsArray.length > 0){
+                while(i < (size > 5 ? 5 : size)){
+                    pos = Math.floor(Math.random() * size);
+                    if(!questionsList.includes(questionsArray[pos])){
+                        questionsList[i] = questionsArray[pos]
+                        i++;
+                    }
                 }
             }
             response.render("questions", {"questionsList": questionsList}); 
@@ -345,6 +351,7 @@ app.get("/questions", checkSession, function(request, response, next){
 app.get("/questionDetails/:id", checkSession, function(request, response, next){
     response.status(200);
     daoF.getFriendsData(app.locals.userId, function(err, contactsList){
+        console.log("getFriendsData", contactsList);
         if(err) next(new Error(err));
         else {
             friendsList = contactsList.filter(contact =>{
@@ -352,10 +359,12 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                 else return false;
             })
             daoUA.getCorrectAnswerForUsers(friendsList, app.locals.userId,request.params.id, function(error, correctAnswersList){
+                console.log("getCorrectAnswerForUsers", correctAnswersList);
                 if(error) next(new Error(error));
                 else{
                     if(correctAnswersList != null){ 
                         daoUA.getMyAnswers(app.locals.userId, request.params.id, function(MAError, myAnswersList){
+                            console.log("getMyAnswers", myAnswersList);
                             if(MAError) next(new Error(error));
                             else{
                                 let finalContactsList = [];
@@ -363,6 +372,7 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                                     let resultado = null;
                                     let i = 0;
                                     let encontrado = false;
+                                    console.log("before while");
                                     while(i < myAnswersList.length && encontrado == false){
                                         if (myAnswersList[i].idUsuario === element.idUsuario && myAnswersList[i].miRespuesta === element.respuestaCorrecta) {
                                             resultado = 1;
@@ -374,6 +384,7 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                                         }
                                         else i++;
                                     }
+                                    console.log("after while");
                                     finalContactsList.push({
                                         "id"        : element.idUsuario,
                                         "nombre"    : element.nombreUsuario,
@@ -381,9 +392,12 @@ app.get("/questionDetails/:id", checkSession, function(request, response, next){
                                     })
                                 });
                                 daoQ.searchQuestionById(request.params.id, function(SQError, questionName){
+                                    console.log("searchQuestionById", questionName);
                                     if(SQError) next(new Error(error));
                                     else{
+                                        console.log("pre function");
                                         daoUA.getMyAnswerForMyself(app.locals.userId, request.params.id, function(AFMError, answerForMyself){
+                                            console.log("getMyAnswerForMyself", answerForMyself);
                                             if(AFMError) next(new Error(error));
                                             else{
                                                 if(answerForMyself == null) answerForMyself = null;
@@ -494,7 +508,7 @@ app.post("/answerQuestion/:id", checkSession, function(request, response, next){
 
 });
 
-// GET de la vista de adivinar una respuesta de un amigo TODO: Esto no funciona /questionDetails/3
+// GET de la vista de adivinar una respuesta de un amigo
 app.get("/guessQuestion/:idPregunta/:friendId/:friendName", checkSession, function(request, response, next){
     response.status(200);
     daoA.getAnswersOfQuestion(request.params.idPregunta, function(err, answerList){
@@ -510,7 +524,7 @@ app.get("/guessQuestion/:idPregunta/:friendId/:friendName", checkSession, functi
                     let posCorrect = Math.floor(Math.random() * size);
                     let aux = answerList.findIndex(o =>{ return o.id == idCorrect });
                     answersArray[posCorrect] = answerList[aux];
-                    while(i < 4){
+                    while(i < (size > 4 ? 4 : size)){
                         if(i == posCorrect) i++;
                         else{
                             pos = Math.floor(Math.random() * size);
@@ -553,9 +567,13 @@ app.post("/guessQuestion/:idPregunta/:idFriend", checkSession, function(request,
                 if(err) next(new Error(err));
                 else{
                     if(answer == request.body.answer){ 
-                        daoU.addPoints(app.locals.userId, function(err){
+                        daoU.addPoints(app.locals.userId, app.locals.userPts, function(err, newPoints){
                             if(err) next(new Error(err));
-                            else response.redirect("/questions");
+                            else{
+                                app.locals.userPts = newPoints;
+                                request.session.currentPts = newPoints;
+                                response.redirect("/questions");
+                            }
                         });
                     }
                     else{

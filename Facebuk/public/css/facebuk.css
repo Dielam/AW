@@ -141,10 +141,10 @@ h1 {
     display: flex;
 }
 .btn_primary{
-    padding: 0.5rem 1rem;
-    font-size: 18px;
     color: white;
     background-color: #9e0303;
+    padding: 0.5rem 1rem;
+    font-size: 18px;
     border: 2px solid transparent;
     display: flex;
     margin: 15px auto 0;
@@ -164,11 +164,13 @@ h1 {
 .btn_secondary{
     color: white;
     background-color: black;
-    border: 0px solid transparent;
-    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 18px;
+    border: 2px solid transparent;
+    display: flex;
+    margin: 15px auto 0;
     cursor: pointer;
-    padding: 5px 15px;
-    text-decoration-line: none;
+    text-decoration: none;
 }
 .btn_centered{
     margin: 0 auto;

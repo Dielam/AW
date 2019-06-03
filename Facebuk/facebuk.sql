@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2019 at 05:02 AM
+-- Generation Time: Jun 03, 2019 at 10:22 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -34,17 +34,6 @@ CREATE TABLE `amigos` (
   `confirmación` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `amigos`
---
-
-INSERT INTO `amigos` (`usuario1`, `usuario2`, `confirmación`) VALUES
-(1, 2, NULL),
-(1, 3, 1),
-(1, 5, 1),
-(4, 1, 1),
-(6, 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -55,18 +44,6 @@ CREATE TABLE `preguntas` (
   `id` int(11) NOT NULL,
   `pregunta` varchar(500) COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Dumping data for table `preguntas`
---
-
-INSERT INTO `preguntas` (`id`, `pregunta`) VALUES
-(1, '¿Como se llamaba el primer barco de la Banda de Sombrero de Paja(Mugiwara no Ichimi)?'),
-(2, '¿Cuantas espadas lleva Zoro Roronoa?'),
-(3, '¿Cuantos tripulates forman la Banda de Sombrero de Paja(Mugiwara no Ichimi)?'),
-(4, '¿Cuantas frutas del diablo(Akuma no Mi) controla Barbanegra(Kurohige)?'),
-(5, '¿Que fruta del diablo(Akuma no Mi) se comio Monkey D. Luffy?'),
-(12, 'Pregunta de prueba 01');
 
 -- --------------------------------------------------------
 
@@ -80,27 +57,6 @@ CREATE TABLE `respuestas` (
   `respuesta` varchar(500) COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
---
--- Dumping data for table `respuestas`
---
-
-INSERT INTO `respuestas` (`idPregunta`, `idRespuesta`, `respuesta`) VALUES
-(1, 1, 'Going Merry'),
-(1, 2, 'Baratie'),
-(2, 3, '3'),
-(4, 4, '2'),
-(2, 5, '2'),
-(4, 6, '5'),
-(5, 7, 'Gomu Gomu no Mi'),
-(3, 8, '10'),
-(1, 9, 'Thousand Sunny'),
-(5, 10, 'Ito Ito no Mi'),
-(12, 35, 'Respuesta 01'),
-(12, 36, 'Respuesta 02'),
-(12, 37, 'Respuesta 03'),
-(12, 38, 'Respuesta 04'),
-(1, 39, 'Ni idea');
-
 -- --------------------------------------------------------
 
 --
@@ -113,25 +69,6 @@ CREATE TABLE `respuestas_usuarios` (
   `idUsuarioPregunta` int(11) NOT NULL,
   `idUsuarioResponde` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Dumping data for table `respuestas_usuarios`
---
-
-INSERT INTO `respuestas_usuarios` (`idPregunta`, `idRespuesta`, `idUsuarioPregunta`, `idUsuarioResponde`) VALUES
-(1, 1, 4, 1),
-(1, 1, 4, 4),
-(1, 2, 1, 5),
-(1, 9, 4, 2),
-(1, 39, 1, 1),
-(2, 3, 1, 1),
-(2, 5, 1, 2),
-(3, 8, 3, 3),
-(4, 4, 1, 1),
-(4, 6, 1, 2),
-(5, 7, 1, 1),
-(5, 10, 1, 5),
-(9, 24, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -150,8 +87,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('S9P6bIXrDFEBngtbsKbXGs6KkPFnHbUp', 1559589188, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"usuario@ucm.es\",\"currentId\":1,\"currentPts\":0}'),
-('picdYxPOcclkNdvDEjIchyH-H370ZCEc', 1559616710, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"usuario@ucm.es\",\"currentId\":1,\"currentPts\":0}');
+('picdYxPOcclkNdvDEjIchyH-H370ZCEc', 1559616710, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"usuario@ucm.es\",\"currentId\":1,\"currentPts\":0}'),
+('wIlc5gq7TPhUlyKhclYE3q5S3SD4RZGu', 1559679556, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"usuario@ucm.es\",\"currentId\":1,\"currentPts\":0}');
 
 -- --------------------------------------------------------
 
@@ -166,22 +103,9 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(20) NOT NULL,
   `sexo` varchar(10) NOT NULL,
   `fecha` date NOT NULL,
-  `imagen` varchar(500) DEFAULT NULL,
+  `imagen` blob,
   `puntos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `usuarios`
---
-
-INSERT INTO `usuarios` (`id`, `email`, `contraseña`, `nombre`, `sexo`, `fecha`, `imagen`, `puntos`) VALUES
-(1, 'usuario@ucm.es', '123456', 'Luffy Monkey D.', 'Masculino', '1999-12-05', 'OnePieceWallpaper.jpg', 0),
-(2, 'luffysenpai@gmail.com', '123456', 'Boa Hancock', 'Femenino', '1999-12-22', 'OnePieceWallpaper2.jpg', 0),
-(3, 'naveganteSunny@hotmail.com', '123456', 'Nami', 'Femenino', '1999-12-04', 'OnePieceWallpaper3.jpg', 0),
-(4, 'elGranShogekin@gmail.com', '123456', 'El Dios Usoop', 'Masculino', '1999-12-23', 'OnePieceWallpaper4.jpg', 0),
-(5, 'vivaeldulce@gmail.com', '123456', 'Chopper', 'Otro', '1999-12-01', 'OnePieceWallpaper1.jpg', 0),
-(6, 'prueba@mail.com', '123456', 'No se de One Piece', 'Otro', '1800-12-15', 'OnePieceWallpaper.jpg', 0),
-(7, 'test@test.es', '123123', 'test01', 'Masculino', '2007-06-03', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -237,19 +161,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `respuestas`
 --
 ALTER TABLE `respuestas`
-  MODIFY `idRespuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `idRespuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

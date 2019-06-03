@@ -115,9 +115,10 @@ class DAOUsers{
                     function(err, result){
                         if(err) return callback("Error de acceso a la base de datos");
                         else{
-                            if(result.length != 0) return callback(null, true);
+                            if(result.length > 1) return callback(null, true);
                             else{
-                                if(user.img != ""){
+                                if(user.img != null){
+                                    console.log(user);
                                     connection.query(
                                         "UPDATE usuarios SET email = ?, contraseña = ?, nombre = ?, sexo = ?, fecha = ?, imagen = ? WHERE id = ?",
                                         [user.email, user.password, user.name, user.gender, user.date, user.img, user.id],
@@ -201,28 +202,18 @@ class DAOUsers{
         });
     }
 
-    addPoints(id, callback){
+    addPoints(id, actualPoints, callback){
         this.pool.getConnection(function(err, connection){
             if(err) return callback("Error de conexión a la base de datos");
             else{
+                actualPoints += 50;
                 connection.query(
-                    "SELECT puntos FROM usuarios WHERE id = ?",
-                    [id],
+                    "UPDATE usuarios SET puntos = ? WHERE id = ?",
+                    [actualPoints, id],
                     function(err, result){
                         connection.release();
                         if(err) return callback("Error de acceso a la base de datos");
-                        else {
-                            let pts = result[0].puntos + 50;
-                            connection.query(
-                                "UPDATE usuarios SET puntos = ? WHERE id = ?",
-                                [pts, id],
-                                function(err, result){
-                                    connection.release();
-                                    if(err) return callback("Error de acceso a la base de datos");
-                                    else return callback(null, result.insertId);
-                                }
-                            );
-                        }
+                        else return callback(null, actualPoints);
                     }
                 );
             }

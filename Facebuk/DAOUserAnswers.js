@@ -83,13 +83,17 @@ class DAOUserAnswers{
     }
 
     getMyAnswerForMyself(userId, questionId, callback){
+        console.log("starting");
         this.pool.getConnection(function(err, connection){
+            console.log("connection");
             if(err) return callback("Error de conexión a la base de datos");
             else{
+                console.log("pre query");
                 connection.query(
                     "SELECT respuesta FROM respuestas_usuarios RU, respuestas R WHERE idUsuarioPregunta = ? AND idUsuarioResponde = ? AND RU.idPregunta = ? AND RU.idRespuesta = R.idRespuesta",
                     [userId, userId, questionId],
                     function(error, result){
+                        console.log("result", result);
                         connection.release();
                         if(error) return callback("Error de acceso a la base de datos");
                         else{
@@ -109,6 +113,7 @@ class DAOUserAnswers{
                     "INSERT INTO respuestas_usuarios(idPregunta, idRespuesta, idUsuarioPregunta, idUsuarioResponde) VALUES(?, ?, ?, ?)",
                     [idPregunta, idRespuesta, userPregunta, userRespuesta],
                     function(error){
+                        connection.release();
                         if(error) return callback("Error de acceso a la base de datos");
                         else return callback(null);
                     }
@@ -125,6 +130,7 @@ class DAOUserAnswers{
                     "SELECT idRespuesta FROM respuestas_usuarios WHERE idPregunta = ? AND idUsuarioPregunta = ? AND idUsuarioResponde = ?",
                     [idPregunta, idUsuarioPregunta, idUsuarioPregunta],
                     function(error, result){
+                        connection.release();
                         if(error) return callback("Error de acceso a la base de datos");
                         else return callback(null, result[0].idRespuesta);
                     }
