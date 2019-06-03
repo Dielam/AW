@@ -155,8 +155,8 @@ class DAOUsers{
                     "SELECT * FROM usuarios WHERE email = ?",
                     [user.email],
                     function(err, result){
-                        if(err) return callback("Error de acceso a la base de datos");
-                        else if(result[0] == null) return callback(null, false);
+                        if(err != null) return callback("Error de acceso a la base de datos");
+                        else if(result[0] != null) return callback(null, false);
                         else{
                             connection.query(
                                 "INSERT INTO usuarios(email, contraseña, nombre, sexo, fecha, imagen, puntos) VALUES(?, ?, ?, ?, ?, ?, 0)",

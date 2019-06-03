@@ -180,7 +180,7 @@ app.post("/signUp", multerFactory.single('uploadedfile'), function(request, resp
                 request.session.currentId = null;
                 app.locals.userPts = null;
                 request.session.currentPts = null;
-                response.render("sign_up", {"errorMsg": null});
+                response.render("sign_up", {"errorMsg": null,"maxDate": getMaxDate()});
             } 
             else{
                 if(id == false){
@@ -190,7 +190,7 @@ app.post("/signUp", multerFactory.single('uploadedfile'), function(request, resp
                     request.session.currentId = null;
                     app.locals.userPts = null;
                     request.session.currentPts = null;
-                    response.render("sign_up", {"errorMsg": true});
+                    response.render("sign_up", {"errorMsg": true,"maxDate": getMaxDate()});
                 }
                 else{
                     app.locals.userEmail = user.email;
@@ -494,7 +494,7 @@ app.post("/answerQuestion/:id", checkSession, function(request, response, next){
 
 });
 
-// GET de la vista de adivinar una respuesta de un amigo TODO: Esto no funciona
+// GET de la vista de adivinar una respuesta de un amigo TODO: Esto no funciona /questionDetails/3
 app.get("/guessQuestion/:idPregunta/:friendId/:friendName", checkSession, function(request, response, next){
     response.status(200);
     daoA.getAnswersOfQuestion(request.params.idPregunta, function(err, answerList){
@@ -510,7 +510,6 @@ app.get("/guessQuestion/:idPregunta/:friendId/:friendName", checkSession, functi
                     let posCorrect = Math.floor(Math.random() * size);
                     let aux = answerList.findIndex(o =>{ return o.id == idCorrect });
                     answersArray[posCorrect] = answerList[aux];
-                    console.log(answerList[aux]);
                     while(i < 4){
                         if(i == posCorrect) i++;
                         else{

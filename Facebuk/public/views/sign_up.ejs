@@ -32,6 +32,8 @@
                 </form>
                 <% if(errorMsg == null) { %>
                     <p class="error_Msg">ERROR: ya existe un usuario con este email</p>
+                <% } else if(errorMsg == true) { %>
+                <p class="error_Msg">ERROR: no se ha podido crear el usuario</p>
                 <% } %>
             </div>
         </div>
